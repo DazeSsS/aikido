@@ -1,0 +1,88 @@
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 2rem;
+    
+}
+
+.form-group label {
+    display: block;
+    margin: 0 0 8px 16px;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-small);
+    color: var(--font-color-small);
+    line-height: 12px;
+    font-family: var(--font-additional);
+}
+
+.form-group input {
+    padding: var(--input-padding);
+
+    border-radius: var(--form-interactive-elements-radius);
+    border: 0.5px solid var(--input-border-color);
+
+    background-color: var(--input-background-color);
+
+    color: var(--input-inner-text-color);
+
+    min-width: 544px;
+}
+
+.form-group input:focus {
+    outline: none;
+}
+
+.password-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.password-buttons {
+    font-family: var(--font-additional);
+    font-size: 12px;
+}
+
+.password-buttons a {
+    color: var(--form-button-color);
+    text-decoration: none;
+}
+
+.form-button {
+    background-color: var(--form-button-color);
+    border: none;
+    padding: 10px 250px;
+    border-radius: var(--form-interactive-elements-radius);
+    font-family: var(--button-font);
+    color: var(--default-white-color);
+    font-weight: var(--button-font-weight);
+    font-size: var(--button-font-size);
+    cursor: pointer;
+
+    margin-bottom: 32px;
+}
+
+.decorative-line {
+    height: 0.5px;
+    background-color: #E5E5E5;
+    margin-bottom: 24px;
+}
+
+.registration-link {
+    text-align: center;
+    font-family: var(--font-additional);
+    font-size: 12px;
+}
+
+.registration-link a {
+    text-decoration: none;
+    color: var(--form-button-color);
+}
+
+.registration-link span {
+    margin-right: 8px; 
+}
+  
+

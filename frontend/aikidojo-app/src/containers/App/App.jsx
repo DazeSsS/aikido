@@ -4,7 +4,10 @@ import styles from './App.module.css'
 
 import { ConfigProvider } from 'antd'
 
-import LoginPage from '../LoginPage/LoginPage'
+import LoginPage from '../LoginPage/LoginPage';
+import RegistrationPage from '../RegistrationPage/RegistrationPage';
+
+import { BrowserRouter, NavLink, Routes, Route } from 'react-router-dom';
 
 const App = () => {
 
@@ -27,8 +30,20 @@ const App = () => {
           }
         }
       >
+        <BrowserRouter>
+          
+          <Routes>
+            <Route
+              path={'/login'}
+              element={<LoginPage />}
+            />
+            <Route
+              path={'/register'}
+              element={<RegistrationPage />}
+            />
+          </Routes>
 
-        <LoginPage />
+        </BrowserRouter>
 
       </ConfigProvider>
     </>

@@ -8,8 +8,8 @@
 .form_input label {
     margin-bottom: 8px;
     margin-left: 16px;
-    color: var(--font-color-small);
     display: inline-block;
+    color: var(--font-color-small);
     font-family: var(--font-family-secondary);
     font-size: var(--font-size-small);
 }
@@ -20,21 +20,17 @@
     background-color: #E5E5E5;
 }
 
-.registration-link {
-    font-family: var(--font-family-secondary);
-    font-size: var(--font-size-small);
+.login-link {
     text-align: center;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family-secondary);
 }
 
-.registration-link a {
+.login-link a {
     text-decoration: none;
     color: var(--color-primary);
 }
 
-.registration-link span {
+.login-link span {
     margin-right: 8px;
-}
-
-.error-message {
-    color: #ff4d4f;
 }

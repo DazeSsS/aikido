@@ -10,7 +10,7 @@ const LoginPage = () => {
         <>
             <div className={styles['center-wrapper']}>
                 <div className={styles.container}>
-                    <h1 className={styles['registration-welcome']}>Добро пожаловать!</h1>
+                    <h1 className={styles['login-welcome']}>Добро пожаловать!</h1>
                     <LoginForm />
                 </div>
             </div>

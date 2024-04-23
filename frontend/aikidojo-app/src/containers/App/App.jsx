@@ -2,15 +2,35 @@ import reactLogo from '../../assets/react.svg'
 import viteLogo from '/vite.svg'
 import styles from './App.module.css'
 
-import RegistrationPage from '../RegistrationPage/RegistrationPage'
+import { ConfigProvider } from 'antd'
+
+import LoginPage from '../LoginPage/LoginPage'
 
 const App = () => {
 
   return (
     <>
-      {/* <h1>1111</h1> */}
-      <RegistrationPage />
-      {/* {тут будут основные компоненты} */}
+      <ConfigProvider
+        theme={
+          {
+            token: {
+              colorPrimary: '#7F56D9',
+              fontFamily: 'Roboto, sans-serif',
+              fontWeightStrong: 700,
+              fontWeight: 700
+            }
+          }
+        }
+        wave={
+          {
+            disabled: true
+          }
+        }
+      >
+
+        <LoginPage />
+
+      </ConfigProvider>
     </>
   )
 }

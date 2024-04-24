@@ -34,3 +34,7 @@
 .login-link span {
     margin-right: 8px;
 }
+
+.error-message {
+    color: #ff4d4f;
+}

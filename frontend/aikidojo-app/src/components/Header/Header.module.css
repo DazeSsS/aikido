@@ -1,0 +1,64 @@
+.header__container {
+    /* margin: 0 auto; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 80px;
+    gap: 40px;
+    /* max-width: 1440px; */
+}
+
+.header__list {
+    /* width: 1280px; */
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 0;
+    margin: 0;
+}
+
+/* вынести в index */
+.header__list li {
+    padding: 0;
+    margin: 0;
+}
+
+.logo__container {
+    /* margin-right: 40px; */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.logo-img {
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+/* вынести в переменную */
+.logo-text {
+    font-size: 24px;
+    font-weight: 700;
+
+}
+
+
+/* стоит вынести логику в index */
+.header__list a {
+    text-decoration: none;
+    color: #475467; /* нужно будет заменить на переменную */
+    font-weight: 600; /* нужно будет заменить на переменную */
+}
+
+.header__list a:hover {
+    color: #572cb2;  /* вариант цвета */
+}
+
+a.active { 
+    color: var(--color-primary);
+    color: #572cb2;  /* вариант цвета */
+}

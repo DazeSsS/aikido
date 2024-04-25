@@ -1,11 +1,11 @@
-import reactLogo from '../../assets/react.svg'
-import viteLogo from '/vite.svg'
 import styles from './App.module.css'
 
 import { ConfigProvider } from 'antd'
 
 import LoginPage from '../LoginPage/LoginPage';
 import RegistrationPage from '../RegistrationPage/RegistrationPage';
+import ProfilePage from '../ProfilePage/ProfilePage';
+import Header from '../../components/Header/Header';
 
 import { BrowserRouter, NavLink, Routes, Route } from 'react-router-dom';
 
@@ -31,7 +31,6 @@ const App = () => {
         }
       >
         <BrowserRouter>
-          
           <Routes>
             <Route
               path={'/login'}
@@ -40,6 +39,10 @@ const App = () => {
             <Route
               path={'/register'}
               element={<RegistrationPage />}
+            />
+            <Route
+              path={'/profile'}
+              element={<ProfilePage />}
             />
           </Routes>
 

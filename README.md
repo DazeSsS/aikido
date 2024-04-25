@@ -24,3 +24,33 @@ aikido log for trainers and students
 3) include propTypes library
 4) create routes configuration
 5) consider to create utils/services/network/constants folder
+
+
+- general app components structure (not final):
+    - Pages:
+        1) HomePage: main app page
+        2) DashboardPage: dashboard page
+        3) ProfilePage: profile page
+        4) PaymentChecksPage: page with payment checks
+        5) RegistrationPage
+        6) LoginPage
+        7) Not found page
+
+    - Header:
+        1) Header: general header component
+
+    - SideBar:
+        1) DashboardSidebar: dashboard sidebar
+        2) DashboardSidebarItem: sidebar elements (Groups, Schedule, Students list)
+
+    - Group components:
+        1) GroupList: component with list of students
+        2) GroupItem: grouplist element
+
+    - Trainings Schedule components:
+        1) TrainingSchedule: component with schedule
+        2) TrainingScheduleItem: schedule items
+
+    - Students List component:
+        1) StudentList: component with list of students
+        2) StudentListItem: elemnt of studentsList

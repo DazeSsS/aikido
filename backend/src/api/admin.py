@@ -1,12 +1,15 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 
-from api.internal.admin.user import User
-from api.internal.admin.parent import Parent
-from api.internal.admin.payment_account import PaymentAccount
-from api.internal.admin.check import Check
-from api.internal.admin.place import Place
-from api.internal.admin.group import Group
-from api.internal.admin.practice import Practice
+from api.internal.admin.user import UserAdmin
+from api.internal.admin.parent import ParentAdmin
+from api.internal.admin.payment_account import PaymentAccountAdmin
+from api.internal.admin.check import CheckAdmin
+from api.internal.admin.place import PlaceAdmin
+from api.internal.admin.practice_group import PracticeGroupAdmin
+from api.internal.admin.practice import PracticeAdmin
 
 admin.site.site_title = 'Aikido'
 admin.site.site_header = 'Aikido'
+
+admin.site.unregister(Group)

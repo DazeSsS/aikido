@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from api.models import Group
+from api.models import PracticeGroup
 
 
-@admin.register(Group)
-class GroupAdmin(admin.ModelAdmin):
+@admin.register(PracticeGroup)
+class PracticeGroupAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
     fields = (
         'id',

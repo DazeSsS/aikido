@@ -6,6 +6,13 @@
     padding: 24px 80px;
     gap: 40px;
     /* max-width: 1440px; */
+    border-bottom: 1px solid #F2F4F7;
+    margin-bottom: 8px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    background-color: white;
 }
 
 .header__list {

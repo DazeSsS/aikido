@@ -17,7 +17,7 @@ const App = () => {
         theme={
           {
             token: {
-              colorPrimary: '#7F56D9',
+              colorPrimary: '#722ED1',
               fontFamily: 'Roboto, sans-serif',
               fontWeightStrong: 700,
               fontWeight: 700

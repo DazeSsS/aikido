@@ -24,6 +24,7 @@ aikido log for trainers and students
 3) include propTypes library
 4) create routes configuration
 5) consider to create utils/services/network/constants folder
+6) include mobx library
 
 
 - general app components structure (not final):
@@ -54,3 +55,10 @@ aikido log for trainers and students
     - Students List component:
         1) StudentList: component with list of students
         2) StudentListItem: elemnt of studentsList
+
+
+small and urgent fixes:
+1) add decorative line in registration and in 
+2) check fonts on every page
+3) extract small logic and variables in component's functional scope 
+4) remove unused imports and components

@@ -58,17 +58,7 @@ const StudentProfileForm = () => {
                         </div>
                     </div>
 
-                    <div className={styles['user-info-row__container']}>
-                        <div className={styles['user-info-row__input']}>
-                            <label htmlFor="">Пароль</label>
-                            <Input
-                                placeholder="Пароль"
-                                size="large"
-                            />
-                        </div>
-                        
-                        {/* <div className={styles['decorative-line']}></div> */}
-                    </div>     
+                      
 
                 </div>
 
@@ -91,6 +81,18 @@ const StudentProfileForm = () => {
                         </div>
                     </div>
                 </div>
+
+                <div className={styles['user-info-row__container']}>
+                        <div className={styles['user-info-row__input']}>
+                            <label htmlFor="">Пароль</label>
+                            <Input
+                                placeholder="Пароль"
+                                size="large"
+                            />
+                        </div>
+                        
+                        {/* <div className={styles['decorative-line']}></div> */}
+                    </div>   
 
                 <div className={styles['avatar-upload__container']}>
 

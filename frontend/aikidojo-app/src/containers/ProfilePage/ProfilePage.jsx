@@ -10,7 +10,7 @@ const ProfilePage = () => {
     return (
         <> 
             <div className={styles['profile-page__container']}>
-                <Header />
+                
                 <div className={styles.profile__container}>
                     <div className={styles['profile__main-info__container']}>
 

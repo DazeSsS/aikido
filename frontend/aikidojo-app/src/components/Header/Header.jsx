@@ -1,8 +1,16 @@
 // import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { observer } from 'mobx-react';
+import { NavLink, resolvePath } from 'react-router-dom';
+import userStore from '../../store/userStore';
+
 import styles from './Header.module.css';
 
-const Header = () => {
+
+const Header = observer(() => {
+    const role = userStore.role;
+    
+    console.log(role);
+
     return (
         <>
             <div className={styles.header__container}>
@@ -11,22 +19,31 @@ const Header = () => {
                     <h1 className={styles['logo-text']}>AikiDojo</h1>
                 </div>
                 <ul className={styles.header__list}>
-                    <li>
-                        <NavLink 
-                        to="/main"
-                
-                    >
-                        Главная
-                    </NavLink>
-                    </li>
-                    <li><NavLink className={({isActive}) => isActive ? styles.active : ''} to="/profile">Профиль</NavLink></li>
+                    {
+                        role === 'trainer' ? (
+                            <>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/profile">Профиль</NavLink></li>
+                                <li><NavLink to="/dashboard">Дэшборд</NavLink></li>
+                                <li><NavLink to="/pricing">Стоимость тренировок</NavLink></li>
+                            </>
+                        ) : (
+                            <>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/profile">Профиль</NavLink></li>
+                                <li><NavLink to="/schedule">Расписание</NavLink></li>
+                                <li><NavLink to="/pricing">Стоимость тренировок</NavLink></li>
+                            </>
+                        )
+                    }
+{/* 
+                    <li><NavLink to="/main">Главная</NavLink></li>
+                    <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/profile">Профиль</NavLink></li>
                     <li><NavLink to="/schedule">Расписание</NavLink></li>
-                    <li><NavLink to="/pricing">Стоимость тренировок</NavLink></li>
+                    <li><NavLink to="/pricing">Стоимость тренировок</NavLink></li> */}
                 </ul>
             </div>
         </>
     )
-};
+});
 
 // Header.propTypes = {
 //     testProp: PropTypes.string

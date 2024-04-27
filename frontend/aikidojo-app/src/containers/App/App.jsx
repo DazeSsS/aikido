@@ -17,9 +17,13 @@ const App = () => {
   const appTheme = {
     token: {
       colorPrimary: '#722ED1',
-      fontFamily: 'Roboto, sans-serif',
+      fontFamily: 'Inter, sans-serif',
       fontWeightStrong: 700,
-      fontWeight: 700
+    },
+    components: {
+      Button: {
+        fontWeight: 600
+      }
     }
   };
 

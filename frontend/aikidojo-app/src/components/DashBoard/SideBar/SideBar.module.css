@@ -28,16 +28,23 @@
     font-size: 16px;
     font-weight: 600;
     color: #344054;
+    cursor: pointer;
 }
 
 
 .navigation-item {
-    background-color: #F9F0FF;
+    
 }
+
+
 
 .navigation-item {
     cursor: pointer;
 }
+
+.navigation-item-active {
+    background-color: #F9F0FF;
+}   
 
 .sidebar-title__container {
     padding-top: 32px;

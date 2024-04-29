@@ -10,7 +10,7 @@ const columns = [
     {
         title: 'Имя',
         dataIndex: 'name',
-        render: (name) => (<div className={styles['member-name__container']}><img src="/group-member-avatar.png" alt="" />{name}</div>)
+        render: (name) => (<div className={styles['member-name__container']}><img src="./group-member-avatar.png" alt="" />{name}</div>)
     },
     {   
         title: 'Задолженность',
@@ -38,8 +38,7 @@ const GroupMembers = ({ onBack }) => {
                     } 
                 }}
             />
-            <h1>group members component</h1>
-            <button onClick={() => onBack()}>назад</button>
+        
         </>
     )
 };

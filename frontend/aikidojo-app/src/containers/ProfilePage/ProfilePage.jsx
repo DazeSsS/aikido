@@ -14,7 +14,7 @@ const ProfilePage = () => {
                 <div className={styles.profile__container}>
                     <div className={styles['profile__main-info__container']}>
 
-                        <img className={styles['profile__main-info__img']} src="/user-avatar.png" alt="" />
+                        <img className={styles['profile__main-info__img']} src="./user-avatar.png" alt="" />
                         <div className={styles['profile__main-info-text__container']}>
                             <h1>Вася Васильевич Пупкин</h1>
                             <span>Ученик, 6 кю</span>

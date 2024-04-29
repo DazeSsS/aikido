@@ -1,0 +1,120 @@
+.schedule__container__inner {
+    padding: 16px;
+}
+
+.schedule-items__container {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 258px); /* Определение количества колонок и их размеров */
+    gap: 16px; /* Расстояние между элементами */
+}
+
+.schedule-items__container-grid {
+
+}
+
+.schedule-item {
+    background-color: #F5F8FA;
+    padding: 16px;
+    max-width: 258px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* .schedule-item:hover {
+    background-color: #f8f8f8;
+} */
+
+.schedule-item h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.schedule-item-li {
+    max-width: 258px;
+}
+
+.schedule-item-practice__container {
+    padding: 16px;
+    border: 1px solid #EEEEEE;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;  
+}
+
+.schedule-item-practice__container:hover {
+    background-color: #f0f0f0;
+}
+
+.schedule-item-practice__container h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+.decorative-line {
+    height: 1px;
+    background-color: #EEEEEE;
+}
+
+.practice-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.practice-info-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.practice-info-item-value {
+    font-weight: 400;
+}
+
+
+.section-button__container {
+    /* margin-left: 312px; */
+    /* height: 80px; */
+
+    padding: 20px 16px;
+    border-bottom: 1px solid #EEEEEE;
+    
+    /* display: flex;
+    align-items: center; */
+    /* justify-content: center; */
+}
+
+.section-button__container__inner {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    /* margin-right: 24px; */
+    margin-left: auto; 
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 50px;
+}
+
+.section-button__container__inner h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.title-with-button__container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}

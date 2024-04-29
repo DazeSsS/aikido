@@ -8,7 +8,7 @@ import ProfilePage from '../ProfilePage/ProfilePage';
 import DashBoard from '../DashBoard/DashBoard';
 import Header from '../../components/Header/Header';
 
-import { BrowserRouter, NavLink, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, NavLink, Routes, Route } from 'react-router-dom';
 
 import userStore from '../../store/userStore';
 
@@ -42,7 +42,7 @@ const App = () => {
         wave={waveDisabled}
       >
         
-        <BrowserRouter>
+        <Router>
           <Header />
           <Routes>
             <Route
@@ -63,7 +63,7 @@ const App = () => {
             />
           </Routes>
 
-        </BrowserRouter>
+        </Router>
 
       </ConfigProvider>
     </>

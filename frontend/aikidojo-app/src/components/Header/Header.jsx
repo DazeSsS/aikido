@@ -15,7 +15,7 @@ const Header = observer(() => {
         <>
             <div className={styles.header__container}>
                 <div className={styles.logo__container}>
-                    <img className={styles['logo-img']} src="/logo.svg" alt="" />
+                    <img className={styles['logo-img']} src="./logo.svg" alt="" />
                     <h1 className={styles['logo-text']}>AikiDojo</h1>
                 </div>
                 <ul className={styles.header__list}>

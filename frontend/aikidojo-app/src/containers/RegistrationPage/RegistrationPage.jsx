@@ -6,7 +6,7 @@ const RegistrationPage = () => {
     return (
         <>
             <div className={styles['center-wrapper']}>
-                <div className={styles.container}>
+                <div className={styles['container']}>
                     <h1 className={styles['registration-welcome']}>Создание аккаунта</h1>
                     <RegistrationForm />
                 </div>

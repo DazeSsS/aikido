@@ -58,7 +58,15 @@ aikido log for trainers and students
 
 
 small and urgent fixes:
-1) add decorative line in registration and in 
-2) check fonts on every page
-3) extract small logic and variables in component's functional scope 
-4) remove unused imports and components
+1) registration page and login page small refactoring &checkmark;
+1) add divider in registration and in login page &checkmark;
+3) small profile page refactoring (positioning + dividers) &checkmark;
+4) restyle header and make it adaptive
+5) restyle and refactor sidebar
+6) add server logic to registration and login pages
+7) add server logic to group list
+8) restyle and refactor dashboard (positioning)
+9) add form data logic to profile page
+9) check fonts on every page
+10) extract small logic and variables in component's functional scope 
+11) remove unused imports and components

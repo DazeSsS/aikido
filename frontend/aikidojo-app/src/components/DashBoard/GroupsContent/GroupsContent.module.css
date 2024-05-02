@@ -34,4 +34,13 @@
 }
 
 
+.member-name__container {
+    display: flex;
+    align-items: center;
+}
+
+.member-name__container img {
+    margin-right: 12px;
+}
+
 

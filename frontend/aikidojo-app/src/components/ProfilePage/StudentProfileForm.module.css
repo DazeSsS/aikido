@@ -9,7 +9,7 @@
 .user-parent-info__container  {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    /* gap: 20px; */
     flex-wrap: wrap;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .user-parent-info__container {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 .user-info-row__container {
@@ -39,6 +39,7 @@
     border: 1px solid #EAECF0;
     border-radius: 8px;
     margin-bottom: 24px;
+    margin-top: 16px;
 }
 
 .form-buttons__container {
@@ -46,4 +47,12 @@
     justify-content: flex-end;
     gap: 12px;
     margin-bottom: 14px;
+}
+
+
+.decorative-line {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 1px;
+    background-color: var(--divider-color);
 }

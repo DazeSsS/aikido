@@ -18,14 +18,16 @@ const RegistrationForm = () => {
     });
 
     const handleChange = (e) => {
+        const { id, value } = e.target;
+
         setFormData({
             ...formData,
-            [e.target.id]: e.target.value
+            [id]: value
         });
 
         setErrors({
             ...errors,
-            [e.target.id] : e.target.value ? false : true
+            [id] : !value
         })
 
         console.log(formData);
@@ -35,31 +37,32 @@ const RegistrationForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (
-            !formData.fullName ||
-            !formData.userName ||
-            !formData.password 
-        ) {
+        const { fullName, userName, password } = formData;
+
+        if (!fullName || !userName || !password) {
             setErrors({
-                ...errors, 
-                fullName: !formData.fullName,
-                userName: !formData.userName,
-                password: !formData.password
+                fullName: !fullName,
+                userName: !userName,
+                password: !password
             });
 
             return;
         }
 
-        console.log(formData);
+        // console.log(formData);
+    };
+
+    const renderError = (id) => {
+        return errors[id] && <span className={styles['error-message']}>обязателен для заполнения</span>;
     };
 
     return (
         <>
             <form>
-                <div className={styles.inputs_container}>
-                    <div className={styles.form_input}>
+                <div className={styles['inputs_container']}>
+                    <div className={styles['form_input']}>
                         <label htmlFor="fullName">
-                            ФИО {errors.fullName && <span className={styles['error-message']}>обязателен для заполнения</span>}
+                            ФИО {renderError('fullName')}
                         </label>
                         <Input 
                             id="fullName"
@@ -68,20 +71,20 @@ const RegistrationForm = () => {
                             status={errors.fullName ? 'error' : undefined}
                         />
                     </div>
-                    <div className={styles.form_input}>
-                        <label htmlFor="username">
-                            Логин {errors.userName && <span className={styles['error-message']}>обязателен для заполнения</span>}
+                    <div className={styles['form_input']}>
+                        <label htmlFor="userName">
+                            Логин {renderError('userName')}
                         </label>
                         <Input 
-                            id="username"
-                            size="large" placeholder="введите e-mail или номер телефона" allowClear
+                            id="userName"
+                            size="large" placeholder="введите e-mail" allowClear
                             onChange={handleChange}
                             status={errors.userName ? 'error' : undefined}
                         />
                     </div>
-                    <div className={styles.form_input}>
+                    <div className={styles['form_input']}>
                         <label htmlFor="password">
-                            Пароль {errors.password && <span className={styles['error-message']}>обязателен для заполнения</span>}
+                            Пароль {renderError('password')}
                         </label>
                         <Input.Password 
                             id="password"

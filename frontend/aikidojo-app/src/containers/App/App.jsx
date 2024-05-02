@@ -1,5 +1,3 @@
-import styles from './App.module.css'
-
 import { ConfigProvider } from 'antd'
 
 import LoginPage from '../LoginPage/LoginPage';
@@ -11,6 +9,8 @@ import Header from '../../components/Header/Header';
 import { HashRouter as Router, NavLink, Routes, Route } from 'react-router-dom';
 
 import userStore from '../../store/userStore';
+
+import styles from './App.module.css'
 
 const App = () => {
 
@@ -37,11 +37,7 @@ const App = () => {
 
   return (
     <>
-      <ConfigProvider
-        theme={appTheme}
-        wave={waveDisabled}
-      >
-        
+      <ConfigProvider theme={appTheme} wave={waveDisabled}>
         <Router>
           <Header />
           <Routes>
@@ -62,9 +58,7 @@ const App = () => {
               element={<DashBoard />}
             />
           </Routes>
-
         </Router>
-
       </ConfigProvider>
     </>
   )

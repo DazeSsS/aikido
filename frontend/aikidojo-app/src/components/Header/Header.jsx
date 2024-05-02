@@ -23,8 +23,8 @@ const Header = observer(() => {
                         role === 'trainer' ? (
                             <>
                                 <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/profile">Профиль</NavLink></li>
-                                <li><NavLink to="/dashboard">Дэшборд</NavLink></li>
-                                <li><NavLink to="/pricing">Стоимость тренировок</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/dashboard">Дэшборд</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/pricing">Стоимость тренировок</NavLink></li>
                             </>
                         ) : (
                             <>

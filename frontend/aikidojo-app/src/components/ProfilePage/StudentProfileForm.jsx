@@ -37,8 +37,10 @@ const StudentProfileForm = () => {
                         </div>
                         
                         
-                        {/* <div className={styles['decorative-line']}></div> */}
+                        
                     </div>
+
+                    <div className={styles['decorative-line']}></div>
 
                     <div className={styles['user-info-row__container']}>
                         <div className={styles['user-info-row__input']}>
@@ -62,6 +64,8 @@ const StudentProfileForm = () => {
 
                 </div>
 
+                <div className={styles['decorative-line']}></div>
+
                 <div className={styles['user-parent-info__container']}>
                     <div className={styles['user-info-row__container']}>
                         <div className={styles['user-info-row__input']}>
@@ -79,7 +83,10 @@ const StudentProfileForm = () => {
                                 size="large"
                             />
                         </div>
+
                     </div>
+
+                    <div className={styles['decorative-line']}></div>
                 </div>
 
                 <div className={styles['user-info-row__container']}>

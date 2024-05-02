@@ -19,25 +19,27 @@ const LoginForm = () => {
     });
 
     const handleChange = (e) => {
+        const { id, value } = e.target;
+
         setFormData({
             ...formData,
-            [e.target.id]: e.target.value
+            [id]: value
         });
         setErrors({
             ...errors, 
-            [e.target.id]: e.target.value ? false : true
+            [id]: !value
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (
-            !formData.username || 
-            !formData.password
-        ) {
+
+        const { username, password } = formData;
+
+        if (!username || !password) {
             setErrors({
-                username: !formData.username,
-                password: !formData.password 
+                username: !username,
+                password: !password 
             });
             return;
         } 
@@ -45,25 +47,29 @@ const LoginForm = () => {
         console.log(formData);
     }
 
+    const renderError = (id) => {
+        return errors[id] && <span className={styles['error-message']}>обязателен для заполнения</span>;
+    };
+
     return (
         <>
             <form>
-                <div className={styles.inputs_container}>
-                    <div className={styles.form_input}>
+                <div className={styles['inputs_container']}>
+                    <div className={styles['form_input']}>
                         <label htmlFor="username">
-                            Логин {errors.username && <span className={styles['error-message']}>обязателен для заполнения</span>}
+                            Логин {renderError('username')}
                         </label>
                         <Input 
                             id="username" 
-                            size="large" placeholder="введите e-mail или номер телефона" allowClear
+                            size="large" placeholder="введите e-mail" allowClear
                             onChange={handleChange}
                             value={formData.username} 
                             status={errors.username ? 'error' : undefined}
                         />
                     </div>
-                    <div className={styles.form_input}>
+                    <div className={styles['form_input']}>
                         <label htmlFor="password">
-                            Пароль {errors.password && <span className={styles['error-message']}>обязателен для заполнения</span>}
+                            Пароль {renderError('password')}
                         </label>
                         <Input.Password 
                             id="password" 
@@ -86,9 +92,5 @@ const LoginForm = () => {
         </>
     )
 };
-
-// RegistrationForm.propTypes = {
-//     testProp: PropTypes.string
-// }
 
 export default LoginForm;

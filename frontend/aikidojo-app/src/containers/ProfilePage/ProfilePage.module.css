@@ -2,9 +2,10 @@
     margin: 0 auto;
     display: flex;
     justify-content: center;
-    padding: 0 80px;
+    /* padding: 0 80px; */
     max-width: 1440px;
     margin-bottom: 8px;
+    margin-top: 88px;
 }
 
 .profile__main-info__container {
@@ -13,7 +14,9 @@
     gap: 24px;
     max-width: 1280px;
     padding: 0 32px;
-    margin-top: 88px;
+    /* margin-top: 88px; */
+    padding-bottom: 16px;
+    padding-top: 8px;
 }
 
 .profile__main-info-text__container {
@@ -41,3 +44,6 @@
     margin: 0 auto;
     padding: 0 5px;
 }
+
+
+

@@ -36,6 +36,8 @@
   --button-font-weight: 700;
   --button-font-size: 15px;
 
+  --divider-color: #EAECF0;
+
   color: var(--font-main-color);
   background-color: #FFFFFF;
 }

@@ -61,12 +61,14 @@ small and urgent fixes:
 1) registration page and login page small refactoring &checkmark;
 1) add divider in registration and in login page &checkmark;
 3) small profile page refactoring (positioning + dividers) &checkmark;
-4) restyle header and make it adaptive
-5) restyle and refactor sidebar
-6) add server logic to registration and login pages
-7) add server logic to group list
-8) restyle and refactor dashboard (positioning)
-9) add form data logic to profile page
-9) check fonts on every page
-10) extract small logic and variables in component's functional scope 
-11) remove unused imports and components
+4) make navlinks active coloring &checkmark;
+5) make sidebar navigation active coloring &checkmark;
+6) restyle header and make it adaptive
+7) restyle and refactor sidebar
+8) add server logic to registration and login pages
+9) add server logic to group list
+10) restyle and refactor dashboard (positioning)
+11) add form data logic to profile page
+12) check fonts on every page
+13) extract small logic and variables in component's functional scope 
+14) remove unused imports and components

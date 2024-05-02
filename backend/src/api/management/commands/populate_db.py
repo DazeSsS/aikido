@@ -1,3 +1,4 @@
+import os
 from datetime import date, datetime, timedelta
 
 from django.core.management.base import BaseCommand
@@ -8,6 +9,13 @@ class Command(BaseCommand):
     help = "Populates database with mock data"
 
     def handle(self, *args, **options):
+
+        # Admin
+
+        admin = User.objects.create_superuser(
+            os.getenv('ADMIN_EMAIL'),
+            os.getenv('ADMIN_PASSWORD')
+        )
 
         # Trainers
 

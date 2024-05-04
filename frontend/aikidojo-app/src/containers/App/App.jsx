@@ -1,10 +1,14 @@
 import { ConfigProvider } from 'antd'
 
+import axios from 'axios';
+
 import LoginPage from '../LoginPage/LoginPage';
 import RegistrationPage from '../RegistrationPage/RegistrationPage';
 import ProfilePage from '../ProfilePage/ProfilePage';
 import DashBoard from '../DashBoard/DashBoard';
 import Header from '../../components/Header/Header';
+
+import { useEffect, useState } from 'react';
 
 import { HashRouter as Router, NavLink, Routes, Route } from 'react-router-dom';
 
@@ -38,6 +42,13 @@ const App = () => {
   return (
     <>
       <ConfigProvider theme={appTheme} wave={waveDisabled}>
+        {/* {
+          parents.map((parent, index) => {
+            return (
+              <li key={index}>{parent.first_name}</li>
+            )
+          })
+        } */}
         <Router>
           <Header />
           <Routes>

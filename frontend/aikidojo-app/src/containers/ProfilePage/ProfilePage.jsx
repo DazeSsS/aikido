@@ -1,9 +1,32 @@
 // import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import StudentProfileForm from '../../components/ProfilePage/StudentProfileForm';
+import { getApiResource } from '../../utils/network';
 import styles from './ProfilePage.module.css';
 
 
 const ProfilePage = () => {
+    const [profileData, setProfileData] = useState(null);
+
+    const getResource = async (url) => {
+        const res = await getApiResource(url);
+
+        if (res) {
+            // console.log(res);
+            for (let key in res) {
+                console.log(`${key}`, res[key]);
+            }
+            setProfileData(res);
+            console.log(profileData);
+        } else {
+            console.log('no data!');
+        }
+    };
+
+    useEffect(() => {
+        getResource('http://localhost:8000/api/v1/users/10')
+    }, []);
+
     return (
         <div className={styles['profile-page__container']}>
             <div className={styles['profile__container']}>

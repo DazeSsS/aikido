@@ -50,6 +50,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=7, choices=ROLE_CHOICES)
     gender = models.CharField(max_length=7, choices=GENDER_CHOICES, default=UNKNOWN)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
     middle_name = models.CharField(max_length=150, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     rang = models.IntegerField(null=True, blank=True)

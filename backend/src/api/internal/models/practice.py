@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 
 
 class Practice(models.Model):
@@ -9,6 +8,7 @@ class Practice(models.Model):
     attended = models.ManyToManyField('User', blank=True, related_name='practices')
     trial = models.ManyToManyField('User', blank=True, related_name='trials')
     date = models.DateTimeField()
+    duration = models.IntegerField()
 
     def __str__(self):
         return str(self.date)

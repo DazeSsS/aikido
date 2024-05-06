@@ -3,11 +3,11 @@
 // подумать насчет проптайпов
 
 import { Input, Button } from 'antd';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './LoginForm.module.css';
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }) => {
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -35,6 +35,9 @@ const LoginForm = () => {
         e.preventDefault();
 
         const { username, password } = formData;
+
+        const userData = 'student';
+        onLogin(userData)
 
         if (!username || !password) {
             setErrors({

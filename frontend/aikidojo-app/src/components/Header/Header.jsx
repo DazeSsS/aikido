@@ -9,7 +9,7 @@ import styles from './Header.module.css';
 const Header = observer(() => {
     const role = userStore.role;
     
-    console.log(role);
+    // console.log(role);
 
     return (
         <>

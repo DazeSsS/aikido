@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export const getApiResource = async (url) => {
+export const getApiResource = async (url, headers={}) => {
     try {
-        const res = await axios.get(url);
+        const res = await axios.get(url, headers);
         
         if (!res.status === 200) {
             console.error('Could not fetch.', res.status);

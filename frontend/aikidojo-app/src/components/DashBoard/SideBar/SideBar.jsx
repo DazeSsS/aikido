@@ -32,14 +32,14 @@ const SideBar = ({ onTabClick }) => {
                 </div>
                 
                 <div className={styles['sidebar-profile__container']}>
-                <img className={styles['user-profile-avatar']} src="./user-sidebar-avatar.png" alt="" />
+                <img className={styles['user-profile-avatar']} src="/user-sidebar-avatar.png" alt="" />
                     <div className={styles['profile-name__container']}>
                         <h2>Киссёмару Уэсиба</h2>
                         <span>k.ueshiba@aikidojo.ru</span>
                     </div>
 
                     <div className={styles['logout-button']}>
-                            <img src="./logout.png" alt="" />
+                            <img src="/logout.png" alt="" />
                     </div>
                 </div>
             </div>

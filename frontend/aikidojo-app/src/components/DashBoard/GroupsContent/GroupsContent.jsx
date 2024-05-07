@@ -17,7 +17,7 @@ const columns = [
         title: 'Группа',
         dataIndex: 'group',
         // render: (text) => (<><strong>{text.title}</strong><br /><span>{text.ageGroup}</span></>)
-        render: (text) => (<div className={styles['member-name__container']}><img src="./group-avatar.png" alt="" />{text.title}</div>)
+        render: (text) => (<div className={styles['member-name__container']}><img src="/group-avatar.png" alt="" />{text.title}</div>)
     },
     {
         title: 'Состав группы',

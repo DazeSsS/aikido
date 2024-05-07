@@ -1,10 +1,12 @@
 // import PropTypes from 'prop-types';
 
 // подумать насчет проптайпов
-
+import axios from 'axios';
 import { Input, Button } from 'antd';
-import { NavLink, Navigate } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { setToken, getToken } from '../../../utils/authToken';
+import { getApiResource, postApiResource } from '../../../utils/network';
 import styles from './LoginForm.module.css';
 
 const LoginForm = ({ onLogin }) => {
@@ -36,9 +38,6 @@ const LoginForm = ({ onLogin }) => {
 
         const { username, password } = formData;
 
-        const userData = 'student';
-        onLogin(userData)
-
         if (!username || !password) {
             setErrors({
                 username: !username,
@@ -47,12 +46,58 @@ const LoginForm = ({ onLogin }) => {
             return;
         } 
 
+        const userData = {email: username, password}
+        handleLogin(userData);
+
         console.log(formData);
     }
 
     const renderError = (id) => {
         return errors[id] && <span className={styles['error-message']}>обязателен для заполнения</span>;
     };
+
+    const handleLogin = async (userData) => {
+        const res = await axios.post('http://localhost:8000/auth/token/login', userData);
+
+
+        // const res = await postApiResource('http://localhost:8000/auth/token/login', {body: userData});
+    
+        if (res) {
+          const data = res.data;
+          const token = data['auth_token'];
+          console.log(token)
+          setToken(token);
+        }
+
+        const fetchUserRole = async () => {
+            try {
+              const res = await getApiResource('http://localhost:8000/api/v1/me', {
+                headers: {
+                  'Authorization': `Token ${getToken()}`
+                }
+              });
+              if (res) {
+                const user = res;
+                onLogin(user.role);
+                // console.log(userRole)
+              } else {
+                console.log('No user data');
+              }
+            } catch (error) {
+              console.log('Error fetching user data:', error);
+            }
+          };
+      
+          if (getToken()) {
+            fetchUserRole();
+          } 
+      }
+
+    const navigate = useNavigate();
+
+    const handleRegisterClick = () => {
+        navigate('/register')
+    }
 
     return (
         <>
@@ -90,7 +135,7 @@ const LoginForm = ({ onLogin }) => {
 
             <div className={styles['registration-link']}>
                 <span>Еще не зарегистрированы?</span>
-                <NavLink to="/register" end>Создать новый аккаунт</NavLink>
+                <NavLink onClick={handleRegisterClick} to="/register">Создать новый аккаунт</NavLink>
             </div>
         </>
     )

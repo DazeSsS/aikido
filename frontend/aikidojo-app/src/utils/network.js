@@ -16,3 +16,20 @@ export const getApiResource = async (url, headers={}) => {
     }  
 }
 
+export const postApiResource = async (url, options={}) => {
+    try {
+        const res = await axios.post(url, options.body);
+        console.log(res, res.status, res.statusText)
+
+        if (res.status !== 200 && res.status !== 201) {
+            console.error('Could not post', res.status);
+            return false;
+        }
+
+        return res.data;
+    } catch (error) {
+        console.error('Could not post.', error.message);
+        return false;
+    }
+}
+

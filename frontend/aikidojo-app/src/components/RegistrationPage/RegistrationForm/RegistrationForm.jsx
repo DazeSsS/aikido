@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import { Button, Input } from 'antd';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './RegistrationForm.module.css';
+import { postApiResource } from '../../../utils/network';
 
 const RegistrationForm = () => {
     const [formData, setFormData] = useState({
@@ -34,6 +36,8 @@ const RegistrationForm = () => {
         console.log(errors)
     };
 
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -49,12 +53,38 @@ const RegistrationForm = () => {
             return;
         }
 
+        const userData = {
+            email: userName,
+            password: password,
+            role: 'trainer',
+            first_name: fullName.split(' ')[0],
+            last_name: fullName.split(' ')[1],
+        }
+
+        handleRegister(userData);
+
         // console.log(formData);
     };
 
     const renderError = (id) => {
         return errors[id] && <span className={styles['error-message']}>обязателен для заполнения</span>;
     };
+
+    const handleRegister = async (userData) => {
+        // const res = await axios.post('http://localhost:8000/api/v1/trainers', userData);
+
+        const res = await postApiResource('http://localhost:8000/api/v1/trainers', {body: userData});
+
+        console.log(res)
+
+        if (res) {
+          
+          console.log(res);
+
+          navigate('/login')
+        }
+
+      }
 
     return (
         <>

@@ -41,8 +41,9 @@ const SideBar = ({ onTabClick }) => {
                     : styles["navigation-item"]
                 }
                 onClick={() => handleTabClick("groups")}
-              >
-                Группы
+              > 
+              <img className={styles['navigation-item-img']} src="/groups-icon.svg" alt="" />
+                <span>Группы</span>
               </li>
               <li
                 className={
@@ -52,7 +53,8 @@ const SideBar = ({ onTabClick }) => {
                 }
                 onClick={() => handleTabClick("schedule")}
               >
-                Расписание тренировок
+                <img className={styles['navigation-item-img']} src="/schedule-icon.svg" alt="" />
+                <span>Расписание тренировок</span>
               </li>
               <li
                 className={
@@ -62,7 +64,8 @@ const SideBar = ({ onTabClick }) => {
                 }
                 onClick={() => handleTabClick("students")}
               >
-                Список учеников
+                <img className={styles['navigation-item-img']} src="/list-icon.svg" alt="" />
+                <span>Список учеников</span>
               </li>
               <li
                 className={
@@ -72,28 +75,16 @@ const SideBar = ({ onTabClick }) => {
                 }
                 onClick={() => handleTabClick("payments")}
               >
-                Чеки об оплате
+                <img className={styles['navigation-item-img']} src="/payments-icon.svg" alt="" />
+                <span>Чеки об оплате</span>
               </li>
             </ul>
           </div>
 
+          <div className={styles['decorative-line']}></div>      
+            
           <div className={styles["sidebar-profile__container"]}>
-            {/* <img
-              className={styles["user-profile-avatar"]}
-              src="/user-sidebar-avatar.png"
-              alt=""
-            />
-            <div className={styles["profile-name__container"]}>
-              <h2>Киссёмару Уэсиба</h2>
-              <span>k.ueshiba@aikidojo.ru</span>
-            </div>
-
-            <div onClick={handleLogout} className={styles["logout-button"]}>
-              <span className="material-icons">logout</span>
-            </div> */}
-
             <MiniProfile handleLogout={handleLogout}/>
-
           </div>
         </div>
       </>

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+import MiniProfile from '../MiniProfile/MiniProfile';
 import { useState } from 'react';
 
 import { deleteToken } from '../../../utils/authToken';
@@ -78,7 +78,7 @@ const SideBar = ({ onTabClick }) => {
           </div>
 
           <div className={styles["sidebar-profile__container"]}>
-            <img
+            {/* <img
               className={styles["user-profile-avatar"]}
               src="/user-sidebar-avatar.png"
               alt=""
@@ -90,7 +90,10 @@ const SideBar = ({ onTabClick }) => {
 
             <div onClick={handleLogout} className={styles["logout-button"]}>
               <span className="material-icons">logout</span>
-            </div>
+            </div> */}
+
+            <MiniProfile handleLogout={handleLogout}/>
+
           </div>
         </div>
       </>

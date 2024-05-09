@@ -1,0 +1,35 @@
+.user-profile-avatar {
+    display: block;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+.profile-name__container {
+    margin-right: 46px;
+}
+
+.profile-name__container h2 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-name__container span {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.logout-button {
+    cursor: pointer;
+    color: #667085;
+}
+
+.logout-button:hover {
+    /* not implemented  */
+    color: #722ED1;
+}
+
+.spin__container {
+    margin: 0 auto;
+}

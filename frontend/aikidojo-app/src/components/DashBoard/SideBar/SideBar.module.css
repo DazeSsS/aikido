@@ -94,9 +94,11 @@
 
 .logout-button {
     cursor: pointer;
+    color: #667085;
 }
 
 .logout-button:hover {
     /* not implemented  */
+    color: #722ED1;
 }
 

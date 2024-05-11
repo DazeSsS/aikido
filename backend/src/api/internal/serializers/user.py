@@ -11,6 +11,7 @@ from .parent import ParentSerializer
 
 class UserSerializer(ModelSerializer):
     password = serializers.CharField(write_only=True)
+    photo = serializers.ImageField(max_length=None, use_url=False)
     
     class Meta:
         model = User

@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 
+def photo_upload_path(instance, filename):
+    return 'users/{0}/{1}'.format(instance.email, filename)
+
+
 class UserManager(BaseUserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
@@ -55,7 +59,7 @@ class User(AbstractUser):
     middle_name = models.CharField(max_length=150, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     rang = models.IntegerField(null=True, blank=True)
-    photo = models.ImageField(upload_to='users/', default='default/profile.png')
+    photo = models.ImageField(upload_to=photo_upload_path, default='default/profile.png')
 
     objects = UserManager()
 

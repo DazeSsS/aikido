@@ -1,11 +1,11 @@
-from datetime import date
+from datetime import datetime, timezone
 from django.db import models
 
 
 def check_upload_path(instance, filename):
     return 'checks/{0}/{1}_{2}'.format(
         instance.account.user.email,
-        date.today().strftime('%Y-%m-%d'),
+        datetime.now(timezone.utc).strftime('%Y-%m-%d'),
         filename
     )
 

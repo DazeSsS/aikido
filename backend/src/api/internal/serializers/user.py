@@ -19,12 +19,14 @@ class UserSerializer(ModelSerializer):
             'email',
             'password',
             'role',
+            'is_staff',
             'first_name',
             'last_name',
             'middle_name',
             'gender',
             'date_of_birth',
             'rang',
+            'photo'
         ]
 
     def create(self, validated_data):
@@ -40,14 +42,15 @@ class StudentSerializer(UserSerializer):
     class Meta:
         model = User
         fields = UserSerializer.Meta.fields + ['parents', 'account']
+        exclude = ['is_staff']
 
     def create(self, validated_data):
-        user_email = validated_data['email']
         random_password = User.objects.make_random_password(8)
         validated_data['password'] = random_password
 
         user = User.objects.create_user(**validated_data)
 
+        user_email = validated_data['email']
         send_mail(
             subject="Регистрация на AikiDojo",
             message=(

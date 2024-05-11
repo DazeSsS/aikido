@@ -23,6 +23,7 @@ class Command(BaseCommand):
             email="trainer1@gmail.com",
             password="trainer",
             role="trainer",
+            is_staff=True,
             gender="male",
             last_name="Ramsey",
             first_name="Ethan",

@@ -5,11 +5,11 @@ from api.models import Check
 
 @admin.register(Check)
 class CheckAdmin(admin.ModelAdmin):
-    readonly_fields = ('id',)
+    readonly_fields = ('id', 'date',)
     fields = (
         'id',
         'account',
-        'photo',
+        'file',
         'date',
         'amount',
     )

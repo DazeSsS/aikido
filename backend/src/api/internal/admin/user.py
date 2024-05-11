@@ -16,4 +16,11 @@ class UserAdmin(admin.ModelAdmin):
         'last_name',
         'middle_name',
         'date_of_birth',
+        'photo'
     )
+
+    def get_fields(self, request, obj=None):
+        fields = list(self.fields)
+        if obj.role != User.STUDENT:
+            fields.insert(2, 'is_staff')
+        return fields

@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import FormParser, MultiPartParser
 
 from api.models import Check, Parent, PaymentAccount, Place, Practice, PracticeGroup, User
 from api.permissions import IsStudent, IsTrainer
@@ -144,4 +145,19 @@ class PracticeView(APIView):
         user = request.user
         practice = get_object_or_404(Practice, pk=pk)
         serializer = TrainerPracticeSerializer(practice)
+        return Response(serializer.data)
+
+
+class CreateCheckView(CreateAPIView):
+    serializer_class = CheckSerializer
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+
+class CheckView(APIView):
+    permission_classes = [IsAuthenticated & IsTrainer]
+
+    def get(self, request, pk):
+        check = get_object_or_404(Check, pk=pk)
+        serializer = CheckSerializer(check)
         return Response(serializer.data)

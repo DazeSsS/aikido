@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import { Button, Spin } from 'antd';
+import { Spin } from 'antd';
 import InfoTable from '../InfoTable/InfoTable';
+import ControlsPanel from '../ControlsPanel/ControlsPanel';
 import { useState, useEffect } from 'react';
 import styles from './GroupsTable.module.css';
 import { getApiResource } from '../../../utils/network';
@@ -8,22 +9,6 @@ import { getToken } from '../../../utils/authToken';
 
 
 const GroupsTable = ({ onGroupClick }) => {
-
-    // const [isGroupSelected, setIsGroupSelected] = useState(false);
-    // const [isCreatingGroup, setIsCreatingGroup] = useState(false);
-
-    const handleGroupClick = () => {
-        setIsGroupSelected(true);
-    };
-
-    const handleCreateGroupClick = () => {
-        setIsCreatingGroup(true);
-    };
-
-    const handleBackToTable = () => {
-        setIsGroupSelected(false);
-        setIsCreatingGroup(false);
-    }
 
     const [groups, setGroups] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -62,8 +47,6 @@ const GroupsTable = ({ onGroupClick }) => {
 
           if (res) {
             setGroups(formatGroupsData(res));
-            // setIsLoading(false);
-            // console.log('GROUPS:', );
             setTimeout(() => setIsLoading(false), 150);
           } else {
             console.log('could not fetch groups');
@@ -75,28 +58,25 @@ const GroupsTable = ({ onGroupClick }) => {
 
     return (
       <>
-        {/* вытащить панель с кнопками в отдельный компонент */}
-        <div className={styles["section-button__container"]}>
-          <div className={styles["section-button__container__inner"]}>
-            <h3>Группы</h3>
-            <Button
-              className={styles["section-button"]}
-              type="primary"
-              size="large"
-              onClick={() => handleCreateGroupClick()}
-            >
-              Создать группу
-            </Button>
-          </div>
-        </div>
+        <ControlsPanel
+          title={"Группы"}
+          actionTitle={"Создать группу"}
+          onBack={null}
+          onAction={null}
+          labelData={null}
+        />
         <div className={styles["table__container"]}>
-
           {isLoading ? (
-              <div className={styles['spin__container']}>
-                <Spin size="large"/>
-              </div>
+            <div className={styles["spin__container"]}>
+              <Spin size="large" />
+            </div>
           ) : (
-            <InfoTable layout={'groups'} data={groups} enableRowClick={true} onRowClick={onGroupClick}/>
+            <InfoTable
+              layout={"groups"}
+              data={groups}
+              enableRowClick={true}
+              onRowClick={onGroupClick}
+            />
           )}
         </div>
       </>

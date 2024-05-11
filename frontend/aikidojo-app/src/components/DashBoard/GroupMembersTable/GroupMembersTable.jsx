@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { Spin } from 'antd';
 import InfoTable from '../InfoTable/InfoTable';
+import ControlsPanel from '../ControlsPanel/ControlsPanel';
 import { useState, useEffect } from 'react';
 import { getApiResource } from '../../../utils/network';
 import styles from './GroupMembersTable.module.css';
 
 
-const GroupMembersTable = ({ id }) => {
+const GroupMembersTable = ({ id, onBack }) => {
     const [groupMembers, setGroupMembers] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -57,6 +58,13 @@ const GroupMembersTable = ({ id }) => {
 
     return (
       <>
+        <ControlsPanel
+          title={`Ученики ${id}-ой группы`}
+          actionTitle={"Добавить новых участников"}
+          onBack={onBack}
+          onAction={null}
+          labelData={null}
+        />
         <div className={styles["table__container"]}>
           {isLoading ? (
             <div className={styles["spin__container"]}>

@@ -1,48 +1,28 @@
 import PropTypes from 'prop-types';
-
-import { Button, Table } from 'antd';
-
-import GroupMembers from '../GroupMembers/GroupMembers';
+import GroupsTable from '../GroupsTable/GroupsTable';
+import GroupMembersTable from '../GroupMembersTable/GroupMembersTable';
+import AllStudentsTable from '../AllStudentsTable/AllStudentsTable';
 import CreateGroupForm from '../CreateGroupForm/CreateGroupForm';
-
 import { useState } from 'react';
-
 import styles from './GroupsContent.module.css';
-
-import { mockGroupData } from '../../../mock/mockData';
-
-
-const columns = [
-    {
-        title: 'Группа',
-        dataIndex: 'group',
-        // render: (text) => (<><strong>{text.title}</strong><br /><span>{text.ageGroup}</span></>)
-        render: (text) => (<div className={styles['member-name__container']}><img src="/group-avatar.png" alt="" />{text.title}</div>)
-    },
-    {
-        title: 'Состав группы',
-        dataIndex: 'group-people'
-    },
-    {
-        title: 'Место проведения',
-        dataIndex: 'place',
-        render: (text) => (<><strong>{text.mainPlace}</strong><br /><span>{text.address}</span></>)
-    },
-    // {
-    //     title: '',
-    //     dataIndex: '',
-    //     render: () => (<button>111</button>)
-    // }
-];
 
 
 const GroupsContent = () => {
 
     const [isGroupSelected, setIsGroupSelected] = useState(false);
     const [isCreatingGroup, setIsCreatingGroup] = useState(false);
+    const [isAddingMembers, setIsAddingMembers] = useState(false);
+    const [selectedGroupId, setSelectedGroupId] = useState(null);
 
-    const handleGroupClick = () => {
+    const handleAddNewMembersClick = () => {
+        setIsAddingMembers(true);
+        setIsGroupSelected(false);
+        console.log('1')
+    };
+
+    const handleGroupClick = (id) => {
         setIsGroupSelected(true);
+        setSelectedGroupId(id);
     };
 
     const handleCreateGroupClick = () => {
@@ -52,6 +32,7 @@ const GroupsContent = () => {
     const handleBackToTable = () => {
         setIsGroupSelected(false);
         setIsCreatingGroup(false);
+        setIsAddingMembers(false);
     }
 
 
@@ -59,67 +40,35 @@ const GroupsContent = () => {
     // (весь функционал данного раздела будет содержаться здесь)
 
     return (
-        <>
-            {
-                isCreatingGroup ? (
-                    <CreateGroupForm onBack={handleBackToTable}/>
-                ) :
-                isGroupSelected ? (
-                    <>
-                        <div className={styles['section-button__container']}>
-                            <div className={styles['section-button__container__inner']}>
-                                <div className={styles['title-with-button__container']}>
-                                    <Button size="large" onClick={() => handleBackToTable()}>назад</Button>
-                                    <h3>Ученики 1-ой группы</h3>
-                                </div>
-                                
-                                <Button
-                                    className={styles['section-button']}
-                                    type="primary"
-                                    size="large"
-                                    
-                                >
-                                    Добавить новых участников
-                                </Button>
-                            </div>
-                        </div>
-                        <div className={styles['table__container']}>
-                            <GroupMembers onBack={handleBackToTable} />
-                        </div>
-                    </>
-
-                ) : (
-                    <>
-                        <div className={styles['section-button__container']}>
-                            <div className={styles['section-button__container__inner']}>
-                                <h3>Группы</h3>
-                                <Button
-                                    className={styles['section-button']}
-                                    type="primary"
-                                    size="large"
-                                    onClick={() => handleCreateGroupClick()}
-                                >
-                                    Создать группу
-                                </Button>
-                            </div>
-                        </div>
-                        <div className={styles['table__container']}>
-                            <Table className={styles['group-table']}
-                                columns={columns}
-                                dataSource={mockGroupData}
-                                onRow={(record) => {
-                                    return {
-                                        onClick: (event) => handleGroupClick()
-                                    }
-                                }}
-
-                            />
-                        </div>
-                    </>
-                )
-            }
-        </>
-    )
+      <>
+        {isCreatingGroup ? (
+          <CreateGroupForm onBack={handleBackToTable} />
+        ) : isGroupSelected ? (
+          <>
+            <div className={styles["table__container"]}>
+              <GroupMembersTable
+                onBack={handleBackToTable}
+                id={selectedGroupId}
+              />
+            </div>
+          </>
+        ) : isAddingMembers ? (
+          <>
+            {console.log("1")}
+            <div className={styles["table__container"]}>
+              <AllStudentsTable onBack={handleBackToTable} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={styles["table__container"]}>
+              <GroupsTable onGroupClick={handleGroupClick} />
+            </div>
+            {console.log("1")}
+          </>
+        )}
+      </>
+    );
 };
 
 GroupsContent.propTypes = {
@@ -127,53 +76,3 @@ GroupsContent.propTypes = {
 }
 
 export default GroupsContent;
-
-// {
-//     isGroupSelected ? (
-//         <>
-//             <div className={styles['section-button__container']}>
-//                 <div className={styles['section-button__container__inner']}>
-//                     <h3>Ученики 1-ой группы</h3>
-//                     <Button
-//                         className={styles['section-button']}
-//                         type="primary"
-//                         size="large"
-//                     >
-//                         Добавить новых участников
-//                     </Button>
-//                 </div>
-//             </div>
-//             <div className={styles['table__container']}>
-//                 <GroupMembers onBack={handleBackToTable} />
-//             </div>    
-//         </>
-
-//         ) : (
-//             <>
-//                 <div className={styles['section-button__container']}>
-//                     <div className={styles['section-button__container__inner']}>
-//                         <h3>Группы</h3>
-//                         <Button
-//                             className={styles['section-button']}
-//                             type="primary"
-//                             size="large"
-//                         >
-//                             Создать группу
-//                         </Button>
-//                     </div>
-//                 </div>
-//                 <div className={styles['table__container']}>
-//                 <Table className={styles['group-table']}
-//                     columns={columns}
-//                     dataSource={mockGroupData}
-//                     onRow={(record) => {
-//                         return {
-//                             onClick: (event) => handleGroupClick()
-//                         }
-//                     }}
-                
-//                 />
-//                 </div>
-//             </>
-//             )
-//     }

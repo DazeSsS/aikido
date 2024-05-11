@@ -9,14 +9,38 @@ aikido log for trainers and students
 6) extract more variables in :root 
 7) add logos for main components
 8) extract color styles for "a" in index style file
+9) registration page and login page small refactoring &checkmark;
+10) add divider in registration and in login page &checkmark;
+11) small profile page refactoring (positioning + dividers) &checkmark;
+12) make navlinks active coloring &checkmark;
+13) make sidebar navigation active coloring &checkmark;
+14) restyle header and make it adaptive
+15) restyle and refactor sidebar &checkmark;
+16) add server logic to registration and login pages
+17) add server logic to group list
+18) restyle and refactor dashboard (positioning)
+19) add form data logic to profile page
+20) check fonts on every page
+21) extract small logic and variables in component's functional scope 
+22) remove unused imports and components
+23) make header and sidebar universal
+24) add missing styles to profile page
+25) consider server requests refactoring
+-----11.05.2024-----
+26) separate buttons in another component &checkmark;
+27) refactor tables 
+28) create controls panel &checkmark;
+
 
 - Components to be made:
 1) Login page with login form &checkmark;
-2) Registration page with registration form
-3) User's profile page
-4) Header for main page
-5) List of groups and students
+2) Registration page with registration form &checkmark;
+3) User's profile page &checkmark;
+4) Header for main page &checkmark;
+5) List of groups and students 
 6) Trainings schedule
+7) error page
+8) payments page
 
 - dev additions
 1) add aliases
@@ -40,35 +64,28 @@ aikido log for trainers and students
     - Header:
         1) Header: general header component
 
+    - DashBoard:
+        1) SideBar
+
     - SideBar:
         1) DashboardSidebar: dashboard sidebar
         2) DashboardSidebarItem: sidebar elements (Groups, Schedule, Students list)
 
-    - Group components:
-        1) GroupList: component with list of students
-        2) GroupItem: grouplist element
+    - Sidebar Items:
+        1) GroupsContent
+        2) ScheduleContent
+        3) StudentsContent
+        4) PaymentsContent
 
-    - Trainings Schedule components:
-        1) TrainingSchedule: component with schedule
-        2) TrainingScheduleItem: schedule items
+    - GroupsContent components:
+        1) GroupsTable
+        2) GroupMembersTable
+        3) AllStudentsTable
+        4) CreateGroupForm
 
-    - Students List component:
-        1) StudentList: component with list of students
-        2) StudentListItem: elemnt of studentsList
+    - StudentsContent components:
+        1) AllStudentsTable
+        2) CreateStudentForm
 
 
-small and urgent fixes:
-1) registration page and login page small refactoring &checkmark;
-1) add divider in registration and in login page &checkmark;
-3) small profile page refactoring (positioning + dividers) &checkmark;
-4) make navlinks active coloring &checkmark;
-5) make sidebar navigation active coloring &checkmark;
-6) restyle header and make it adaptive
-7) restyle and refactor sidebar
-8) add server logic to registration and login pages
-9) add server logic to group list
-10) restyle and refactor dashboard (positioning)
-11) add form data logic to profile page
-12) check fonts on every page
-13) extract small logic and variables in component's functional scope 
-14) remove unused imports and components
+

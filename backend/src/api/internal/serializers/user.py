@@ -42,7 +42,6 @@ class StudentSerializer(UserSerializer):
     class Meta:
         model = User
         fields = UserSerializer.Meta.fields + ['parents', 'account']
-        exclude = ['is_staff']
 
     def create(self, validated_data):
         random_password = User.objects.make_random_password(8)

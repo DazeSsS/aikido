@@ -161,3 +161,17 @@ class CheckView(APIView):
         check = get_object_or_404(Check, pk=pk)
         serializer = CheckSerializer(check)
         return Response(serializer.data)
+
+
+class CheckListView(APIView):
+    permission_classes = [IsAuthenticated & IsTrainer]
+
+    def get(self, request):
+        user = request.user
+        groups = user.practice_groups.all().prefetch_related("students")
+        checks = []
+        for group in groups:
+            checks.extend(group.get_payment_checks())
+
+        serializer = CheckSerializer(sorted(checks, key=lambda check: check.date, reverse=True), many=True)
+        return Response(serializer.data)

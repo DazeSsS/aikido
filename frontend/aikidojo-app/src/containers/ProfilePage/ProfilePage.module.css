@@ -32,6 +32,7 @@
     width: 160px;
     display: block;
     object-fit: cover;
+    border-radius: 50%;
 }
 
 .profile__main-info-text__container h1 {
@@ -46,4 +47,29 @@
 }
 
 
+.spin__container {
+    /* display: flex;
+    align-items: center;
+    min-height: 100vh; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
 
+
+@media(max-width: 660px) {
+    .student-profile__form__container {
+        padding: 0 20px;
+    }
+
+    .profile__main-info__container {
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+
+    .profile__main-info-text__container {
+        margin-top: 0px;
+        justify-content: center;
+        margin-bottom: 0px;
+    }
+}

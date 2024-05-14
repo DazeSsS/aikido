@@ -25,6 +25,8 @@
     display: flex;
     /* gap: 24px; */
     justify-content: space-between;
+
+    /* justify-content: center; */
     flex-wrap: wrap;
 }
 
@@ -55,4 +57,31 @@
     margin-bottom: 20px;
     height: 1px;
     background-color: var(--divider-color);
+}
+
+
+
+@media(max-width: 660px) {
+    .user-info-row__container {
+        justify-content: center ;
+    
+        /* justify-content: center; */
+        flex-wrap: wrap;
+    }
+
+    .user-info-row__input {
+        width: 100%;
+    }
+
+    .decorative-line {
+        display: none;
+    }
+
+    .user-info-row__input {
+        margin-bottom: 20px;
+    }
+
+    .user-info__container {
+        margin-bottom: 0px;
+    }
 }

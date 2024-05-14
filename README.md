@@ -26,10 +26,12 @@ aikido log for trainers and students
 23) make header and sidebar universal
 24) add missing styles to profile page
 25) consider server requests refactoring
------11.05.2024-----
 26) separate buttons in another component &checkmark;
 27) refactor tables 
 28) create controls panel &checkmark;
+29) make profile page adoptive &checkmark; 
+30) fetch profile data and render it into placeholders &checkmark;
+31) patch user data 
 
 
 - Components to be made:

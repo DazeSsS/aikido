@@ -14,6 +14,7 @@ from api.internal.transport.handlers import (
     MyParentsView,
     MyPaymentAccountView,
     MyScheduleView,
+    PlaceListView,
     PracticeView,
     UserView,
 )
@@ -35,4 +36,5 @@ urlpatterns = [
     path('trainer/practices/<int:pk>', PracticeView.as_view()),
     path('trainer/checks', CheckListView.as_view()),
     path('trainer/checks/<int:pk>', CheckView.as_view()),
+    path('trainer/places', PlaceListView.as_view()),
 ]

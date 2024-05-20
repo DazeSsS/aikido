@@ -58,6 +58,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=150)
     middle_name = models.CharField(max_length=150, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
+    phone_number = models.CharField(blank=True)
     rang = models.IntegerField(null=True, blank=True)
     photo = models.ImageField(upload_to=photo_upload_path, default='default/profile.png')
 

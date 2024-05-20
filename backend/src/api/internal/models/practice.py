@@ -8,7 +8,7 @@ class Practice(models.Model):
     attended = models.ManyToManyField('User', blank=True, related_name='practices')
     trial = models.ManyToManyField('User', blank=True, related_name='trials')
     date = models.DateTimeField()
-    duration = models.IntegerField()
+    duration = models.PositiveIntegerField()
 
     def __str__(self):
         return str(self.date)

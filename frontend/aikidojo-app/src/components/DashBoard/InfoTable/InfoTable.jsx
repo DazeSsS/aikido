@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import { Table } from 'antd';
 import styles from './InfoTable.module.css';
 
@@ -19,11 +20,7 @@ const groupsTableColumns = [
         dataIndex: 'place',
         render: (place) => (<><strong>{place.description}</strong><br /><span>{place.address}</span></>)
     },
-    // {
-    //     title: '',
-    //     dataIndex: '',
-    //     render: () => (<button>111</button>)
-    // }
+
 ];
 
 
@@ -31,11 +28,13 @@ const groupMembersColumns = [
     {
         title: 'Имя',
         dataIndex: 'name',
+        
         render: (name) => (<div className={styles['member-name__container']}><img src="/group-member-avatar.png" alt="" />{name}</div>)
     },
     {   
         title: 'Задолженность',
         dataIndex: 'debt',
+        
         render: (debt) => (<>{debt} руб.</>)
     },
     {
@@ -47,26 +46,93 @@ const groupMembersColumns = [
         title: 'Группа',
         dataIndex: 'groupNumber',
         render: (groupNumber) => (<>{groupNumber} (заглушка)</>)
-    }
+    },
+    // {
+    //     title: '',
+    //     dataIndex: '',
+    //     render: (_, record) => (<button onClick={() => onDeleteClick(record.id)}>111</button>)
+    // }
 ];
 
 
-const InfoTable = ({ layout, data, enableRowClick, onRowClick }) => {
+const paymentsColumns = [
+    {
+        title: 'Имя',
+        dataIndex: 'name',
+        width: 150,
+        render: (name) => (<div className={styles['member-name__container']}><img src="/group-member-avatar.png" alt="" />{name}</div>)
+    },
+    {   
+        title: 'Чек на сумму',
+        dataIndex: 'summ',
+        width: 150,
+        render: (debt) => (<>{debt} руб.</>)
+    },
+    {   
+        title: 'Задолженность',
+        dataIndex: 'debt',
+        render: (debt) => (<>{debt} руб.</>)
+    },
+    {
+        title: 'Ссылка на чек',
+        dataIndex: 'checkLink',
+        // render: (parentContact) => (<>{parentContact.name} <br /> {parentContact.contact}</>)
+    },
+    {
+        title: 'Баланс',
+        dataIndex: 'balance',
+        render: (balance) => (<>{balance} руб</>)
+    },
+];
 
-    const determineColumnsLayout = () => {
+
+const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === 'Disabled User',
+      // Column configuration not to be checked
+      name: record.name,
+    }),
+  };
+
+
+
+const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick, onDeleteClick }) => {
+
+    const determineColumnsLayout = useMemo(() => {
+        let columns = [];
+
         switch(layout) {
             case 'groups':
-                return groupsTableColumns;
+                columns = [...groupsTableColumns];
+                break;
             case 'groupMembers':
-                return groupMembersColumns;
+                columns = [...groupMembersColumns];
+                break;
+            case 'payments':
+                return paymentsColumns;
+                break;
             default: 
-                return null;
+                columns = [];
         }
-    }
+
+        if (enableDeleteClick) {
+            console.log('zzzzzzzzzzz')
+            columns.push({
+                title: '',
+                dataIndex: '',
+                render: (_, record) => (<button onClick={() => onDeleteClick(record.id)}>111</button>)
+            }); 
+        }
+
+        return columns;
+    }, [layout, enableDeleteClick, onDeleteClick])
 
     const tableProps = {
         className: styles['group-table'],
-        columns: determineColumnsLayout(),
+        columns: determineColumnsLayout,
         dataSource: data,
     };
 
@@ -82,6 +148,13 @@ const InfoTable = ({ layout, data, enableRowClick, onRowClick }) => {
         <>
            <Table
             {...tableProps}
+            rowSelection={{
+                
+                ...rowSelection
+            }}
+            scroll={{
+                x: 900,
+              }}
             />
         </>
     )

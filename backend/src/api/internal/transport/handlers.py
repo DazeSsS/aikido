@@ -13,6 +13,7 @@ from api.permissions import IsStudent, IsTrainer
 from api.serializers import (
     CheckSerializer,
     CreateGroupSerializer,
+    CreatePracticeSerializer,
     GroupSerializer,
     ParentSerializer,
     PaymentAccountSerializer,
@@ -148,13 +149,13 @@ class MyScheduleView(APIView):
     def get(self, request):
         user = request.user
         group = user.my_groups.all().first()
-        practices = group.practices.all()
+        practices = group.practices.all().order_by('date')
         serializer = PracticeSerializer(practices, many=True)
         return Response(serializer.data)
 
 
 class CreateGroupView(ListCreateAPIView):
-    serializer_class = CreateGroupSerializer
+    serializer_class = GroupSerializer
     permission_classes = [IsAuthenticated & IsTrainer]
 
     def get_queryset(self):
@@ -165,7 +166,7 @@ class CreateGroupView(ListCreateAPIView):
         data = request.data.copy()
         data['trainer'] = request.user.id
 
-        serializer = self.get_serializer(data=data)
+        serializer = CreateGroupSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
@@ -191,7 +192,7 @@ class GroupView(APIView):
     def delete(self, request, pk):
         group = get_object_or_404(PracticeGroup, pk=pk)
         group.delete()
-        return Response(status=status.HTTP_200_OK)
+        return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
 
 class GroupStudentsView(APIView):
@@ -205,6 +206,29 @@ class GroupStudentsView(APIView):
 
 
 class CreatePracticeView(ListCreateAPIView):
+    serializer_class = PracticeSerializer
+    permission_classes = [IsAuthenticated & IsTrainer]
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        group = get_object_or_404(PracticeGroup, pk=pk)
+        practices = group.practices.all().order_by('date')
+        return practices
+
+    def create(self, request, pk, *args, **kwargs):
+        data = request.data.copy()
+        group = get_object_or_404(PracticeGroup, pk=pk)
+        data['group'] = pk
+        data['place'] = group.place.id
+
+        serializer = CreatePracticeSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class PracticeListView(ListAPIView):
     serializer_class = PracticeSerializer
     permission_classes = [IsAuthenticated & IsTrainer]
 
@@ -227,7 +251,7 @@ class PracticeView(APIView):
 
     def patch(self, request, pk):
         practice = get_object_or_404(Practice, pk=pk)
-        serializer = PracticeSerializer(practice, data=request.data, partial=True)
+        serializer = CreatePracticeSerializer(practice, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

@@ -11,4 +11,4 @@ class Practice(models.Model):
     duration = models.PositiveIntegerField()
 
     def __str__(self):
-        return str(self.date)
+        return f'{self.date}'

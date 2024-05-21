@@ -281,28 +281,28 @@ class Command(BaseCommand):
             price=300,
             group=group_1,
             place=group_1.place,
-            date=datetime.now(timezone.utc) + timedelta(days=2),
+            date=datetime.now() + timedelta(days=2),
             duration=60,
         )
         practice_2 = Practice.objects.create(
             price=300,
             group=group_2,
             place=group_2.place,
-            date=datetime.now(timezone.utc) + timedelta(days=3),
+            date=datetime.now() + timedelta(days=3),
             duration=60,
         )
         practice_3 = Practice.objects.create(
             price=300,
             group=group_3,
             place=group_3.place,
-            date=datetime.now(timezone.utc) + timedelta(days=4),
+            date=datetime.now() + timedelta(days=4),
             duration=60,
         )
         practice_4 = Practice.objects.create(
             price=300,
             group=group_1,
             place=group_1.place,
-            date=datetime.now(timezone.utc) - timedelta(days=2),
+            date=datetime.now() - timedelta(days=2),
             duration=60,
         )
 

@@ -9,6 +9,12 @@ from .place import PlaceSerializer
 from .practice_group import GroupSerializer
 
 
+class CreatePracticeSerializer(ModelSerializer):
+    class Meta:
+        model = Practice
+        fields = '__all__'
+
+
 class PracticeSerializer(ModelSerializer):
     group = GroupSerializer(read_only=True)
     place = PlaceSerializer(read_only=True)
@@ -33,5 +39,5 @@ class PracticeSerializer(ModelSerializer):
 
 
 class TrainerPracticeSerializer(PracticeSerializer):
-    attended = StudentSerializer(read_only=True)
-    trial = StudentSerializer(read_only=True)
+    attended = StudentSerializer(many=True, read_only=True)
+    trial = StudentSerializer(many=True, read_only=True)

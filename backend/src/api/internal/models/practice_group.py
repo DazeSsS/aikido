@@ -1,4 +1,5 @@
 from django.db import models
+from api.models import Check
 
 
 class PracticeGroup(models.Model):
@@ -12,7 +13,7 @@ class PracticeGroup(models.Model):
 
     def get_payment_checks(self):
         students = self.students.all().prefetch_related("account__checks")
-        checks = []
+        checks = Check.objects.none()
         for student in students:
-            checks.extend(student.account.checks.all().order_by('-date')[:5])
-        return checks
+            checks = checks.union(student.account.checks.all().order_by('-date')[:5])
+        return checks.order_by('-date')

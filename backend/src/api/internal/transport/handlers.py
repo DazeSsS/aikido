@@ -1,3 +1,7 @@
+from calendar import monthrange
+from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
+
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
@@ -234,11 +238,36 @@ class PracticeListView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
+        scope = self.request.query_params.get('scope', 'week')
+        offset = int(self.request.query_params.get('offset', 0))
+
+        today = date.today()
+        year, month, day = [today.year, today.month, today.day]
+        match scope:
+            case 'week':
+                weekday = today.isocalendar().weekday
+                offset_datetime = datetime(year, month, day) + timedelta(days=(7 * offset))
+                scope_start = offset_datetime - timedelta(days=(weekday - 1))
+                scope_end = offset_datetime + timedelta(days=((7 - weekday) + 1)) - timedelta(seconds=1)
+            case 'month':
+                offset_datetime = datetime(year, month, day) + relativedelta(months=offset)
+                scope_start = offset_datetime.replace(day=1)
+                scope_end = offset_datetime.replace(
+                    day=monthrange(offset_datetime.year, offset_datetime.month)[1],
+                    hour=23,
+                    minute=59,
+                    second=59
+                )
+            case _:
+                return Practice.objects.none()
+
         groups = user.practice_groups.all().prefetch_related('practices')
-        practices = []
+        practices = Practice.objects.none()
         for group in groups:
-            practices.extend(group.practices.all())
-        return practices
+            group_practices = group.practices.all().filter(date__gte=scope_start, date__lte=scope_end)
+            practices = practices.union(group_practices)
+
+        return practices.order_by('date')
 
 
 class PracticeView(APIView):
@@ -289,11 +318,11 @@ class CheckListView(APIView):
     def get(self, request):
         user = request.user
         groups = user.practice_groups.all().prefetch_related("students")
-        checks = []
+        checks = Check.objects.none()
         for group in groups:
-            checks.extend(group.get_payment_checks())
+            checks = checks.union(group.get_payment_checks())
 
-        serializer = CheckSerializer(sorted(checks, key=lambda check: check.date, reverse=True), many=True)
+        serializer = CheckSerializer(checks.order_by('-date'), many=True)
         return Response(serializer.data)
 
 

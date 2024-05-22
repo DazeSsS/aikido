@@ -17,7 +17,7 @@ class CreatePracticeSerializer(ModelSerializer):
 
 class PracticeSerializer(ModelSerializer):
     group = GroupSerializer(read_only=True)
-    place = PlaceSerializer(read_only=True)
+    place = PlaceSerializer(read_only=True, source='group.place')
     end_time = SerializerMethodField(read_only=True)
 
     class Meta:

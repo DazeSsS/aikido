@@ -9,9 +9,10 @@ class PracticeAdmin(admin.ModelAdmin):
     fields = (
         'id',
         'price',
-        'place',
         'group',
         'attended',
         'trial',
         'date',
+        'duration',
     )
+    ordering = ['-date']

@@ -42,16 +42,6 @@ const groupMembersColumns = [
         dataIndex: 'parentContact',
         render: (parentContact) => (<>{parentContact.name} <br /> {parentContact.contact}</>)
     },
-    {
-        title: 'Группа',
-        dataIndex: 'groupNumber',
-        render: (groupNumber) => (<>{groupNumber} (заглушка)</>)
-    },
-    // {
-    //     title: '',
-    //     dataIndex: '',
-    //     render: (_, record) => (<button onClick={() => onDeleteClick(record.id)}>111</button>)
-    // }
 ];
 
 
@@ -86,20 +76,22 @@ const paymentsColumns = [
 ];
 
 
-const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      // Column configuration not to be checked
-      name: record.name,
-    }),
-  };
+// const rowSelection = {
+//     onChange: (selectedRowKeys, selectedRows) => {
+//       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+//     },
+//     getCheckboxProps: (record) => ({
+//       disabled: record.name === 'Disabled User',
+//       // Column configuration not to be checked
+//       name: record.name,
+//     }),
+//   };
+
+// убрал временно
 
 
 
-const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick, onDeleteClick }) => {
+const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick, onDeleteClick, withTicks, onRowSelectionChange }) => {
 
     const determineColumnsLayout = useMemo(() => {
         let columns = [];
@@ -112,7 +104,7 @@ const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick
                 columns = [...groupMembersColumns];
                 break;
             case 'payments':
-                return paymentsColumns;
+                columns = [...paymentsColumns];
                 break;
             default: 
                 columns = [];
@@ -123,7 +115,7 @@ const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick
             columns.push({
                 title: '',
                 dataIndex: '',
-                render: (_, record) => (<button onClick={() => onDeleteClick(record.id)}>111</button>)
+                render: (_, record) => (<button onClick={(e) => {e.stopPropagation(); onDeleteClick(record.id)}}>delete</button>)
             }); 
         }
 
@@ -144,14 +136,16 @@ const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick
         }
     }
 
+    if (withTicks) {
+        tableProps.rowSelection = {
+            onChange: onRowSelectionChange,
+        };
+    }
+
     return (
         <>
            <Table
             {...tableProps}
-            rowSelection={{
-                
-                ...rowSelection
-            }}
             scroll={{
                 x: 900,
               }}

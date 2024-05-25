@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
@@ -66,3 +67,11 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    def get_my_group(self):
+        return self.my_groups.first()
+
+    def get_age(self):
+        today = date.today()
+        birth = self.date_of_birth
+        return today.year - birth.year - ((today.month, today.day) < (birth.month, birth.day))

@@ -49,7 +49,7 @@ class CreateTrainerView(CreateAPIView):
 class CreateStudentView(ListCreateAPIView):
     queryset = User.objects.filter(role='student')
     serializer_class = StudentSerializer
-    permission_classes = [IsTrainer]
+    permission_classes = [IsAuthenticated & IsTrainer]
     parser_classes = [MultiPartParser, FormParser]
 
     def create(self, request, *args, **kwargs):
@@ -116,6 +116,11 @@ class UserView(APIView):
         user = request.user
         user.delete()
         return Response({'message': 'success'}, status=status.HTTP_200_OK)
+
+
+class CreateParentView(CreateAPIView):
+    serializer_class = ParentSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class MyParentsView(APIView):
@@ -210,15 +215,9 @@ class GroupStudentsView(APIView):
         return Response(serializer.data)
 
 
-class CreatePracticeView(ListCreateAPIView):
-    serializer_class = PracticeSerializer
+class CreatePracticeView(CreateAPIView):
+    serializer_class = CreatePracticeSerializer
     permission_classes = [IsAuthenticated & IsTrainer]
-
-    def get_queryset(self):
-        pk = self.kwargs.get('pk')
-        group = get_object_or_404(PracticeGroup, pk=pk)
-        practices = group.practices.all().order_by('date')
-        return practices
 
     def create(self, request, pk, *args, **kwargs):
         data = request.data.copy()
@@ -226,7 +225,7 @@ class CreatePracticeView(ListCreateAPIView):
         data['group'] = pk
         data['place'] = group.place.id
 
-        serializer = CreatePracticeSerializer(data=data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)

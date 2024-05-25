@@ -6,6 +6,7 @@ from api.internal.transport.handlers import (
     CheckView,
     CreateCheckView,
     CreateGroupView,
+    CreateParentView,
     CreatePracticeView,
     CreateStudentView,
     CreateTrainerView,
@@ -23,8 +24,9 @@ from api.internal.transport.handlers import (
 
 
 urlpatterns = [
-    path('trainers', CreateTrainerView.as_view()),
     path('me', UserView.as_view()),
+    path('trainers', CreateTrainerView.as_view()),
+    path('parents', CreateParentView.as_view()),
     path('student/parents', MyParentsView.as_view()),
     path('student/account', MyPaymentAccountView.as_view()),
     path('student/group', MyGroupView.as_view()),

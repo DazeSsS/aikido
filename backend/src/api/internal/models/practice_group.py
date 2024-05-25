@@ -11,9 +11,9 @@ class PracticeGroup(models.Model):
     def __str__(self):
         return self.title
 
-    def get_payment_checks(self):
+    def get_payment_checks(self, viewer):
         students = self.students.all().prefetch_related("account__checks")
         checks = Check.objects.none()
         for student in students:
-            checks = checks.union(student.account.checks.all().order_by('-date')[:5])
-        return checks.order_by('-date')
+            checks = checks.union(student.account.get_new_checks(viewer))
+        return checks

@@ -1,4 +1,4 @@
-from api.internal.serializers.check import CheckSerializer
+from api.internal.serializers.check import CheckSerializer, TrainerCheckSerializer
 from api.internal.serializers.parent import ParentSerializer
 from api.internal.serializers.payment_account import PaymentAccountSerializer
 from api.internal.serializers.place import PlaceSerializer

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from api.models import Check
+from api.models import Check, CheckViews
 
 
 class CheckSerializer(ModelSerializer):
@@ -14,5 +14,17 @@ class CheckSerializer(ModelSerializer):
             'account',
             'file',
             'date',
-            'amount'
+            'amount',
         ]
+
+
+class TrainerCheckSerializer(CheckSerializer):
+    viewed = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Check
+        fields = CheckSerializer.Meta.fields + ['viewed']
+
+    def get_viewed(self, check):
+        user = self.context.get('user', None)
+        return CheckViews.objects.filter(user=user, payment_check=check).exists()

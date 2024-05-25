@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, MultiPartParser
 
-from api.models import Check, Parent, PaymentAccount, Place, Practice, PracticeGroup, User
+from api.models import Check, CheckViews, Parent, PaymentAccount, Place, Practice, PracticeGroup, User
 from api.permissions import IsStudent, IsTrainer
 from api.serializers import (
     CheckSerializer,
@@ -24,6 +24,7 @@ from api.serializers import (
     PlaceSerializer,
     PracticeSerializer,
     StudentSerializer,
+    TrainerCheckSerializer,
     TrainerSerializer,
     TrainerPracticeSerializer,
     UserSerializer,
@@ -303,15 +304,6 @@ class CreateCheckView(CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class CheckView(APIView):
-    permission_classes = [IsAuthenticated & IsTrainer]
-
-    def get(self, request, pk):
-        check = get_object_or_404(Check, pk=pk)
-        serializer = CheckSerializer(check)
-        return Response(serializer.data)
-
-
 class CheckListView(APIView):
     permission_classes = [IsAuthenticated & IsTrainer]
 
@@ -320,10 +312,31 @@ class CheckListView(APIView):
         groups = user.practice_groups.all().prefetch_related("students")
         checks = Check.objects.none()
         for group in groups:
-            checks = checks.union(group.get_payment_checks())
+            group_checks = group.get_payment_checks(viewer=user)
+            checks = checks.union(group_checks)
 
-        serializer = CheckSerializer(checks.order_by('-date'), many=True)
+        serializer = TrainerCheckSerializer(checks.order_by('-date'), many=True, context={'user': user})
         return Response(serializer.data)
+
+
+class CheckView(APIView):
+    permission_classes = [IsAuthenticated & IsTrainer]
+
+    def get(self, request, pk):
+        user = request.user
+        check = get_object_or_404(Check, pk=pk)
+        serializer = TrainerCheckSerializer(check, context={'user': user})
+        return Response(serializer.data)
+
+
+class CheckSetViewed(APIView):
+    permission_classes = [IsAuthenticated & IsTrainer]
+
+    def post(self, request, pk):
+        user = request.user
+        check = get_object_or_404(Check, pk=pk)
+        CheckViews.objects.create(user=user, payment_check=check)
+        return Response({'message': 'success'})
 
 
 class PlaceListView(ListAPIView):

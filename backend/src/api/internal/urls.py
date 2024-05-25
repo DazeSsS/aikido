@@ -2,6 +2,7 @@ from django.urls import path, include
 
 from api.internal.transport.handlers import (
     CheckListView,
+    CheckSetViewed,
     CheckView,
     CreateCheckView,
     CreateGroupView,
@@ -38,5 +39,6 @@ urlpatterns = [
     path('trainer/practices/<int:pk>', PracticeView.as_view()),
     path('trainer/checks', CheckListView.as_view()),
     path('trainer/checks/<int:pk>', CheckView.as_view()),
+    path('trainer/checks/<int:pk>/setViewed', CheckSetViewed.as_view()),
     path('trainer/places', PlaceListView.as_view()),
 ]

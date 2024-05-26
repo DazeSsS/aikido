@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import { Spin } from 'antd';
 import InfoTable from '../InfoTable/InfoTable';
 import ControlsPanel from '../ControlsPanel/ControlsPanel';
@@ -8,7 +9,7 @@ import { getApiResource } from '../../../utils/network';
 import { getToken } from '../../../utils/authToken';
 
 
-const GroupsTable = ({ onGroupClick }) => {
+const GroupsTable = ({ onGroupClick, onCreateGroupClick }) => {
 
     const [groups, setGroups] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -56,13 +57,31 @@ const GroupsTable = ({ onGroupClick }) => {
         fetchGroups();
     }, []);
 
+    const deleteGroupClick = async (id) => {
+      console.log(id)
+
+      console.log(groups)
+      const res = await axios.delete(`http://localhost:8000/api/v1/trainer/groups/${id}`, {
+        headers: {
+          Authorization: `Token ${getToken()}`
+        }
+      });
+
+      if (res) {
+        console.log('успешно удалена группа');
+        setGroups(prevGroups => prevGroups.filter(group => group.id !== id));
+      } else {
+        console.log('не смог удалить группу')
+      }
+    };
+
     return (
       <>
         <ControlsPanel
           title={"Группы"}
           actionTitle={"Создать группу"}
           onBack={null}
-          onAction={null}
+          onAction={onCreateGroupClick}
           labelData={null}
         />
         <div className={styles["table__container"]}>
@@ -76,6 +95,8 @@ const GroupsTable = ({ onGroupClick }) => {
               data={groups}
               enableRowClick={true}
               onRowClick={onGroupClick}
+              enableDeleteClick={true}
+              onDeleteClick={deleteGroupClick}
             />
           )}
         </div>

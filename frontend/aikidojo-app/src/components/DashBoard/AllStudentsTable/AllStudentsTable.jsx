@@ -14,26 +14,36 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
   const formatStudentsData = (fetchedStudentsData) => {
     const formattedStudentsData = [];
 
+    console.log('fetched: ', fetchedStudentsData);
+
     for (const student of fetchedStudentsData) {
+      console.log(student.account.debt)
+
       const studentData = {
         key: student.id,
         id: student.id,
         debt: student.account.debt,
+        student: {
+          full_name: student.first_name + ' ' +
+                student.middle_name + ' ' +
+                student.last_name,
+          photo: "http://localhost:8000/media/" + student.photo
+        },
         parentContact: {
           name:
-            student.parents[0].first_name +
+            student.parents[0]?.first_name +
             " " +
-            student.parents[0].middle_name +
+            student.parents[0]?.middle_name +
             " " +
-            student.parents[0].last_name,
-          contact: student.parents[0].contact,
+            student.parents[0]?.last_name,
+          contact: student.parents[0]?.contact,
         },
         groupNumber: 1,
       };
 
       formattedStudentsData.push(studentData);
     }
-
+    console.log('ffffstudentData', formattedStudentsData)
     return formattedStudentsData;
   };
 
@@ -49,6 +59,7 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
       );
 
       if (res) {
+        console.log(res);
         setStudents(formatStudentsData(res));
         setTimeout(() => setIsLoading(false), 150);
         console.log("Успешно");
@@ -62,7 +73,6 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
 
   return (
     <>
-      {/* вытащить панель с кнопками в отдельный компонент */}
       <ControlsPanel
         title={"Список учеников из всех групп"}
         actionTitle={"Создать нового ученика"}
@@ -79,8 +89,10 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
           <InfoTable
             layout={"groupMembers"}
             data={students}
-            enableRowClick={true}
+            enableRowClick={false}
             onRowClick={null}
+            enableDeleteClick={true}
+            onDeleteClick={(id) => console.log(id)}
           />
         )}
       </div>

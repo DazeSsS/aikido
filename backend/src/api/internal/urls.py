@@ -2,7 +2,6 @@ from django.urls import path, include
 
 from api.internal.transport.handlers import (
     CheckListView,
-    CheckSetViewed,
     CheckView,
     CreateCheckView,
     CreateGroupView,
@@ -15,7 +14,7 @@ from api.internal.transport.handlers import (
     MyGroupView,
     MyParentsView,
     MyPaymentAccountView,
-    MyScheduleView,
+    MyPracticesView,
     PlaceListView,
     PracticeListView,
     PracticeView,
@@ -30,7 +29,7 @@ urlpatterns = [
     path('student/parents', MyParentsView.as_view()),
     path('student/account', MyPaymentAccountView.as_view()),
     path('student/group', MyGroupView.as_view()),
-    path('student/schedule', MyScheduleView.as_view()),
+    path('student/practices', MyPracticesView.as_view()),
     path('student/checks', CreateCheckView.as_view()),
     path('trainer/students', CreateStudentView.as_view()),
     path('trainer/groups', CreateGroupView.as_view()),
@@ -41,6 +40,5 @@ urlpatterns = [
     path('trainer/practices/<int:pk>', PracticeView.as_view()),
     path('trainer/checks', CheckListView.as_view()),
     path('trainer/checks/<int:pk>', CheckView.as_view()),
-    path('trainer/checks/<int:pk>/setViewed', CheckSetViewed.as_view()),
     path('trainer/places', PlaceListView.as_view()),
 ]

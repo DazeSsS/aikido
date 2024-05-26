@@ -12,4 +12,5 @@ class CheckAdmin(admin.ModelAdmin):
         'file',
         'date',
         'amount',
+        'confirmed',
     )

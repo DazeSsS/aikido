@@ -53,7 +53,7 @@ class StudentSerializer(UserSerializer):
     parents = ParentSerializer(many=True, read_only=True)
     account = PaymentAccountSerializer(read_only=True)
     group = GroupInfoSerializer(read_only=True, source='get_my_group')
-    age = serializers.IntegerField(source='get_age')
+    age = serializers.IntegerField(source='get_age', read_only=True)
 
     class Meta:
         model = User

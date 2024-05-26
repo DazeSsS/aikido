@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 
-from api.models import Check, CheckViews, Parent, PaymentAccount, Place, Practice, PracticeGroup, User
+from api.models import Check, Parent, PaymentAccount, Place, Practice, PracticeGroup, User
 from api.permissions import IsStudent, IsTrainer
 from api.serializers import (
     CheckSerializer,
@@ -29,6 +29,33 @@ from api.serializers import (
     TrainerPracticeSerializer,
     UserSerializer,
 )
+
+
+def calculate_scope(scope, offset):
+    scope_start = None
+    scope_end = None
+
+    today = date.today()
+    year, month, day = [today.year, today.month, today.day]
+    match scope:
+        case 'week':
+            weekday = today.isocalendar().weekday
+            offset_datetime = datetime(year, month, day) + timedelta(days=(7 * offset))
+            scope_start = offset_datetime - timedelta(days=(weekday - 1))
+            scope_end = offset_datetime + timedelta(days=((7 - weekday) + 1)) - timedelta(seconds=1)
+        case 'month':
+            offset_datetime = datetime(year, month, day) + relativedelta(months=offset)
+            scope_start = offset_datetime.replace(day=1)
+            scope_end = offset_datetime.replace(
+                day=monthrange(offset_datetime.year, offset_datetime.month)[1],
+                hour=23,
+                minute=59,
+                second=59
+            )
+        case _:
+            return None
+    
+    return {'scope_start': scope_start, 'scope_end': scope_end}
 
 
 class CreateTrainerView(CreateAPIView):
@@ -153,15 +180,31 @@ class MyGroupView(APIView):
         return Response(serializer.data)
 
 
-class MyScheduleView(APIView):
+class MyPracticesView(ListAPIView):
+    serializer_class = PracticeSerializer
     permission_classes = [IsAuthenticated & IsStudent]
 
-    def get(self, request):
-        user = request.user
-        group = user.my_groups.all().first()
-        practices = group.practices.all().order_by('date')
-        serializer = PracticeSerializer(practices, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        user = self.request.user
+        scope = self.request.query_params.get('scope', 'week')
+        offset = int(self.request.query_params.get('offset', 0))
+        past = self.request.query_params.get('past', 'False').lower() == 'true'
+
+        date_range = calculate_scope(scope, offset)
+        if date_range is None:
+            return Practice.objects.none()
+
+        scope_start, scope_end = [date_range.get('scope_start'), date_range.get('scope_end')]
+
+        if not past and offset <= 0:
+            scope_start = datetime.now()
+        elif past and offset >= 0:
+            scope_end = datetime.now()
+
+        group = user.get_my_group()
+        practices = group.practices.filter(date__gte=scope_start, date__lte=scope_end)
+
+        return practices.order_by('date')
 
 
 class CreateGroupView(ListCreateAPIView):
@@ -241,30 +284,16 @@ class PracticeListView(ListAPIView):
         scope = self.request.query_params.get('scope', 'week')
         offset = int(self.request.query_params.get('offset', 0))
 
-        today = date.today()
-        year, month, day = [today.year, today.month, today.day]
-        match scope:
-            case 'week':
-                weekday = today.isocalendar().weekday
-                offset_datetime = datetime(year, month, day) + timedelta(days=(7 * offset))
-                scope_start = offset_datetime - timedelta(days=(weekday - 1))
-                scope_end = offset_datetime + timedelta(days=((7 - weekday) + 1)) - timedelta(seconds=1)
-            case 'month':
-                offset_datetime = datetime(year, month, day) + relativedelta(months=offset)
-                scope_start = offset_datetime.replace(day=1)
-                scope_end = offset_datetime.replace(
-                    day=monthrange(offset_datetime.year, offset_datetime.month)[1],
-                    hour=23,
-                    minute=59,
-                    second=59
-                )
-            case _:
-                return Practice.objects.none()
+        date_range = calculate_scope(scope, offset)
+        if date_range is None:
+            return Practice.objects.none()
+        
+        scope_start, scope_end = [date_range.get('scope_start'), date_range.get('scope_end')]
 
         groups = user.practice_groups.all().prefetch_related('practices')
         practices = Practice.objects.none()
         for group in groups:
-            group_practices = group.practices.all().filter(date__gte=scope_start, date__lte=scope_end)
+            group_practices = group.practices.filter(date__gte=scope_start, date__lte=scope_end)
             practices = practices.union(group_practices)
 
         return practices.order_by('date')
@@ -303,39 +332,36 @@ class CreateCheckView(CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class CheckListView(APIView):
+class CheckListView(ListAPIView):
+    serializer_class = TrainerCheckSerializer
     permission_classes = [IsAuthenticated & IsTrainer]
 
-    def get(self, request):
-        user = request.user
+    def get_queryset(self):
+        user = self.request.user
         groups = user.practice_groups.all().prefetch_related("students")
         checks = Check.objects.none()
         for group in groups:
-            group_checks = group.get_payment_checks(viewer=user)
+            group_checks = group.get_payment_checks()
             checks = checks.union(group_checks)
 
-        serializer = TrainerCheckSerializer(checks.order_by('-date'), many=True, context={'user': user})
-        return Response(serializer.data)
+        return checks.order_by('-date')
 
 
 class CheckView(APIView):
     permission_classes = [IsAuthenticated & IsTrainer]
 
     def get(self, request, pk):
-        user = request.user
         check = get_object_or_404(Check, pk=pk)
-        serializer = TrainerCheckSerializer(check, context={'user': user})
+        serializer = TrainerCheckSerializer(check)
         return Response(serializer.data)
 
-
-class CheckSetViewed(APIView):
-    permission_classes = [IsAuthenticated & IsTrainer]
-
-    def post(self, request, pk):
-        user = request.user
+    def patch(self, request, pk):
         check = get_object_or_404(Check, pk=pk)
-        CheckViews.objects.create(user=user, payment_check=check)
-        return Response({'message': 'success'})
+        serializer = TrainerCheckSerializer(check, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
 
 class PlaceListView(ListAPIView):

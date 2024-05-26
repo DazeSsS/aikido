@@ -15,11 +15,7 @@ class Check(models.Model):
     amount = models.DecimalField(max_digits=7, decimal_places=2)
     file = models.FileField(upload_to=check_upload_path)
     date = models.DateField(auto_now_add=True)
+    confirmed = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.account.user} {self.date}'
-
-
-class CheckViews(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='views')
-    payment_check = models.ForeignKey('Check', on_delete=models.CASCADE, related_name='views')

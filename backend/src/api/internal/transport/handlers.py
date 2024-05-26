@@ -369,6 +369,19 @@ class CheckView(APIView):
         return Response(serializer.errors)
 
 
+class CheckSetConfirmedView(APIView):
+    permission_classes = [IsAuthenticated & IsTrainer]
+
+    def post(self, request):
+        confirmed_checks = request.data.get('confirmed')
+        for check_id in confirmed_checks:
+            check = Check.objects.filter(pk=check_id).first()
+            if check is not None:
+                check.confirmed = True
+                check.save()
+        return Response({'message': 'success'}, status=status.HTTP_200_OK)
+
+
 class PlaceListView(ListAPIView):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer

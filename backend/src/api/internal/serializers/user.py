@@ -62,6 +62,7 @@ class StudentSerializer(UserSerializer):
 
 class StudentInfoSerializer(ModelSerializer):
     age = serializers.IntegerField(source='get_age')
+    photo = serializers.ImageField(max_length=None, use_url=False)
 
     class Meta:
         model = User

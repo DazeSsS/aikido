@@ -77,7 +77,7 @@ class CreateStudentView(ListCreateAPIView):
     queryset = User.objects.filter(role='student')
     serializer_class = StudentSerializer
     permission_classes = [IsAuthenticated & IsTrainer]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()

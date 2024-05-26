@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 
 from api.models import Check, CheckViews, Parent, PaymentAccount, Place, Practice, PracticeGroup, User
 from api.permissions import IsStudent, IsTrainer
@@ -91,7 +91,7 @@ class CreateStudentView(ListCreateAPIView):
 
 class UserView(APIView):
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def get(self, request):
         user = request.user

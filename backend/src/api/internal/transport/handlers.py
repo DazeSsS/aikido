@@ -79,6 +79,9 @@ class CreateStudentView(ListCreateAPIView):
     permission_classes = [IsAuthenticated & IsTrainer]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
+    def perform_create(self, serializer):
+        return serializer.save()
+
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
         random_password = User.objects.make_random_password(8)
@@ -87,8 +90,10 @@ class CreateStudentView(ListCreateAPIView):
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        student = self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
+
+        account = PaymentAccount.objects.create(user=student)
 
         user_email = serializer.data['email']
         send_mail(

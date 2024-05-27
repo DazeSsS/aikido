@@ -59,10 +59,7 @@
 
 
 
-
-
-
-
 .dashboard-component__container {
     margin-left: 312px;
+    position: relative;
 }

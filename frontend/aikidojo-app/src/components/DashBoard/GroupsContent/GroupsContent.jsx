@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import GroupsTable from '../GroupsTable/GroupsTable';
 import GroupMembersTable from '../GroupMembersTable/GroupMembersTable';
 import AllStudentsTable from '../AllStudentsTable/AllStudentsTable';
+import AllGroupsStudentsTable from '../AllGroupsStudentsTable/AllGroupsStudentsTable';
 import CreateGroupForm from '../CreateGroupForm/CreateGroupForm';
 import { useState } from 'react';
 import styles from './GroupsContent.module.css';
@@ -49,6 +50,7 @@ const GroupsContent = () => {
               <GroupMembersTable
                 onBack={handleBackToTable}
                 id={selectedGroupId}
+                onAddNewMemberClick={handleAddNewMembersClick}
               />
             </div>
           </>
@@ -56,13 +58,16 @@ const GroupsContent = () => {
           <>
             {console.log("1")}
             <div className={styles["table__container"]}>
-              <AllStudentsTable onBack={handleBackToTable} />
+              <AllGroupsStudentsTable 
+                onBack={handleBackToTable} 
+                id={selectedGroupId}
+              />
             </div>
           </>
         ) : (
           <>
             <div className={styles["table__container"]}>
-              <GroupsTable onGroupClick={handleGroupClick} />
+              <GroupsTable onGroupClick={handleGroupClick} onCreateGroupClick={handleCreateGroupClick}/>
             </div>
             {console.log("1")}
           </>

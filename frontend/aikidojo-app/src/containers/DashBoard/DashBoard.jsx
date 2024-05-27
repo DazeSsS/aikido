@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 import SideBar from '../../components/DashBoard/SideBar/SideBar';
-import Table from 'antd/es/table/Table';
 
 import GroupsContent from '../../components/DashBoard/GroupsContent/GroupsContent';
 import ScheduleContent from '../../components/DashBoard/ScheduleContent/ScheduleContent';
+import StudentsContent from '../../components/DashBoard/StudentsContent/StudentsContent';
+import PaymentsContent from '../../components/DashBoard/PaymentsContent/PaymentsContent';
 
 import styles from './DashBoard.module.css';
 import { Button } from 'antd';
 
 import { useState } from 'react';
 
-import GroupMembers from '../../components/DashBoard/GroupMembers/GroupMembers';
 
-const DashBoard = () => {
+const DashBoard = ({ onLogoutCallback }) => {
 
     const [selectedTab, setSelectedTab] = useState('groups');
 
@@ -27,9 +27,9 @@ const DashBoard = () => {
             case 'schedule':
                 return <ScheduleContent />;
             case 'students':
-                return 'students component'
+                return <StudentsContent />;
             case 'payments':
-                return 'payments component';
+                return <PaymentsContent />;
             default: 
                 return null;
         }
@@ -50,7 +50,7 @@ const DashBoard = () => {
         <>
             <div className={styles['dashboard__container']}>
         
-                <SideBar onTabClick={handleTabClick} />
+                <SideBar onTabClick={handleTabClick} onLogoutCallback={onLogoutCallback}/>
 
                 
 
@@ -68,7 +68,7 @@ const DashBoard = () => {
                     
                     <div className={styles['dashboard-component__container']}>
                         {renderContent()}
-                    </div>;
+                    </div>
                 
             </div> 
         </>

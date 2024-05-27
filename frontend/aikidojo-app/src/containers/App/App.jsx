@@ -40,47 +40,44 @@ const App = () => {
   };
 
   const [userRole, setUserRole] = useState(null);
-  // const [token, setToken] = useState(getToken());
-
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   console.log('getting user role effect')
-  //   const fetchUserRole = async () => {
-  //     try {
-  //       const res = await getApiResource('http://localhost:8000/api/v1/me', {
-  //         headers: {
-  //           'Authorization': `Token ${getToken()}`
-  //         }
-  //       });
-  //       if (res) {
-  //         const user = res;
-  //         setUserRole(user.role);
-  //         console.log(userRole)
-  //       } else {
-  //         console.log('No user data');
-  //       }
-  //     } catch (error) {
-  //       console.log('Error fetching user data:', error);
-  //     }
-  //   };
+  // if (token) => request to aknowledge the role from app and set the user role, then navigate
+  // else navigate to /login and request the role from app and set the user role, then navigate
 
-  //   if (token) {
-  //     fetchUserRole();
-  //   } 
-  // }, [token]);
+  const nullifyUserRole = () => { // temporal solution
+    setUserRole(null);
+  };
 
-  // useEffect(() => {
-  //   setToken(getToken())
-  //   console.log('token effect')
-  // }, []);
+  const updateUserRole = (role) => {
+    setUserRole(role);
+  } 
+  
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const res = await getApiResource("http://localhost:8000/api/v1/me", {
+        headers: {
+          Authorization: `Token ${getToken()}`,
+        },
+      });
 
-  // useEffect(() => {
-  //   console.log(111)
-  //   if (!userRole) {
-  //     navigate('/login')
-  //   }
-  // }, [])
+      if (res) {
+        const user = res;
+
+        updateUserRole(user.role);
+        console.log('63', user.role);
+      } else {
+        console.log("No user data");
+      }
+    };
+
+    if (getToken()) {
+      // request role
+      fetchUserRole();
+    } else {
+      navigate('/login')
+    }
+  }, []);
 
 
   useEffect(() => {
@@ -93,53 +90,32 @@ const App = () => {
         navigate('/trainer/');
       } else if (userRole === 'student') {
         navigate('/student/');
-      } else {
-        navigate('/login');
-      }
-    } 
+      } 
+    } else {
+      navigate('/login');
+    }
 
   }, [userRole]);
 
 
-  const updateUserRole = (role) => {
-    setUserRole(role);
-  } 
-
+  
   return (
-    
       <ConfigProvider theme={appTheme} wave={waveDisabled}>
         <Routes>
-          {/* <Route path="/" element={<Navigate to="/login" />} /> */}
-
           {!getToken() && <Route path="/" element={<Navigate to="/login" /> } />}
-          
-          {/* {userRole === 'trainer' && <Route path="/" element={<Navigate to="/trainer/" />} />} */}
 
           <Route path="/login" element={<LoginPage onLogin={updateUserRole}/>} />
           <Route path="/register" element={<RegistrationPage />} />
 
-          <Route path="/trainer/*" element={<TrainerApp />} />
-          <Route path="/student/*" element={<StudentApp />} />
-
-          {/* <Route path="/profile" element={<ProfilePage />} /> */}
-
-
-          {userRole === 'student' && <Route path="/student/*" element={<StudentApp />} />}
-
-          {/* <Route path="/trainer/profile" element={<ProfilePage />}/>
-          <Route path="/trainer/dashboard" element={<DashBoard />}/> */}
-
-          {/* <Route path="/studentapp" element={<StudentApp />} />
-          <Route path="/trainerapp" element={<TrainerApp />} /> */}
-          {/* onLogin={handleLogin} */}
+          <Route path="/trainer/*" element={<TrainerApp onLogoutCallback={nullifyUserRole}/>} />
+          <Route path="/student/*" element={<StudentApp onLogoutCallback={nullifyUserRole}/>} />
         </Routes>
       </ConfigProvider>
   );
 }
 
 
-const StudentApp = () => {
-  console.log('11')
+const StudentApp = ({ onLogoutCallback }) => {
 
   return (  
     <>
@@ -147,42 +123,25 @@ const StudentApp = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/student/profile" />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/dashboard" element={<DashBoard onLogoutCallback={onLogoutCallback}/>} />
       </Routes>
     </>
   );
 };  
 
-const TrainerApp = () => {
-  console.log('11')
+const TrainerApp = ({ onLogoutCallback }) => {
 
   return (  
     <>
-      <Header />
-      
+      <Header view={'trainer'}/> 
         <Routes>
-        <Route path="/" element={<Navigate to="/trainer/profile" />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/dashboard" element={<DashBoard />} />
-        </Routes>
-        
+        <Route path="/" element={<Navigate to="/trainer/dashboard" />} />
+        <Route path="/profile" element={<ProfilePage view={'trainer'} />} />
+        <Route path="/dashboard" element={<DashBoard onLogoutCallback={onLogoutCallback}/>} />
+        </Routes>  
     </>
   );
 };
-
-// const PrivateRoute = () => {
-//     const userRole = determineUserRole();
-
-//     if (userRole === 'trainer') {
-//       return <Navigate to="" />
-//     } else if (userRole === 'student') {
-//       return <Navigate to="/profile" />
-//     } else {
-//       return <Navigate to="/login" />
-//     }
-// }
-
-
 
 
 export default App

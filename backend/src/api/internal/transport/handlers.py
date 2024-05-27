@@ -271,7 +271,6 @@ class CreatePracticeView(CreateAPIView):
         data = request.data.copy()
         group = get_object_or_404(PracticeGroup, pk=pk)
         data['group'] = pk
-        data['place'] = group.place.id
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

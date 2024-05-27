@@ -12,7 +12,13 @@ from .practice_group import GroupSerializer
 class CreatePracticeSerializer(ModelSerializer):
     class Meta:
         model = Practice
-        fields = '__all__'
+        fields = [
+            'id',
+            'price',
+            'group',
+            'date',
+            'duration',
+        ]
 
 
 class PracticeSerializer(ModelSerializer):

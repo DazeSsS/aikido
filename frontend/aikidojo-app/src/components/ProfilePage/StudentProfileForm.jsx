@@ -3,7 +3,6 @@ import axios from "axios";
 import { Input, Button, Upload } from "antd";
 import { useState } from "react";
 import styles from "./StudentProfileForm.module.css";
-import { patchApiResource } from "../../utils/network";
 import { getToken } from "../../utils/authToken";
 
 const StudentProfileForm = ({ view, data, onSubmition }) => {

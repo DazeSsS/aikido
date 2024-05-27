@@ -27,9 +27,9 @@ const groupsTableColumns = [
 const groupMembersColumns = [
     {
         title: 'Имя',
-        dataIndex: 'name',
+        dataIndex: 'student',
         
-        render: (name) => (<div className={styles['member-name__container']}><img src="/group-member-avatar.png" alt="" />{name}</div>)
+        render: (student) => (<div className={styles['member-name__container']}><img className={styles['user-photo__container']} src={student.photo} alt="" />{student.full_name}</div>)
     },
     {   
         title: 'Задолженность',
@@ -48,25 +48,26 @@ const groupMembersColumns = [
 const paymentsColumns = [
     {
         title: 'Имя',
-        dataIndex: 'name',
-        width: 150,
-        render: (name) => (<div className={styles['member-name__container']}><img src="/group-member-avatar.png" alt="" />{name}</div>)
+        dataIndex: 'student', // name + photo appearence
+        render: (student) => (<div className={styles['member-name__container']}><img className={styles['user-photo__container']} src={student.photo} alt="" />{student.full_name}</div>)
     },
     {   
         title: 'Чек на сумму',
-        dataIndex: 'summ',
+        dataIndex: 'amount',
         width: 150,
         render: (debt) => (<>{debt} руб.</>)
     },
     {   
         title: 'Задолженность',
         dataIndex: 'debt',
+        width: 150,
         render: (debt) => (<>{debt} руб.</>)
     },
     {
         title: 'Ссылка на чек',
-        dataIndex: 'checkLink',
-        // render: (parentContact) => (<>{parentContact.name} <br /> {parentContact.contact}</>)
+        dataIndex: 'file',
+        width: 200,
+        render: (file) => (<><a target="_blank" href={file.link}>Чек от {file.date}</a></>)
     },
     {
         title: 'Баланс',
@@ -115,7 +116,11 @@ const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick
             columns.push({
                 title: '',
                 dataIndex: '',
-                render: (_, record) => (<button onClick={(e) => {e.stopPropagation(); onDeleteClick(record.id)}}>delete</button>)
+                render: (_, record) => ( 
+                <div className={styles['delete-button']} onClick={(e) => {e.stopPropagation(); onDeleteClick(record.id)}}>
+                    <span className="material-icons">delete_outline</span>
+                </div>
+            )
             }); 
         }
 

@@ -57,7 +57,7 @@ const GroupsTable = ({ onGroupClick, onCreateGroupClick }) => {
         fetchGroups();
     }, []);
 
-    const deleteGroupClick = async (id) => {
+    const handleDeleteGroup = async (id) => {
       console.log(id)
 
       console.log(groups)
@@ -96,7 +96,7 @@ const GroupsTable = ({ onGroupClick, onCreateGroupClick }) => {
               enableRowClick={true}
               onRowClick={onGroupClick}
               enableDeleteClick={true}
-              onDeleteClick={deleteGroupClick}
+              onDeleteClick={handleDeleteGroup}
             />
           )}
         </div>

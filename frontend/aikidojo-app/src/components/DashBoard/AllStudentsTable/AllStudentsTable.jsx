@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import axios from "axios";
 import { Button, Spin } from "antd";
 import InfoTable from "../InfoTable/InfoTable";
 import ControlsPanel from "../ControlsPanel/ControlsPanel";
@@ -38,7 +39,6 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
             student.parents[0]?.last_name,
           contact: student.parents[0]?.contact,
         },
-        groupNumber: 1,
       };
 
       formattedStudentsData.push(studentData);
@@ -71,6 +71,20 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
     fetchStudents();
   }, []);
 
+  const handleDeleteStudent = async (id) => {
+    const res = await axios.delete(`http://localhost:8000/api/v1/trainer/students/${id}`, {
+      headers: {
+        Authorization: `Token ${getToken()}`,
+      }
+    })
+
+    if (res) {
+      console.log('student successfully deleted');
+    } else {
+      console.log('error')
+    }
+  };
+
   return (
     <>
       <ControlsPanel
@@ -91,8 +105,8 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
             data={students}
             enableRowClick={false}
             onRowClick={null}
-            enableDeleteClick={true}
-            onDeleteClick={(id) => console.log(id)}
+            enableDeleteClick={false}
+            onDeleteClick={handleDeleteStudent}
           />
         )}
       </div>

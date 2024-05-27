@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Spin } from 'antd';
 import InfoTable from '../InfoTable/InfoTable';
@@ -11,6 +12,7 @@ import styles from './PaymentsTable.module.css';
 const PaymentsTable = ({ }) => {
 
     const [payments, setPayments] = useState(null);
+    const [selectedRows, setSelectedRows] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const formatPaymentsData = (fetchedPaymentsData) => {
@@ -63,13 +65,41 @@ const PaymentsTable = ({ }) => {
         fetchPayments();
     }, []);
 
+    const handleRowSelectionChange = (ids) => {
+      console.log(ids);
+      setSelectedRows(ids);
+    }
+
+    const handleConfirmChecksClick = () => {
+      const confirmChecks = async () => {
+        const res = await axios.post('http://localhost:8000/api/v1/trainer/checks/setConfirmed', 
+          {
+            confirmed: [...selectedRows]
+          },
+          {
+            headers: {
+              Authorization: `Token ${getToken()}`
+            }
+          }
+        );
+
+        if (res) {
+          console.log('check was confirmed')
+        } else {
+          console.log('check wasnt confrimed')
+        }
+      }
+
+      confirmChecks();
+    };
+
     return (
       <>
         <ControlsPanel
           title={"Присланные чеки"}
           actionTitle={"Подтвердить"}
           onBack={null}
-          onAction={null}
+          onAction={handleConfirmChecksClick}
           labelData={null}
         />
         <div className={styles["table__container"]}>
@@ -84,6 +114,7 @@ const PaymentsTable = ({ }) => {
               enableRowClick={false}
               onRowClick={null}
               withTicks={true}
+              onRowSelectionChange={handleRowSelectionChange}
             />
           )}
         </div>

@@ -5,6 +5,7 @@ import GroupsContent from '../../components/DashBoard/GroupsContent/GroupsConten
 import ScheduleContent from '../../components/DashBoard/ScheduleContent/ScheduleContent';
 import StudentsContent from '../../components/DashBoard/StudentsContent/StudentsContent';
 import PaymentsContent from '../../components/DashBoard/PaymentsContent/PaymentsContent';
+import AttendanceContent from '../../components/DashBoard/AttendanceContent/AttendanceContent';
 
 import styles from './DashBoard.module.css';
 import { Button } from 'antd';
@@ -12,7 +13,7 @@ import { Button } from 'antd';
 import { useState } from 'react';
 
 
-const DashBoard = ({ onLogoutCallback }) => {
+const DashBoard = ({ onLogoutCallback, view }) => {
 
     const [selectedTab, setSelectedTab] = useState('groups');
 
@@ -30,6 +31,8 @@ const DashBoard = ({ onLogoutCallback }) => {
                 return <StudentsContent />;
             case 'payments':
                 return <PaymentsContent />;
+            case 'attendance':
+                return <AttendanceContent />
             default: 
                 return null;
         }
@@ -50,21 +53,7 @@ const DashBoard = ({ onLogoutCallback }) => {
         <>
             <div className={styles['dashboard__container']}>
         
-                <SideBar onTabClick={handleTabClick} onLogoutCallback={onLogoutCallback}/>
-
-                
-
-                    {/* <div className={styles['section-button__container']}>
-                    <div className={styles['section-button__container__inner']}>
-                        <h3>Группы</h3>
-                        <Button
-                            className={styles['section-button']}
-                            type="primary"
-                            size="large"
-                        >
-                            Создать группу
-                        </Button>
-                    </div> */}
+                <SideBar onTabClick={handleTabClick} onLogoutCallback={onLogoutCallback} view={view}/>
                     
                     <div className={styles['dashboard-component__container']}>
                         {renderContent()}

@@ -87,6 +87,7 @@ const CreateGroupForm = ({ onBack }) => {
 
     if (res) {
       console.log('Группа успешно создана');
+      onBack();
     } else {
       console.log('Группу создать не получилось')
     }

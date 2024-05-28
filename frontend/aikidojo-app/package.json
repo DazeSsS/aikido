@@ -15,6 +15,7 @@
   "dependencies": {
     "antd": "^5.16.4",
     "axios": "^1.6.8",
+    "dayjs": "^1.11.11",
     "mobx": "^6.12.3",
     "mobx-react": "^9.1.1",
     "react": "^18.2.0",

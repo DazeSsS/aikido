@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { Button } from "antd";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import styles from "./ControlsPanel.module.css";
 
-const ControlsPanel = ({ title, actionTitle, onBack, onAction, labelData }) => {
+const ControlsPanel = ({ title, actionTitle, onBack, onAction, labelData, withArrows, onLeftArrowClick, onRightArrowClick }) => {
   return (
     <>
       <div className={styles["section-button__container"]}>
@@ -12,10 +13,27 @@ const ControlsPanel = ({ title, actionTitle, onBack, onAction, labelData }) => {
               <Button size="large" onClick={() => onBack()}>
                 назад
               </Button>
-              <h3>{title}</h3>
+              <div className={styles['title__container']}>
+                <h3>{title}</h3>
+              </div>
+              
             </div>
           ) : (
-            <h3>{title}</h3>
+            <>
+            <div className={styles['title__container']}>
+              <h3>{title}</h3>
+              {withArrows && (
+                <div className={styles['arrows_container']}>
+                  <div className={styles['arrow']} onClick={onLeftArrowClick}>
+                    <LeftOutlined />
+                  </div>
+                  <div className={styles['arrow']} onClick={onRightArrowClick}>
+                    <RightOutlined />
+                  </div>
+                </div>
+              )}
+            </div>
+            </>
           )}
 
           {actionTitle && (

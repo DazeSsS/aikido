@@ -32,3 +32,29 @@
     align-items: center;
     gap: 12px;
 }
+
+
+.arrows_container {
+    display: flex;
+    gap: 8px;
+}
+
+.arrow {
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.arrow:hover {
+    background-color: rgba(0, 0, 0, 0.10);
+}
+
+.title__container {
+    display: flex;
+    gap: 20px;
+}

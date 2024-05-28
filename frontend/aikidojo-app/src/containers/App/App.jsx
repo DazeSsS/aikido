@@ -137,7 +137,7 @@ const TrainerApp = ({ onLogoutCallback }) => {
         <Routes>
         <Route path="/" element={<Navigate to="/trainer/dashboard" />} />
         <Route path="/profile" element={<ProfilePage view={'trainer'} />} />
-        <Route path="/dashboard" element={<DashBoard onLogoutCallback={onLogoutCallback}/>} />
+        <Route path="/dashboard" element={<DashBoard onLogoutCallback={onLogoutCallback} view={'trainer'}/>} />
         </Routes>  
     </>
   );

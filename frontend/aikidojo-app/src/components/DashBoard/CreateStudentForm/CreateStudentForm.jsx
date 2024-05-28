@@ -141,6 +141,7 @@ const CreateStudentForm = ({ onBack }) => {
 
       if (parentCreationRes) {
         console.log('student successfully created');
+        onBack();
       } else {
         console.log('error creating student');
       }

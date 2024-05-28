@@ -20,7 +20,7 @@ const ProfilePage = ({ view }) => {
         " " +
         fetchedProfileData.last_name,
       email: fetchedProfileData.email,
-      contact: fetchedProfileData?.contact,
+      contact: fetchedProfileData?.phone_number,
       role: fetchedProfileData.role,
       rang: fetchedProfileData.rang,
       debt: fetchedProfileData.account?.debt,
@@ -28,12 +28,12 @@ const ProfilePage = ({ view }) => {
       date_of_birth: fetchedProfileData.date_of_birth,
       gender: fetchedProfileData.gender === "male" ? "М" : "Ж",
       parent_name:
-      fetchedProfileData.parents && fetchedProfileData?.parents[0]?.first_name +
+      view === 'student' && fetchedProfileData.parents?.length !== 0 ? fetchedProfileData?.parents[0]?.first_name +
         " " +
         fetchedProfileData?.parents[0]?.middle_name +
         " " +
-        fetchedProfileData?.parents[0]?.last_name,
-      parent_contact: fetchedProfileData.parents && fetchedProfileData.parents[0].contact,
+        fetchedProfileData?.parents[0]?.last_name : 'Нет данных',
+      parent_contact: view === 'student' &&  fetchedProfileData.parents?.length !== 0 ? fetchedProfileData.parents[0].contact : 'Нет данных',
     };
 
     return formattedProfileData;
@@ -80,7 +80,7 @@ const ProfilePage = ({ view }) => {
             <div className={styles["profile__main-info__container"]}>
               <img
                 className={styles["profile__main-info__img"]}
-                src={"http://localhost:8000/" + profileData.photo}
+                src={"http://localhost:8000/media/" + profileData.photo}
                 alt=""
               />
               <div className={styles["profile__main-info-text__container"]}>

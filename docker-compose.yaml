@@ -18,6 +18,7 @@ services:
     image: aikido-api:0.1
     build: ./backend
     command: bash -c "
+      python src/manage.py collectstatic --noinput &&
       python src/manage.py migrate &&
       python src/manage.py runserver 0.0.0.0:8000"
     restart: always

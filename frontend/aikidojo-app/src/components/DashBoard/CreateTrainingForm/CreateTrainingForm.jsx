@@ -1,76 +1,112 @@
 import PropTypes from "prop-types";
 import axios from "axios";
+import dayjs from "dayjs";
+import { useState, useEffect } from "react";
 import { Button, Input, Dropdown, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import ControlsPanel from "../ControlsPanel/ControlsPanel";
 import { getToken } from "../../../utils/authToken";
 import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
+import { getApiResource } from "../../../utils/network";
 import styles from "./CreateTrainingForm.module.css";
 
 
-const onMenuClick = (e) => {
-  console.log("click", e);
-};
-
-const items = [
-  {
-    key: "1",
-    label: "Врослая",
-  },
-  {
-    key: "2",
-    label: "Детская",
-  },
-];
-
-const addressItems = [
-  {
-    key: "4",
-    label: "Денисова-Уральского 5а, зал 1",
-  },
-  {
-    key: "5",
-    label: "Денисова-Уральского 7, главный зал",
-  },
-];
-
-const menuProps = {
-  firstProp: {
-    items,
-    selectable: true,
-    onClick: onMenuClick,
-  },
-  secondProp: {
-    items: addressItems,
-    selectable: true,
-    onClick: () => console.log(),
-  },
-};
-
 const CreateTrainingForm = ({ onBack }) => {
 
+  const [formData, setFormData] = useState(null);
+  const [dropdownMenuItems, setDropdownMenuItems] = useState(null);
+
+  let items = [];
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      const res = await getApiResource(API_URL + 'trainer/groups', {
+        headers: {
+          Authorization: `Token ${getToken()}`
+        }
+      });
+
+      if (res) {
+        console.log(res)
+
+        const fetchedGroups = res;
+        let mappedGroups = fetchedGroups.map(group => {
+          return {
+            key: group.id,
+            label: group.title
+          }
+        });
+
+        setDropdownMenuItems(mappedGroups);
+
+        console.log(items);
+      } else {
+        console.log('error setting groups');
+      }
+    }
+
+    fetchGroups();
+  }, []);
+
+  const handleDropdownChange = async (e) => {
+    // const { label } = e.target;
+    console.log(dropdownMenuItems[+e.key - 1]);
+
+    setFormData({
+      ...formData,
+      group: +e.key
+    });
+  }
+
+  const handleInputChange = async (e) => {
+    const { id, value } = e.target;
+
+    console.log(id, value)
+
+    setFormData({
+      ...formData,
+      [id]: value 
+    });
+  }
+
+  const menuProps = {
+    items: dropdownMenuItems,
+    selectable: true,
+    onClick: handleDropdownChange
+  };
 
   const handleCreatePractice = async () => {
-    const res = await axios.post(
-      API_URL + "trainer/groups/1/practices",
-      {
-        price: 300,
-        date: "2024-05-21T12:00",
-        duration: 60,
-        group: 1
-      },
-      {
-        headers: {
-          Authorization: `Token ${getToken()}`,
-        },
-      }
-    );
+    if (formData.group) {
+      const date = formData['date-day']; // Дата в формате "DD.MM.YYYY"
+      const time = formData['date-start-time']; // Время в формате "HH:mm"
 
-    if (res) {
-      console.log('Тренировка успешно создана');
-      onBack();
-    } else {
-      console.log('Тренировку создать не получилось')
+      const dateTimeString = `${date} ${time}`;
+      const parsedDateTime = dayjs(dateTimeString, "DD.MM.YYYY HH:mm");
+      const formattedDateTime = parsedDateTime.format("YYYY-MM-DDTHH:mm:ss");
+
+      const newPractice = {
+        price: 300,
+        date: formattedDateTime,
+        duration: formData.duration,
+        group: formData.group
+      };
+
+      const res = await axios.post(
+        API_URL + `trainer/groups/${formData.group}/practices`,
+        newPractice,
+        {
+          headers: {
+            Authorization: `Token ${getToken()}`,
+          },
+        }
+      );
+  
+      if (res) {
+        console.log('Тренировка успешно создана');
+        onBack();
+      } else {
+        console.log('Тренировку создать не получилось')
+      }
     }
   };
   
@@ -90,69 +126,41 @@ const CreateTrainingForm = ({ onBack }) => {
           <div className={styles["create-group-form__container__inner"]}>
             <div className={styles["form-input__row"]}>
               <div className={styles["form-input"]}>
-                <label htmlFor="group-name">Дата*</label>
+                <label htmlFor="date-day">Дата*</label>
                 <Input 
-                  id="group-name" 
+                  id="date-day" 
                   size="large" 
                   placeholder="дд.мм.гггг" 
+                  onChange={handleInputChange}
                 />
               </div>
 
               <div className={styles["form-input"]}>
-                <label htmlFor="group-name">Время начала*</label>
+                <label htmlFor="date-start-time">Время начала*</label>
                 <Input 
-                  id="group-name" 
+                  id="date-start-time" 
                   size="large" 
-                  placeholder="чч:мм" 
+                  placeholder="чч:мм"
+                  onChange={handleInputChange} 
                 />
               </div>
-
-              <div className={styles["form-input"]}>
-                <label htmlFor="group-name">Комментарий</label>
-                <Input 
-                  id="group-name" 
-                  size="large" 
-                  placeholder="Особые замечания" 
-                />
-              </div>
-
-              {/* <div className={styles["form-input"]}>
-                <label htmlFor="group-name">Место проведения*</label>
-                <br />
-                <Dropdown menu={menuProps.secondProp}>
-                  <Button size="large">
-                    <Space>
-                      Адрес
-                      <DownOutlined />
-                    </Space>
-                  </Button>
-                </Dropdown>
-              </div> */}
             </div>
 
             <div className={styles["form-input__row"]}>
               <div className={styles["form-input"]}>
-                <label htmlFor="group-name">Место проведения*</label>
+                <label htmlFor="duration">Длительность занятия*</label>
                 <Input 
-                  id="group-name" 
+                  id="duration" 
                   size="large" 
-                  placeholder="Адрес" 
+                  placeholder="В минутах"
+                  onChange={handleInputChange} 
                 />
               </div>
 
               <div className={styles["form-input"]}>
-                <label htmlFor="group-name">Длительность занятия*</label>
-                <Input 
-                  id="group-name" 
-                  size="large" 
-                  placeholder="В минутах" 
-                />
-              </div>
-
-              <div className={styles["form-input"]}>
-                <label htmlFor="group-name">Группа*</label>
+                <label htmlFor="group">Группа*</label>
                 <br />
-                <Dropdown menu={menuProps.secondProp}>
+                <Dropdown menu={menuProps} >
                   <Button size="large">
                     <Space>
                       Группа

@@ -15,7 +15,7 @@ import { useState } from 'react';
 
 const DashBoard = ({ onLogoutCallback, view }) => {
 
-    const [selectedTab, setSelectedTab] = useState('groups');
+    const [selectedTab, setSelectedTab] = useState(view === "trainer" ? 'groups' : 'schedule');
 
     const handleTabClick = (tab) => {
         setSelectedTab(tab);
@@ -26,13 +26,15 @@ const DashBoard = ({ onLogoutCallback, view }) => {
             case 'groups':
                 return <GroupsContent />;
             case 'schedule':
-                return <ScheduleContent />;
+                console.log('case schedule')
+                return <ScheduleContent view={view} scheduleView={'schedule'}/>;
             case 'students':
                 return <StudentsContent />;
             case 'payments':
                 return <PaymentsContent />;
             case 'attendance':
-                return <AttendanceContent />
+                console.log('case attendance')
+                return <ScheduleContent view={view} scheduleView={'student-attendance'}/>;
             default: 
                 return null;
         }

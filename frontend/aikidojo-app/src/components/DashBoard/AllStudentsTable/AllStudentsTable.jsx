@@ -6,6 +6,7 @@ import ControlsPanel from "../ControlsPanel/ControlsPanel";
 import { useState, useEffect } from "react";
 import styles from "./AllStudentsTable.module.css";
 import { getApiResource } from "../../../utils/network";
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import { getToken } from "../../../utils/authToken";
 
 const AllStudentsTable = ({ onCreateStudentClick }) => {
@@ -28,7 +29,7 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
           full_name: student.first_name + ' ' +
                 student.middle_name + ' ' +
                 student.last_name,
-          photo: "http://localhost:8000/media/" + student.photo
+          photo: MEDIA_PATH + student.photo
         },
         parentContact: {
           name:
@@ -49,8 +50,8 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
 
   useEffect(() => {
     const fetchStudents = async () => {
-      const res = await getApiResource(
-        "http://localhost:8000/api/v1/trainer/students",
+      const res = await getApiResource( //API_URL + `trainer/students`
+        API_URL + `trainer/students`,
         {
           headers: {
             Authorization: `Token ${getToken()}`,
@@ -71,8 +72,8 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
     fetchStudents();
   }, []);
 
-  const handleDeleteStudent = async (id) => {
-    const res = await axios.delete(`http://localhost:8000/api/v1/trainer/students/${id}`, {
+  const handleDeleteStudent = async (id) => { // API_URL + `trainer/students/${id}`
+    const res = await axios.delete(API_URL + `trainer/students/${id}`, {
       headers: {
         Authorization: `Token ${getToken()}`,
       }

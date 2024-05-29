@@ -6,7 +6,7 @@ import AttendanceTable from '../AttendanceTable/AttendanceTable';
 import styles from './ScheduleContent.module.css';
 import TrainingsSchedule from '../TrainingsSchedule/TrainingsSchedule';
 
-const ScheduleContent = () => {
+const ScheduleContent = ({ view, scheduleView }) => {
     const [isCreatingTraining, setIsCreatingTraining] = useState(false);
     const [isPatchingAttendance, setIsPatchingAttendance] = useState(false);
     const [practiceId, setPracticeId] = useState(null);
@@ -31,17 +31,23 @@ const ScheduleContent = () => {
 
     return (
         <>  
-            { isCreatingTraining ? (
+
+        {view === "trainer" ? (
+             isCreatingTraining ? (
                 <CreateTrainingForm onBack={handleBackToTable} />
             ) : ( 
                 isPatchingAttendance ? (
                     <AttendanceTable onBack={handleBackToTable} practiceId={practiceId} practiceDate={practiceDate} groupId={groupId}/>
                 ) : (
                     <>
-                        <TrainingsSchedule onBack={handleBackToTable} onCreateTrainingClick={handleCreateTrainingClick} onPracticeClick={handleOnPracticeClick}/>  
+                        <TrainingsSchedule onBack={handleBackToTable} onCreateTrainingClick={handleCreateTrainingClick} onPracticeClick={handleOnPracticeClick} view={view} scheduleView={scheduleView}/>  
                     </>
                 )
-            )}     
+            )    
+        ) : (
+            <TrainingsSchedule onBack={handleBackToTable} onCreateTrainingClick={handleCreateTrainingClick} onPracticeClick={handleOnPracticeClick} view={view} scheduleView={scheduleView}/>
+        )}
+            
         </>
     )
 };

@@ -27,6 +27,14 @@
     gap: 16px;
 }
 
+.schedule-item.attended {
+    background-color: #D9F7BE;
+}
+
+.schedule-item.missed {
+    background-color: rgba(255, 163, 158, 1);
+}
+
 /* .schedule-item:hover {
     background-color: #f8f8f8;
 } */

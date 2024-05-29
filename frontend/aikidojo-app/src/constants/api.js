@@ -1,12 +1,10 @@
-export const BASE_URL = 'http://localhost:8000/api/v1/';
-
-export const USERS = 'users';
-export const ACCOUNTS = 'accounts';
-export const PARENTS = 'users';
-export const GROUPS = 'users';
-export const PRACTICES = 'users';
-export const PLACES = 'places';
-export const CHECKS = 'checks';
+export const PROTOCOL = 'http://';
+export const HOST = 'localhost:8000/';
+export const MEDIA = 'media/';
+export const MEDIA_PATH = PROTOCOL + HOST + MEDIA;
+export const BASE_URL = PROTOCOL + HOST
+export const API_URL = BASE_URL + 'api/v1/';
+export const AUTH_URL = BASE_URL + 'auth/';
 
 
 

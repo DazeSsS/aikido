@@ -4,6 +4,7 @@ import { Button, Input } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './RegistrationForm.module.css';
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL, AUTH_URL } from "../../../constants/api";
 import { postApiResource } from '../../../utils/network';
 
 const RegistrationForm = () => {
@@ -71,9 +72,8 @@ const RegistrationForm = () => {
     };
 
     const handleRegister = async (userData) => {
-        // const res = await axios.post('http://localhost:8000/api/v1/trainers', userData);
 
-        const res = await postApiResource('http://localhost:8000/api/v1/trainers', {body: userData});
+        const res = await postApiResource(API_URL + 'trainers', {body: userData});
 
         console.log(res)
 

@@ -6,6 +6,7 @@ import ControlsPanel from '../ControlsPanel/ControlsPanel';
 import { useState, useEffect } from 'react';
 import styles from './GroupsTable.module.css';
 import { getApiResource } from '../../../utils/network';
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import { getToken } from '../../../utils/authToken';
 
 
@@ -40,7 +41,7 @@ const GroupsTable = ({ onGroupClick, onCreateGroupClick }) => {
 
     useEffect(() => {
         const fetchGroups = async () => {
-          const res = await getApiResource('http://localhost:8000/api/v1/trainer/groups', {
+          const res = await getApiResource(API_URL + 'trainer/groups', {
             headers: {
               Authorization: `Token ${getToken()}`
             },
@@ -61,7 +62,7 @@ const GroupsTable = ({ onGroupClick, onCreateGroupClick }) => {
       console.log(id)
 
       console.log(groups)
-      const res = await axios.delete(`http://localhost:8000/api/v1/trainer/groups/${id}`, {
+      const res = await axios.delete(API_URL + `trainer/groups/${id}`, {
         headers: {
           Authorization: `Token ${getToken()}`
         }

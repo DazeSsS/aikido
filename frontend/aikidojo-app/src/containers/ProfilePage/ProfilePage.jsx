@@ -4,6 +4,7 @@ import StudentProfileForm from "../../components/ProfilePage/StudentProfileForm"
 import { Spin } from "antd";
 import { getApiResource } from "../../utils/network";
 import { getToken } from "../../utils/authToken";
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL, AUTH_URL } from "../../constants/api";
 import styles from "./ProfilePage.module.css";
 
 const ProfilePage = ({ view }) => {
@@ -43,7 +44,7 @@ const ProfilePage = ({ view }) => {
     setIsLoading(true);
 
     const fetchProfileData = async () => {
-      const res = await getApiResource("http://localhost:8000/api/v1/me", {
+      const res = await getApiResource(API_URL + "me", {
         headers: {
           Authorization: `Token ${getToken()}`,
         },
@@ -80,7 +81,7 @@ const ProfilePage = ({ view }) => {
             <div className={styles["profile__main-info__container"]}>
               <img
                 className={styles["profile__main-info__img"]}
-                src={"http://localhost:8000/media/" + profileData.photo}
+                src={MEDIA_PATH + profileData.photo}
                 alt=""
               />
               <div className={styles["profile__main-info-text__container"]}>

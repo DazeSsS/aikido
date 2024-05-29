@@ -5,7 +5,7 @@ import { Button, Input, Dropdown, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { getToken } from "../../../utils/authToken";
 import ControlsPanel from "../ControlsPanel/ControlsPanel";
-
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import styles from "./CreateStudentForm.module.css";
 
 const onMenuClick = (e) => {
@@ -116,8 +116,8 @@ const CreateStudentForm = ({ onBack }) => {
   const handleCreateStudent = async () => {
     console.log(formData);
 
-    const studentCreationRes = await axios.post(
-      'http://localhost:8000/api/v1/trainer/students', 
+    const studentCreationRes = await axios.post( // 
+      API_URL + 'trainer/students', 
       formData,
       {
         headers: {
@@ -130,7 +130,7 @@ const CreateStudentForm = ({ onBack }) => {
       formData.parent.childs = [studentCreationRes.data.id];
 
       const parentCreationRes = await axios.post(
-        'http://localhost:8000/api/v1/parents', 
+        API_URL + 'parents', 
         formData.parent,
         {
           headers: {

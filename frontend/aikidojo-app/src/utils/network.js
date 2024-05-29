@@ -33,3 +33,22 @@ export const postApiResource = async (url, options={}) => {
     }
 }
 
+export const patchApiResource = async (url, body, headers = {}) => {
+    try {
+        const res = await axios.patch(url, body, { headers });
+        console.log(options.body)
+        console.log(options.headers)
+        console.log(res, res.status, res.statusText)
+
+        if (res.status !== 200 && res.status !== 201) {
+            console.error('Could not post', res.status);
+            return false;
+        }
+
+        return res.data;
+    } catch (error) {
+        console.error('Could not post.', error.message);
+        return false;
+    }
+}
+

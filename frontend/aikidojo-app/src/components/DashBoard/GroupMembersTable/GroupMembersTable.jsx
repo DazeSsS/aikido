@@ -6,6 +6,7 @@ import ControlsPanel from '../ControlsPanel/ControlsPanel';
 import { useState, useEffect } from 'react';
 import { getApiResource } from '../../../utils/network';
 import styles from './GroupMembersTable.module.css';
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import { getToken } from '../../../utils/authToken';
 
 
@@ -23,7 +24,7 @@ const GroupMembersTable = ({ id, onBack, onAddNewMemberClick }) => {
               id: member.id,
               student: {
                 full_name: member.first_name + ' ' + member.middle_name + ' ' + member.last_name,
-                photo: "http://localhost:8000/media/" + member.photo
+                photo: MEDIA_PATH + member.photo
               },
               debt: member.account.debt,
               parentContact: {
@@ -43,7 +44,7 @@ const GroupMembersTable = ({ id, onBack, onAddNewMemberClick }) => {
 
     useEffect(() => {
         const fetchGroupMembers = async () => {
-            const res = await getApiResource(`http://localhost:8000/api/v1/trainer/groups/${id}/students`, {
+            const res = await getApiResource(API_URL + `trainer/groups/${id}/students`, {
                 headers: {
                     Authorization: `Token ${getToken()}`,
                 }
@@ -66,7 +67,7 @@ const GroupMembersTable = ({ id, onBack, onAddNewMemberClick }) => {
       const filteredGroupIds = filteredGroup.map(member => member.id);
 
       const res = await axios.patch(
-        `http://localhost:8000/api/v1/trainer/groups/${id}`,
+        API_URL + `trainer/groups/${id}`,
         {
           students: filteredGroupIds
         },

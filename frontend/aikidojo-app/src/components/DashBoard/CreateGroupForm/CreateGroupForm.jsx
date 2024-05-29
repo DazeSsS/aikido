@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button, Input, Dropdown, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import ControlsPanel from "../ControlsPanel/ControlsPanel";
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import { getToken } from "../../../utils/authToken";
 
 import styles from "./CreateGroupForm.module.css";
@@ -75,8 +76,8 @@ const CreateGroupForm = ({ onBack }) => {
   const handleCreateGroup = async () => {
     console.log(formData)
 
-    const res = await axios.post(
-      "http://localhost:8000/api/v1/trainer/groups",
+    const res = await axios.post( // API_URL + `trainer/groups`
+      API_URL + `trainer/groups`,
       formData,
       {
         headers: {

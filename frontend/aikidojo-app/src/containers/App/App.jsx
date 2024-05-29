@@ -16,9 +16,11 @@ import { getApiResource } from '../../utils/network';
 
 import userStore from '../../store/userStore';
 
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL, AUTH_URL } from "../../constants/api";
+
 import styles from './App.module.css'
 
-import { getToken } from '../../utils/authToken';
+import { deleteUserId, getToken, getUserId, setUserId } from '../../utils/authToken';
 
 const App = () => {
 
@@ -47,15 +49,23 @@ const App = () => {
 
   const nullifyUserRole = () => { // temporal solution
     setUserRole(null);
+    deleteUserId();
   };
 
   const updateUserRole = (role) => {
     setUserRole(role);
+    
+
+    console.log(getUserId())
   } 
+
+  // const setId = (id) => {
+  //   setUserId(id);
+  // }
   
   useEffect(() => {
     const fetchUserRole = async () => {
-      const res = await getApiResource("http://localhost:8000/api/v1/me", {
+      const res = await getApiResource(API_URL + "me", {
         headers: {
           Authorization: `Token ${getToken()}`,
         },
@@ -63,9 +73,14 @@ const App = () => {
 
       if (res) {
         const user = res;
-
+        console.log(user);
         updateUserRole(user.role);
-        console.log('63', user.role);
+        setUserId(user.id);
+        console.log(user.id)
+        console.log(getUserId())
+        // setUserId(user.id);
+        // console.log(getUserId())
+        // console.log('63', user.role);
       } else {
         console.log("No user data");
       }
@@ -77,7 +92,7 @@ const App = () => {
     } else {
       navigate('/login')
     }
-  }, []);
+  }, [userRole]);
 
 
   useEffect(() => {
@@ -123,7 +138,7 @@ const StudentApp = ({ onLogoutCallback }) => {
       <Routes>
         <Route path="/" element={<Navigate to="/student/profile" />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/dashboard" element={<DashBoard onLogoutCallback={onLogoutCallback}/>} />
+        <Route path="/dashboard" element={<DashBoard onLogoutCallback={onLogoutCallback} view={'student'}/>} />
       </Routes>
     </>
   );

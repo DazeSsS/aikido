@@ -6,6 +6,7 @@ import InfoTable from '../InfoTable/InfoTable';
 import ControlsPanel from '../ControlsPanel/ControlsPanel';
 import { getApiResource } from '../../../utils/network';
 import { getToken } from '../../../utils/authToken';
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import styles from './PaymentsTable.module.css';
 
 
@@ -27,12 +28,12 @@ const PaymentsTable = ({ }) => {
             full_name: payment.user.first_name + ' ' +
                        payment.user.middle_name + ' ' +   
                        payment.user.last_name, 
-            photo: "http://localhost:8000/media/" + payment.user.photo
+            photo: MEDIA_PATH + payment.user.photo
           },
           amount: payment.amount,
           debt: payment.account.debt,
           file: {
-            link: "http://localhost:8000/media/" + payment.file,
+            link: MEDIA_PATH + payment.file,
             date: payment.date,
           },
           balance: payment.account.balance
@@ -47,7 +48,7 @@ const PaymentsTable = ({ }) => {
 
     useEffect(() => {
         const fetchPayments = async () => {
-            const res = await getApiResource('http://localhost:8000/api/v1/trainer/checks', {
+            const res = await getApiResource(API_URL + 'trainer/checks', {
                 headers: {
                     Authorization: `Token ${getToken()}`,
                 }
@@ -72,7 +73,7 @@ const PaymentsTable = ({ }) => {
 
     const handleConfirmChecksClick = () => {
       const confirmChecks = async () => {
-        const res = await axios.post('http://localhost:8000/api/v1/trainer/checks/setConfirmed', 
+        const res = await axios.post(API_URL + 'trainer/checks/setConfirmed', 
           {
             confirmed: [...selectedRows]
           },

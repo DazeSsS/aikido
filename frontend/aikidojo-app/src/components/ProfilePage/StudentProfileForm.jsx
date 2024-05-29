@@ -3,6 +3,7 @@ import axios from "axios";
 import { Input, Button, Upload } from "antd";
 import { useState } from "react";
 import styles from "./StudentProfileForm.module.css";
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL, AUTH_URL } from "../../constants/api";
 import { getToken } from "../../utils/authToken";
 
 const StudentProfileForm = ({ view, data, onSubmition }) => {
@@ -50,7 +51,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
 
   const handleEditUser = async (editedData) => {
     const res = await axios.patch(
-      "http://localhost:8000/api/v1/me",
+      API_URL + "me",
       editedData,
       {
         headers: {
@@ -141,7 +142,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                 name="photo"
                 listType="picture-card"
                 style={{ display: "block" }}
-                action="http://localhost:8000/api/v1/me"
+                action={API_URL + 'me'}
                 headers={{Authorization: `Token ${getToken()}`}}
                 method="PATCH"
               >
@@ -248,7 +249,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                 name="photo"
                 listType="picture-card"
                 style={{ display: "block" }}
-                action="http://localhost:8000/api/v1/me"
+                action={API_URL + 'me'}
                 headers={{Authorization: `Token ${getToken()}`}}
                 method="PATCH"
               >

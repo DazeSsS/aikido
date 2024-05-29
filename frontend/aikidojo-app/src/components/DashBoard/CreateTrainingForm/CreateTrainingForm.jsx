@@ -4,6 +4,7 @@ import { Button, Input, Dropdown, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import ControlsPanel from "../ControlsPanel/ControlsPanel";
 import { getToken } from "../../../utils/authToken";
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import styles from "./CreateTrainingForm.module.css";
 
 
@@ -51,7 +52,7 @@ const CreateTrainingForm = ({ onBack }) => {
 
   const handleCreatePractice = async () => {
     const res = await axios.post(
-      "http://localhost:8000/api/v1/trainer/groups/1/practices",
+      API_URL + "trainer/groups/1/practices",
       {
         price: 300,
         date: "2024-05-21T12:00",

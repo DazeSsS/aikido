@@ -6,10 +6,10 @@ import userStore from '../../store/userStore';
 import styles from './Header.module.css';
 
 
-const Header = observer(() => {
-    const role = userStore.role;
+const Header = ({view}) => {
+    // const role = userStore.role;
     
-    // console.log(role);
+    console.log(view);
 
     return (
         <>
@@ -20,17 +20,17 @@ const Header = observer(() => {
                 </div>
                 <ul className={styles.header__list}>
                     {
-                        role === 'trainer' ? (
+                        view === 'trainer' ? (
                             <>
-                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/profile">Профиль</NavLink></li>
-                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/dashboard">Дэшборд</NavLink></li>
-                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/pricing">Стоимость тренировок</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/profile">Профиль</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard">Дэшборд</NavLink></li>
+                                {/* <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/pricing">Стоимость тренировок</NavLink></li> */}
                             </>
                         ) : (
                             <>
-                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/profile">Профиль</NavLink></li>
-                                <li><NavLink to="/trainer/dashboard">Расписание</NavLink></li>
-                                <li><NavLink to="/pricing">Стоимость тренировок</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/profile">Профиль</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/dashboard">Расписание</NavLink></li>
+                                {/* <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/pricing">Стоимость тренировок</NavLink></li> */}
                             </>
                         )
                     }
@@ -43,7 +43,7 @@ const Header = observer(() => {
             </div>
         </>
     )
-});
+}
 
 // Header.propTypes = {
 //     testProp: PropTypes.string

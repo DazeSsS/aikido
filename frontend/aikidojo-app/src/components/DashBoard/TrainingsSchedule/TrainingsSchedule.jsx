@@ -1,20 +1,28 @@
 import PropTypes from "prop-types";
 import axios from "axios";
+import classNames from "classnames";
 import dayjs from "dayjs";
 import "dayjs/locale/ru";
 import { Spin } from "antd";
 import ControlsPanel from "../ControlsPanel/ControlsPanel";
 import { useState, useEffect } from "react";
-import { getToken } from "../../../utils/authToken";
+import { getToken, getUserId } from "../../../utils/authToken";
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import styles from "./TrainingsSchedule.module.css";
 import { getApiResource } from "../../../utils/network";
 
 dayjs.locale("ru");
 
-const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick }) => {
+const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick, view, scheduleView }) => {
+  console.log(scheduleView)
   const [practices, setPractices] = useState(null);
   const [currentOffset, setCurrentOffset] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentScheduleView, setCurrentScheduleView] = useState('schedule');
+
+  useEffect(() => {
+      setCurrentScheduleView(scheduleView);
+  }, [scheduleView]);
 
   const formatPracticesData = (fetchedPracticesData) => {
     return fetchedPracticesData.reduce((datesDict, practice) => {
@@ -25,15 +33,19 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick }) =
       }
 
       datesDict[date].push(practice);
-      console.log(date);
+      
       return datesDict;
     }, {});
   };
 
   useEffect(() => {
+    setCurrentOffset(0)
+    setIsLoading(true)
+    console.log(scheduleView === 'student-attendance')
+
     const fetchPractices = async () => {
       const res = await getApiResource(
-        "http://localhost:8000/api/v1/trainer/practices",
+        API_URL + `${view}/practices?past=${scheduleView === 'student-attendance'}`,
         {
           headers: {
             Authorization: `Token ${getToken()}`,
@@ -42,7 +54,7 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick }) =
       );
 
       if (res) {
-        console.log(res);
+        
         setPractices(formatPracticesData(res));
         setTimeout(() => setIsLoading(false), 150);
       } else {
@@ -51,12 +63,12 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick }) =
     };
 
     fetchPractices();
-  }, []);
+  }, [scheduleView]);
 
   const handleGetPreviousWeek = async () => {
     const fetchPractices = async () => {
         const res = await getApiResource(
-          `http://localhost:8000/api/v1/trainer/practices?offset=${currentOffset - 1}`,
+          API_URL + `${view}/practices?offset=${currentOffset - 1}&past=${scheduleView === 'student-attendance'}`,
           {
             headers: {
               Authorization: `Token ${getToken()}`,
@@ -80,7 +92,7 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick }) =
   const handleGetNextWeek = async () => {
     const fetchPractices = async () => {
         const res = await getApiResource(
-          `http://localhost:8000/api/v1/trainer/practices?offset=${currentOffset + 1}`,
+          API_URL + `${view}/practices?offset=${currentOffset + 1}&past=${scheduleView === 'student-attendance'}`,
           {
             headers: {
               Authorization: `Token ${getToken()}`,
@@ -105,11 +117,13 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick }) =
     <>
         <ControlsPanel 
             title={'Текущее расписание'}
-            actionTitle={'Запланировать тренировку'}
+            actionTitle={view === "trainer" ? 'Запланировать тренировку' : null}
             onAction={onCreateTrainingClick}
             withArrows={true}
             onLeftArrowClick={handleGetPreviousWeek}
             onRightArrowClick={handleGetNextWeek}
+            leftArrowState={view === "student" && scheduleView === 'schedule' ? currentOffset : null}
+            rightArrowState={view === "student" && scheduleView === 'student-attendance' ? currentOffset : null}
         />
 
     
@@ -119,19 +133,31 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick }) =
           {/* {practices && practices.map(practice => <button key={practice.id} onClick={() => console.log(practice.id)}></button>)} */}
 
           {isLoading ? (
+            
             <div className={styles["spin__container"]}>
+              {/* {console.log('loading....')} */}
               <Spin size="large" />
             </div>
           ) : (
             Object.keys(practices).length === 0 ? (<h4 className={styles['empty-alert']}>Тренировок на эту неделю нет</h4>) :
             practices &&
             Object.entries(practices).map(([date, dayPractices]) => (
+              
               <li key={date} className={styles["schedule-item-li"]}>
-                <div className={styles["schedule-item"]}>
+                {console.log(currentScheduleView)}
+                <div 
+                  className={currentScheduleView === "student-attendance" ? 
+                    classNames(styles["schedule-item"], {
+                      [styles['attended']]: dayPractices.every(practice => practice.attended.includes(Number(getUserId()))), 
+                      [styles['missed']]: !dayPractices.every(practice => practice.attended.includes(Number(getUserId())))
+                    }) 
+                    : styles["schedule-item"]}
+                >
+                  
                   <h1>{dayjs(date).format("dddd, DD.MM")}</h1>
 
                   {dayPractices.map((practice) => (
-                    <div key={practice.group.id} onClick={() => onPracticeClick(practice.id, dayjs(date).format("DD.MM.YYYY"), practice.group.id)} className={styles["schedule-item-practice__container"]}>
+                    <div key={practice.id} onClick={() => onPracticeClick(practice.id, dayjs(date).format("DD.MM.YYYY"), practice.group.id)} className={styles["schedule-item-practice__container"]}>
                       <div className={styles["practice-title"]}>
                         <h3>{practice.group.title}</h3>
                         <span>Общая тренировка</span>

@@ -5,8 +5,9 @@ import axios from 'axios';
 import { Input, Button } from 'antd';
 import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { setToken, getToken } from '../../../utils/authToken';
+import { setToken, getToken, setUserId } from '../../../utils/authToken';
 import { getApiResource, postApiResource } from '../../../utils/network';
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL, AUTH_URL } from "../../../constants/api";
 import styles from './LoginForm.module.css';
 
 const LoginForm = ({ onLogin }) => {
@@ -57,7 +58,7 @@ const LoginForm = ({ onLogin }) => {
     };
 
     const handleLogin = async (userData) => {
-        const res = await axios.post('http://localhost:8000/auth/token/login', userData);
+        const res = await axios.post(AUTH_URL + 'token/login', userData);
 
 
         // const res = await postApiResource('http://localhost:8000/auth/token/login', {body: userData});
@@ -67,17 +68,19 @@ const LoginForm = ({ onLogin }) => {
           const token = data['auth_token'];
           console.log(token)
           setToken(token);
+          
         }
 
         const fetchUserRole = async () => {
             try {
-              const res = await getApiResource('http://localhost:8000/api/v1/me', {
+              const res = await getApiResource(API_URL + 'me', {
                 headers: {
                   'Authorization': `Token ${getToken()}`
                 }
               });
               if (res) {
                 const user = res;
+                console.log(user.role);
                 onLogin(user.role);
                 // console.log(userRole)
               } else {

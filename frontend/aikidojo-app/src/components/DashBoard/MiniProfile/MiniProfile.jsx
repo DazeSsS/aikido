@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 
 import styles from './MiniProfile.module.css';
 import { getApiResource } from '../../../utils/network';
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import { getToken } from '../../../utils/authToken';
 
 const MiniProfile = ({ handleLogout }) => {
@@ -14,7 +15,7 @@ const MiniProfile = ({ handleLogout }) => {
 
     useEffect(() => {
         const fetchMiniProfileData = async () => {
-            const res = await getApiResource('http://localhost:8000/api/v1/me', {
+            const res = await getApiResource(API_URL + 'me', {
                 headers: {
                     Authorization: `Token ${getToken()}`
                 },
@@ -26,6 +27,7 @@ const MiniProfile = ({ handleLogout }) => {
                 const formattedMiniProfileData = {
                     fullname: `${res.first_name} ${res.last_name}`,
                     email: res.email,
+                    photo: res.photo
                 }
 
                 setMiniProfileData(formattedMiniProfileData);
@@ -48,7 +50,7 @@ const MiniProfile = ({ handleLogout }) => {
           <>
             <img
               className={styles["user-profile-avatar"]}
-              src="/user-sidebar-avatar.png"
+              src={MEDIA_PATH + miniProfileData.photo}
               alt=""
             />
             <div className={styles["profile-name__container"]}>

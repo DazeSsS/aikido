@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { getApiResource } from "../../../utils/network";
 import { getToken } from "../../../utils/authToken";
 import { mockGroupMembersData } from "../../../mock/mockData";
+import { PROTOCOL, HOST, MEDIA, API_URL } from "../../../constants/api";
 import styles from "./AllGroupsStudentsTable.module.css";
 
 const AllGroupsStudentsTable = ({ onBack, id }) => {
@@ -29,7 +30,7 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
           full_name: student.first_name + ' ' +
                 student.middle_name + ' ' +
                 student.last_name,
-          photo: "http://localhost:8000/media/" + student.photo
+          photo: PROTOCOL + HOST + MEDIA + student.photo
         },
         parentContact: {
           name:
@@ -58,8 +59,8 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
 
 
   useEffect(() => {
-    const fetchCurrentStudents = async () => {
-      const res = await getApiResource(`http://localhost:8000/api/v1/trainer/groups/${id}/students`, {
+    const fetchCurrentStudents = async () => { 
+      const res = await getApiResource(API_URL + `trainer/groups/${id}/students`, {
         headers: {
           Authorization: `Token ${getToken()}`,
         }
@@ -78,8 +79,8 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
   useEffect(() => {
     if (currentGroupStudents !== null) {
       const fetchStudents = async () => {
-        const res = await getApiResource(
-          "http://localhost:8000/api/v1/trainer/students",
+        const res = await getApiResource( 
+        API_URL + `trainer/students`,
           {
             headers: {
               Authorization: `Token ${getToken()}`,
@@ -109,8 +110,8 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
   };
 
   const handlePatchGroupClick = () => {
-    const addNewMembersToGroup = async () => {
-      const res = await axios.patch(`http://localhost:8000/api/v1/trainer/groups/${id}`, 
+    const addNewMembersToGroup = async () => { 
+      const res = await axios.patch(API_URL + `trainer/groups/${id}`, 
         {
           students: [...currentGroupStudents, ...selectedRows]
         }, 

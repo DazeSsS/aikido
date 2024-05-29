@@ -6,6 +6,7 @@ import ControlsPanel from "../ControlsPanel/ControlsPanel";
 import { useState, useEffect } from "react";
 import styles from "./AttendanceTable.module.css";
 import { getApiResource } from "../../../utils/network";
+import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
 import { getToken } from "../../../utils/authToken";
 
 const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
@@ -31,7 +32,7 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
           full_name: student.first_name + ' ' +
                 student.middle_name + ' ' +
                 student.last_name,
-          photo: "http://localhost:8000/media/" + student.photo
+          photo: MEDIA_PATH + student.photo
         },
         parentContact: {
           name:
@@ -58,8 +59,8 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
   };
 
     useEffect(() => {
-        const fetchPracticeInfo = async () => { 
-            const res = await getApiResource(`http://localhost:8000/api/v1/trainer/practices/${practiceId}`, {
+        const fetchPracticeInfo = async () => { // API_URL + `trainer/practices/${practiceId}`
+            const res = await getApiResource(API_URL + `trainer/practices/${practiceId}`, {
                 headers: {
                     Authorization: `Token ${getToken()}`,
                 }
@@ -79,8 +80,8 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
 
     useEffect(() => {
         if (attendedStudents !== null) {
-            const fetchGroupMembers = async () => {
-                const res = await getApiResource(`http://localhost:8000/api/v1/trainer/groups/${groupId}/students`, {
+            const fetchGroupMembers = async () => { // API_URL + `trainer/groups/${groupId}/students`
+                const res = await getApiResource(API_URL + `trainer/groups/${groupId}/students`, {
                     headers: {
                         Authorization: `Token ${getToken()}`,
                     }
@@ -111,8 +112,8 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
   const handlePatchAttended = async () => {
     const attendedResult = [...attendedStudents, ...selectedRows];
 
-    const res = await axios.patch(
-        `http://localhost:8000/api/v1/trainer/practices/${practiceId}`,
+    const res = await axios.patch( // API_URL + `trainer/practices/${practiceId}`
+      API_URL + `trainer/practices/${practiceId}`,
         {
             attended: attendedResult
         }, 

@@ -12,26 +12,6 @@ import styles from './PaymentsContent.module.css';
 
 const PaymentsContent = () => {
 
-    // const handleAddNewMembersClick = () => {
-    //     setIsAddingMembers(true);
-    //     setIsGroupSelected(false);
-    //     console.log('1')
-    // };
-
-    // const handleGroupClick = (id) => {
-    //     setIsGroupSelected(true);
-    //     setSelectedGroupId(id);
-    // };
-
-    // const handleCreateGroupClick = () => {
-    //     setIsCreatingGroup(true);
-    // };
-
-    // const handleBackToTable = () => {
-    //     setIsCreatingStudent(false);
-    // }
-
-
     return (
         <>  
             <PaymentsTable />

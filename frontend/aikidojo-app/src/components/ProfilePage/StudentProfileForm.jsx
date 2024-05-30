@@ -18,6 +18,38 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
     photo: data?.photo
   });
 
+  const [fileList, setFileList] = useState([]);
+
+  const handleUpload = async () => {
+  
+    const checkData = {
+      file: formData.newfile,
+      amount: formData.amount
+    };
+
+    const formData2 = new FormData();
+    formData2.append('file', formData.newfile);
+    formData2.append('amount', formData.amount);
+
+    console.log()
+    const res = await axios.post(
+      API_URL + "student/checks",
+      formData2,
+      {
+        headers: {
+          Authorization: `Token ${getToken()}`,
+        },
+      }
+    );
+
+    if (res) {
+      console.log('succesffuly added check')
+    } else {
+      console.log('nope./')
+    }
+
+  }
+
   const handleChange = async (e) => {
     const { id, value } = e.target;
 
@@ -153,15 +185,29 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
         ) : (
           <>
             <div className={styles["add-check__input"]}>
-              <label htmlFor="payment-sum">
+              <label htmlFor="amount">
                 Задолженность: {data.debt} руб.
               </label>
               <Input
-                id="payment-sum"
+                id="amount"
                 placeholder="Введите сумму"
                 size="large"
+                onChange={handleChange}
               />
-              <Button type="primary" size="large" block>
+              <div className={styles["check-upload__container"]}>
+              <Upload
+                name="photo"
+                listType="picture-card"
+                style={{ display: "block" }}
+                // action={API_URL + 'me'}
+                // headers={{Authorization: `Token ${getToken()}`}}
+                // method="PATCH"
+                beforeUpload={(file) => {setFormData({...formData, newfile: file}); return false; }}
+              >
+                Загрузить чек
+              </Upload>
+              </div>
+              <Button type="primary" size="large" block onClick={handleUpload}>
                 Отправить чек об оплате
               </Button>
             </div>

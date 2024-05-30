@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 
 
@@ -15,8 +15,8 @@ class Practice(models.Model):
         return f'{self.date}'
 
 
-@receiver(post_save, sender=Practice)
-def calculate_students_balance(sender, instance, created, **kwargs):
+@receiver(m2m_changed, sender=Practice.attended.through)
+def calculate_students_balance(sender, instance, action, **kwargs):
     students = instance.attended.all().select_related('account')
     for student in students:
         student.account.calculate_balance()

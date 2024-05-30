@@ -28,17 +28,16 @@ class PaymentAccount(models.Model):
             free_practices = self.user.trials.all()
             visited_practices = self.user.practices.all().difference(free_practices)
         else:
-            free_practices = self.user.trials.filter(date__gte=self.last_payment)
-            visited_practices = self.user.practices.filter(date__gte=self.last_payment).difference(free_practices)
+            free_practices = self.user.trials.filter(date__gt=self.last_payment)
+            visited_practices = self.user.practices.filter(date__gt=self.last_payment).difference(free_practices)
         
         total_price = sum(practice.price for practice in visited_practices)
-        if total_price is not None:
+        if total_price != 0:
             self.debt += total_price
-            self.last_payment = datetime.now()
+            self.last_payment = visited_practices.last().date
 
         self.save()
 
     def pay(self, amount):
         self.balance += amount
-        self.last_payment = datetime.now()
         self.save()

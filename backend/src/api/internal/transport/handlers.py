@@ -60,7 +60,7 @@ def calculate_scope(scope, offset):
 
 class CreateTrainerView(CreateAPIView):
     serializer_class = UserSerializer
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()

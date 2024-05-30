@@ -86,6 +86,8 @@ const PaymentsTable = ({ }) => {
 
         if (res) {
           console.log('check was confirmed')
+
+          setPayments(payments.filter(payment => !selectedRows.includes(payment.id)))
         } else {
           console.log('check wasnt confrimed')
         }

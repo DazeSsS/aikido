@@ -92,7 +92,7 @@ const paymentsColumns = [
 
 
 
-const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick, onDeleteClick, withTicks, onRowSelectionChange }) => {
+const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick, onDeleteClick, withTicks, rowsPreselected, onRowSelectionChange }) => {
 
     const determineColumnsLayout = useMemo(() => {
         let columns = [];
@@ -143,9 +143,13 @@ const InfoTable = ({ layout, data, enableRowClick, onRowClick, enableDeleteClick
 
     if (withTicks) {
         tableProps.rowSelection = {
-            onChange: onRowSelectionChange,
+            type: 'checkbox', // Указание типа выбора строк
+            onChange: onRowSelectionChange, // Функция обратного вызова при изменении выбранных строк
+            selectedRowKeys: rowsPreselected // Выбранные строки
         };
     }
+
+    
 
     return (
         <>

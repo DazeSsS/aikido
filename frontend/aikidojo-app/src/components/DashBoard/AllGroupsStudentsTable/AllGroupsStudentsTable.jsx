@@ -124,6 +124,7 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
 
       if (res) {
         console.log('new members successfully added')
+        onBack();
       } else {
         console.log('error')
       }

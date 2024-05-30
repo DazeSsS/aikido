@@ -10,7 +10,6 @@ import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/a
 import { getToken } from "../../../utils/authToken";
 
 const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
-//   console.log(practiceId)
   const [students, setStudents] = useState(null);
   const [selectedRows, setSelectedRows] = useState(null);
   const [attendedStudents, setAttendedStudents] = useState(null);
@@ -19,10 +18,8 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
   const formatStudentsData = (fetchedStudentsData) => {
     const formattedStudentsData = [];
 
-    console.log('fetched: ', fetchedStudentsData);
-
     for (const student of fetchedStudentsData) {
-      console.log(student.account.debt)
+      
 
       const studentData = {
         key: student.id,
@@ -47,7 +44,7 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
 
       formattedStudentsData.push(studentData);
     }
-    console.log('ffffstudentData', formattedStudentsData)
+    
     return formattedStudentsData;
   };
 
@@ -58,6 +55,8 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
     }, []);
   };
 
+  const [test, setTest] = useState(null);
+
     useEffect(() => {
         const fetchPracticeInfo = async () => { // API_URL + `trainer/practices/${practiceId}`
             const res = await getApiResource(API_URL + `trainer/practices/${practiceId}`, {
@@ -67,7 +66,10 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
             });
     
             if (res) {
+                console.log(res)
                 setAttendedStudents(formatAttendedStudents(res.attended));
+                setTest(formatAttendedStudents(res.attended))
+                console.log(formatAttendedStudents(res.attended))
             } else {
                 console.log('что то не так')
             }
@@ -77,7 +79,7 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
         fetchPracticeInfo();
     }, []);
 
-
+    
     useEffect(() => {
         if (attendedStudents !== null) {
             const fetchGroupMembers = async () => { // API_URL + `trainer/groups/${groupId}/students`
@@ -89,11 +91,7 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
     
                 if (res) {
                     const groupMembers = formatStudentsData(res);
-                    console.log(groupMembers)
-                    console.log(attendedStudents)
-                    const filteredStudents = groupMembers.filter(student => !attendedStudents.includes(student.id));
-                    console.log(filteredStudents)
-                    setStudents(filteredStudents)
+                    setStudents(groupMembers)
                     setTimeout(() => setIsLoading(false), 150)
                 } else {
                     console.log('что то не так')
@@ -105,12 +103,13 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
     }, [attendedStudents]);
 
   const handleRowSelectionChange = (ids) => {
-    console.log(ids);
-    setSelectedRows(ids);
+    setSelectedRows([...ids, ...attendedStudents]);
+    setTest(ids)
   }
 
   const handlePatchAttended = async () => {
-    const attendedResult = [...attendedStudents, ...selectedRows];
+    
+    const attendedResult = [...test];
 
     const res = await axios.patch( // API_URL + `trainer/practices/${practiceId}`
       API_URL + `trainer/practices/${practiceId}`,
@@ -125,12 +124,15 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
     )
 
     if (res) {
+        console.log(res)
         console.log('success');
         onBack();
     } else {
         console.log('error')
     }
   }
+
+  
 
   return (
     <>
@@ -154,6 +156,7 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
             onRowClick={null}
             enableDeleteClick={false}
             withTicks={true}
+            rowsPreselected={test}
             onRowSelectionChange={handleRowSelectionChange}
             onDeleteClick={null}
           />

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Input, Dropdown, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import ControlsPanel from "../ControlsPanel/ControlsPanel";
@@ -28,7 +28,41 @@ const formatPlacesData = (fetchedPlacesData) => {
   return formattedPlacesData;
 } 
 
+
+
+const CreateGroupForm = ({ onBack }) => {
+
 let addressItems;
+
+
+const handleDropdownChange = async (e) => {
+  // const { label } = e.target;
+  console.log(addressItems[+e.key - 1]);
+
+  setFormData({
+    ...formData,
+    place: +e.key
+  });
+}
+
+const handleInputChange = async (e) => {
+  const { id, value } = e.target;
+
+  console.log(id, value)
+
+  setFormData({
+    ...formData,
+    [id]: value 
+  });
+}
+
+
+
+const menuProps = {
+  items: addressItems,
+  selectable: true,
+  onClick: handleDropdownChange
+}
 
 const getPlaces = async () => {
   const res = await axios.get(
@@ -44,6 +78,8 @@ const getPlaces = async () => {
     console.log(res.data)
     addressItems = formatPlacesData(res.data);
 
+    menuProps.items = addressItems;
+
     console.log(addressItems);
     
   } else {
@@ -51,42 +87,16 @@ const getPlaces = async () => {
   }
 };
 
-
-
-getPlaces();
-
-const CreateGroupForm = ({ onBack }) => {
+  useEffect(() => {getPlaces()}, []);
+  
+  
 
   const [formData, setFormData] = useState(null);
 
-  const handleInputChange = async (e) => {
-    const { id, value } = e.target;
+  
 
-    console.log(id, value)
+  
 
-    setFormData({
-      ...formData,
-      [id]: value 
-    });
-  }
-
-  const handleDropdownChange = async (e) => {
-    // const { label } = e.target;
-    console.log(addressItems[+e.key - 1]);
-
-    setFormData({
-      ...formData,
-      place: +e.key
-    });
-  }
-
-  const menuProps = {
-    secondProp: {
-      items: addressItems,
-      selectable: true,
-      onClick: handleDropdownChange
-    },
-  };
 
   const handleCreateGroup = async () => {
     console.log(formData)
@@ -137,7 +147,7 @@ const CreateGroupForm = ({ onBack }) => {
               <div className={styles["form-input"]}>
                 <label htmlFor="address">Место проведения*</label>
                 <br />
-                <Dropdown id="address" menu={menuProps.secondProp}>
+                <Dropdown id="address" menu={menuProps}>
                   <Button size="large">
                     <Space>
                       Адрес

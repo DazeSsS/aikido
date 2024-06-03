@@ -137,7 +137,7 @@ const StudentApp = ({ onLogoutCallback }) => {
       <Header />
       <Routes>
         <Route path="/" element={<Navigate to="/student/profile" />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage view={'student'}/>} />
         <Route path="/dashboard" element={<DashBoard onLogoutCallback={onLogoutCallback} view={'student'}/>} />
       </Routes>
     </>

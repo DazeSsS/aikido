@@ -37,6 +37,8 @@ const ProfilePage = ({ view }) => {
       parent_contact: view === 'student' &&  fetchedProfileData.parents?.length !== 0 ? fetchedProfileData.parents[0].contact : 'Нет данных',
     };
 
+    console.log(formattedProfileData)
+
     return formattedProfileData;
   };
 

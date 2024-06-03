@@ -14,7 +14,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
     gender: data.gender,
     parent_name: data.parent_name,
     parent_contact: data.parent_contact,
-    contact: data.contact,
+    contact: data.phone_number,
     photo: data?.photo
   });
 
@@ -69,9 +69,14 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
       middle_name: formData.full_name?.split(" ")[1],
       last_name: formData.full_name?.split(" ")[2],
       date_of_birth: formData.date_of_birth,
+      email: formData.email,
       gender: formData.gender === "М" ? "male" : "female",
-      parent_name: formData.parent_name,
-      contact: formData.contact,
+      parents: [
+        {
+          first_name:	"Micheal",
+        }
+      ],
+      phone_number: formData.contact,
       parent_contact: formData.parent_contact,
     };
 

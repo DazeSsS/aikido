@@ -14,110 +14,85 @@ const onMenuClick = (e) => {
 };
 
 const formatPlacesData = (fetchedPlacesData) => {
-  const formattedPlacesData = [];
-
-  for (const place of fetchedPlacesData) {
-    const placeItem = {
-      key: place.id,
-      label: place.address,
-    };
-
-    formattedPlacesData.push(placeItem);
-  }
-
-  return formattedPlacesData;
-} 
-
-
-
-const CreateGroupForm = ({ onBack }) => {
-
-let addressItems;
-
-
-const handleDropdownChange = async (e) => {
-  // const { label } = e.target;
-  console.log(addressItems[+e.key - 1]);
-
-  setFormData({
-    ...formData,
-    place: +e.key
-  });
-}
-
-const handleInputChange = async (e) => {
-  const { id, value } = e.target;
-
-  console.log(id, value)
-
-  setFormData({
-    ...formData,
-    [id]: value 
-  });
-}
-
-
-
-const menuProps = {
-  items: addressItems,
-  selectable: true,
-  onClick: handleDropdownChange
-}
-
-const getPlaces = async () => {
-  const res = await axios.get(
-    API_URL + `trainer/places`,
-    {
-      headers: {
-        Authorization: `Token ${getToken()}`
-      }
-    }
-  );
-
-  if (res) {
-    console.log(res.data)
-    addressItems = formatPlacesData(res.data);
-
-    menuProps.items = addressItems;
-
-    console.log(addressItems);
-    
-  } else {
-    console.log('ERROR FETCHING PLACES');
-  }
+  return fetchedPlacesData.map((place) => ({
+    key: place.id.toString(),
+    label: place.address,
+  }));
 };
 
-  useEffect(() => {getPlaces()}, []);
-  
-  
+const CreateGroupForm = ({ onBack }) => {
+  const [addressItems, setAddressItems] = useState([]);
+  const [formData, setFormData] = useState({});
 
-  const [formData, setFormData] = useState(null);
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const res = await axios.get(API_URL + `trainer/places`, {
+          headers: {
+            Authorization: `Token ${getToken()}`,
+          },
+        });
 
-  
+        if (res) {
+          const formattedPlaces = formatPlacesData(res.data);
+          setAddressItems(formattedPlaces);
+        } else {
+          console.log("ERROR FETCHING PLACES");
+        }
+      } catch (error) {
+        console.error("Failed to fetch places", error);
+      }
+    };
 
-  
+    fetchPlaces();
+  }, []);
 
+  const handleDropdownChange = (e) => {
+    console.log(addressItems[+e.key - 1]);
+
+    setFormData({
+      ...formData,
+      place: +e.key,
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+
+    console.log(id, value);
+
+    setFormData({
+      ...formData,
+      [id]: value,
+    });
+  };
 
   const handleCreateGroup = async () => {
-    console.log(formData)
+    console.log(formData);
 
-    const res = await axios.post( // API_URL + `trainer/groups`
-      API_URL + `trainer/groups`,
-      formData,
-      {
+    try {
+      const res = await axios.post(API_URL + `trainer/groups`, formData, {
         headers: {
           Authorization: `Token ${getToken()}`,
         },
-      }
-    );
+      });
 
-    if (res) {
-      console.log('Группа успешно создана');
-      onBack();
-    } else {
-      console.log('Группу создать не получилось')
+      if (res) {
+        console.log("Группа успешно создана");
+        onBack();
+      } else {
+        console.log("Группу создать не получилось");
+      }
+    } catch (error) {
+      console.error("Failed to create group", error);
     }
-  }
+  };
+
+  const menuProps = {
+    items: addressItems,
+    selectable: true,
+    onClick: handleDropdownChange,
+  };
 
   return (
     <>
@@ -129,17 +104,16 @@ const getPlaces = async () => {
         labelData={null}
       />
 
-      {/* // форма */}
       <div className={styles["create-group-form__container"]}>
         <form>
           <div className={styles["create-group-form__container__inner"]}>
             <div className={styles["form-input__row"]}>
               <div className={styles["form-input"]}>
                 <label htmlFor="title">Название*</label>
-                <Input 
-                  id="title" 
-                  size="large" 
-                  placeholder="Группа 1" 
+                <Input
+                  id="title"
+                  size="large"
+                  placeholder="Группа 1"
                   onChange={handleInputChange}
                 />
               </div>
@@ -161,7 +135,9 @@ const getPlaces = async () => {
 
           <div className={styles["form-buttons__container"]}>
             <div className={styles["form-buttons__container__inner"]}>
-              <Button size="large">Отменить</Button>
+              <Button size="large" onClick={onBack}>
+                Отменить
+              </Button>
               <Button size="large" type="primary" onClick={handleCreateGroup}>
                 Создать
               </Button>
@@ -174,7 +150,7 @@ const getPlaces = async () => {
 };
 
 CreateGroupForm.propTypes = {
-  testProp: PropTypes.string,
+  onBack: PropTypes.func.isRequired,
 };
 
 export default CreateGroupForm;

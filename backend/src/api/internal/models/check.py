@@ -18,7 +18,7 @@ class Check(models.Model):
     confirmed = models.BooleanField(default=False)
 
     def __str__(self):
-        if account is not None:
+        if self.account is not None:
             string = f'{self.account.user} {self.date}'
         else:
             string = f'{self.date}'

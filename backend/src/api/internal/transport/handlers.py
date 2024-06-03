@@ -207,6 +207,9 @@ class MyPracticesView(ListAPIView):
             scope_end = datetime.now()
 
         group = user.get_my_group()
+        if group is None:
+            return Practice.objects.none()
+            
         practices = group.practices.filter(date__gte=scope_start, date__lte=scope_end)
 
         return practices.order_by('date')

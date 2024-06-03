@@ -13,27 +13,47 @@ const onMenuClick = (e) => {
   console.log("click", e);
 };
 
-const items = [
-  {
-    key: "1",
-    label: "Врослая",
-  },
-  {
-    key: "2",
-    label: "Детская",
-  },
-];
+const formatPlacesData = (fetchedPlacesData) => {
+  const formattedPlacesData = [];
 
-const addressItems = [
-  {
-    key: "1",
-    label: "Денисова-Уральского 5а, зал 1",
-  },
-  {
-    key: "2",
-    label: "Денисова-Уральского 7, главный зал",
-  },
-];
+  for (const place of fetchedPlacesData) {
+    const placeItem = {
+      key: place.id,
+      label: place.address,
+    };
+
+    formattedPlacesData.push(placeItem);
+  }
+
+  return formattedPlacesData;
+} 
+
+let addressItems;
+
+const getPlaces = async () => {
+  const res = await axios.get(
+    API_URL + `trainer/places`,
+    {
+      headers: {
+        Authorization: `Token ${getToken()}`
+      }
+    }
+  );
+
+  if (res) {
+    console.log(res.data)
+    addressItems = formatPlacesData(res.data);
+
+    console.log(addressItems);
+    
+  } else {
+    console.log('ERROR FETCHING PLACES');
+  }
+};
+
+
+
+getPlaces();
 
 const CreateGroupForm = ({ onBack }) => {
 
@@ -61,11 +81,6 @@ const CreateGroupForm = ({ onBack }) => {
   }
 
   const menuProps = {
-    firstProp: {
-      items,
-      selectable: true,
-      onClick: handleDropdownChange
-    },
     secondProp: {
       items: addressItems,
       selectable: true,

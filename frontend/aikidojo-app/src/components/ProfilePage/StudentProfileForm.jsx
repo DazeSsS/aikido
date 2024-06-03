@@ -12,11 +12,19 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
     email: data.email,
     date_of_birth: data.date_of_birth,
     gender: data.gender,
-    parent_name: data.parent_name,
-    parent_contact: data.parent_contact,
     contact: data.phone_number,
     photo: data?.photo
   });
+
+
+  /// временное
+  const [additionalFormData, setAdditionalFormData] = useState({
+    
+    parent_name: data.parent_name,
+    parent_contact: data.parent_contact,
+  
+  });
+  /// временное
 
   const [fileList, setFileList] = useState([]);
 
@@ -44,6 +52,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
 
     if (res) {
       console.log('succesffuly added check')
+      onSubmition();
     } else {
       console.log('nope./')
     }
@@ -65,9 +74,9 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
     e.preventDefault();
 
     const editedData = {
-      first_name: formData.full_name?.split(" ")[0],
-      middle_name: formData.full_name?.split(" ")[1],
-      last_name: formData.full_name?.split(" ")[2],
+      first_name: formData.full_name?.split(" ")[1],
+      middle_name: formData.full_name?.split(" ")[2],
+      last_name: formData.full_name?.split(" ")[0],
       date_of_birth: formData.date_of_birth,
       email: formData.email,
       gender: formData.gender === "М" ? "male" : "female",
@@ -140,7 +149,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                   <label htmlFor="date_of_birth">Дата рождения</label>
                   <Input
                     id="date_of_birth"
-                    placeholder={data.date_of_birth}
+                    placeholder={data.date_of_birth || "гггг-мм-дд"}
                     size="large"
                     onChange={handleChange}
                   />
@@ -164,7 +173,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                   <label htmlFor="contact">Номер телефона</label>
                   <Input 
                     id="contact" 
-                    placeholder={data.contact} 
+                    placeholder={data.contact || "Нет данных"}  
                     size="large" 
                     onChange={handleChange}
                   />
@@ -270,9 +279,9 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
             <div className={styles["user-parent-info__container"]}>
               <div className={styles["user-info-row__container"]}>
                 <div className={styles["user-info-row__input"]}>
-                  <label htmlFor="parent_name">ФИО родителя</label>
+                  <label htmlFor="parent_full_name">ФИО родителя</label>
                   <Input
-                    id="parent_name"
+                    id="parent_full_name"
                     placeholder={data.parent_name}
                     size="large"
                     onChange={handleChange}

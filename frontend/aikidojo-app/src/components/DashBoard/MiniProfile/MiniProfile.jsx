@@ -54,7 +54,7 @@ const MiniProfile = ({ handleLogout }) => {
               alt=""
             />
             <div className={styles["profile-name__container"]}>
-              <h2>{miniProfileData.fullname}</h2>
+              <h2>{miniProfileData.fullname.length >= 2 ? miniProfileData.fullname.slice() : miniProfileData.fullname}</h2>
               <span>{miniProfileData.email}</span>
             </div>
 

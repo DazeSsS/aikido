@@ -15,11 +15,11 @@ const ProfilePage = ({ view }) => {
   const formatProfileData = (fetchedProfileData) => {
     const formattedProfileData = {
       fullname:
+        fetchedProfileData.last_name +
+        " " +
         fetchedProfileData.first_name +
         " " +
-        fetchedProfileData.middle_name +
-        " " +
-        fetchedProfileData.last_name,
+        fetchedProfileData.middle_name,
       email: fetchedProfileData.email,
       contact: fetchedProfileData?.phone_number || "Нет данных",
       role: fetchedProfileData.role,

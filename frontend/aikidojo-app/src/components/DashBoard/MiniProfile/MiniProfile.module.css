@@ -7,17 +7,27 @@
 }
 
 .profile-name__container {
+    margin-left: 10px;
     margin-right: 46px;
+    
+    width: 160px;
 }
 
 .profile-name__container h2 {
     font-size: 14px;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .profile-name__container span {
     font-weight: 400;
     font-size: 14px;
+    white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+display: block;
 }
 
 .logout-button {

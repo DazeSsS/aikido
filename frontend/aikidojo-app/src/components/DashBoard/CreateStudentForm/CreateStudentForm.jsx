@@ -189,7 +189,7 @@ const CreateStudentForm = ({ onBack }) => {
                 <Input 
                   id="email" 
                   size="large" 
-                  placeholder="Input"
+                  placeholder="example@gmail.com"
                   onChange={handleChange} 
                 />
               </div>

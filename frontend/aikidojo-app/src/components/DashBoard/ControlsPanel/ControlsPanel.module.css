@@ -69,4 +69,10 @@
 .title__container {
     display: flex;
     gap: 20px;
+    /* width: 430px;    */
+}
+
+/* потом уберу */
+.title__container h3 { 
+    width: 430px; 
 }

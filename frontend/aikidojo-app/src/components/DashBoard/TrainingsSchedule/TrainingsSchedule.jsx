@@ -20,6 +20,9 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick, vie
   const [isLoading, setIsLoading] = useState(true);
   const [currentScheduleView, setCurrentScheduleView] = useState('schedule');
 
+  const startOfWeek = dayjs().startOf('week').add(currentOffset, 'week').format('DD.MM.YYYY');
+  const endOfWeek = dayjs().endOf('week').add(currentOffset, 'week').format('DD.MM.YYYY');
+
   useEffect(() => {
       setCurrentScheduleView(scheduleView);
   }, [scheduleView]);
@@ -116,7 +119,7 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick, vie
   return (
     <>
         <ControlsPanel 
-            title={'Текущее расписание'}
+            title={`Текущее расписание (${startOfWeek} - ${endOfWeek})`}
             actionTitle={view === "trainer" ? 'Запланировать тренировку' : null}
             onAction={onCreateTrainingClick}
             withArrows={true}

@@ -29,11 +29,11 @@ const ProfilePage = ({ view }) => {
       date_of_birth: fetchedProfileData.date_of_birth,
       gender: fetchedProfileData.gender === "male" ? "М" : "Ж",
       parent_name:
-      view === 'student' && fetchedProfileData.parents?.length !== 0 ? fetchedProfileData?.parents[0]?.first_name +
+      view === 'student' && fetchedProfileData.parents?.length !== 0 ? fetchedProfileData?.parents[0]?.last_name +
         " " +
-        fetchedProfileData?.parents[0]?.middle_name +
+        fetchedProfileData?.parents[0]?.first_name +
         " " +
-        fetchedProfileData?.parents[0]?.last_name : 'Нет данных',
+        fetchedProfileData?.parents[0]?.middle_name : 'Нет данных',
       parent_contact: view === 'student' &&  fetchedProfileData.parents?.length !== 0 ? fetchedProfileData.parents[0].contact : 'Нет данных',
     };
 

@@ -12,6 +12,7 @@ class UserAdmin(admin.ModelAdmin):
         'gender',
         'rang',
         'email',
+        'phone_number',
         'first_name',
         'last_name',
         'middle_name',

@@ -21,7 +21,7 @@ const ProfilePage = ({ view }) => {
         " " +
         fetchedProfileData.last_name,
       email: fetchedProfileData.email,
-      contact: fetchedProfileData?.phone_number,
+      contact: fetchedProfileData?.phone_number || "Нет данных",
       role: fetchedProfileData.role,
       rang: fetchedProfileData.rang,
       debt: fetchedProfileData.account?.debt,
@@ -91,7 +91,7 @@ const ProfilePage = ({ view }) => {
                 {view == "trainer" ? (
                   <span>Сэнсэй</span>
                 ) : (
-                  <span>Ученик, {profileData.rang} кю</span>
+                  <span>Ученик, {profileData.rang || 1} кю</span>
                 )}
               </div>
             </div>

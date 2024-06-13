@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 
+from api.models import User
+
 
 class Practice(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
@@ -17,6 +19,13 @@ class Practice(models.Model):
 
 @receiver(m2m_changed, sender=Practice.attended.through)
 def calculate_students_balance(sender, instance, action, **kwargs):
-    students = instance.attended.all().select_related('account')
-    for student in students:
-        student.account.calculate_balance()
+    if action == 'pre_add':
+        attended = instance.attended.values_list('pk', flat=True)
+        for student_id in kwargs.get('pk_set'):
+            student = User.objects.filter(pk=student_id).first()
+            student.account.increase_debt(instance.price)
+
+    if action == 'pre_remove':
+        for student_id in kwargs.get('pk_set'):
+            student = User.objects.filter(pk=student_id).first()
+            student.account.reduce_debt(instance.price)

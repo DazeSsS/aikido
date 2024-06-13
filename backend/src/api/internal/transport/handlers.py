@@ -380,7 +380,7 @@ class CheckSetConfirmedView(APIView):
             check = Check.objects.filter(pk=check_id, confirmed=False).select_related('account').first()
             if check is not None:
                 check.confirmed = True
-                check.account.pay(check.amount)
+                check.account.reduce_debt(check.amount)
                 check.save()
         return Response({'message': 'success'}, status=status.HTTP_200_OK)
 

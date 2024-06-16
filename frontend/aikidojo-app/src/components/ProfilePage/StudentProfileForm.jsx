@@ -1,10 +1,17 @@
-import PropTypes from "prop-types";
-import axios from "axios";
-import { Input, Button, Upload } from "antd";
-import { useState } from "react";
-import styles from "./StudentProfileForm.module.css";
-import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL, AUTH_URL } from "../../constants/api";
-import { getToken } from "../../utils/authToken";
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import { Input, Button, Upload, notification } from 'antd';
+import { useState } from 'react';
+import styles from './StudentProfileForm.module.css';
+import {
+  PROTOCOL,
+  HOST,
+  MEDIA,
+  MEDIA_PATH,
+  API_URL,
+  AUTH_URL,
+} from '../../constants/api';
+import { getToken } from '../../utils/authToken';
 
 const StudentProfileForm = ({ view, data, onSubmition }) => {
   const [formData, setFormData] = useState({
@@ -13,51 +20,48 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
     date_of_birth: data.date_of_birth,
     gender: data.gender,
     contact: data.phone_number,
-    photo: data?.photo
+    photo: data?.photo,
   });
-
 
   /// временное
   const [additionalFormData, setAdditionalFormData] = useState({
-    
     parent_name: data.parent_name,
     parent_contact: data.parent_contact,
-  
   });
   /// временное
 
   const [fileList, setFileList] = useState([]);
 
   const handleUpload = async () => {
-  
-    const checkData = {
-      file: formData.newfile,
-      amount: formData.amount
-    };
+    try {
+      const checkData = {
+        file: formData.newfile,
+        amount: formData.amount,
+      };
 
-    const formData2 = new FormData();
-    formData2.append('file', formData.newfile);
-    formData2.append('amount', formData.amount);
+      const formData2 = new FormData();
+      formData2.append('file', formData.newfile);
+      formData2.append('amount', formData.amount);
 
-    console.log()
-    const res = await axios.post(
-      API_URL + "student/checks",
-      formData2,
-      {
+      console.log();
+      const res = await axios.post(API_URL + 'student/checks', formData2, {
         headers: {
           Authorization: `Token ${getToken()}`,
         },
+      });
+
+      if (res) {
+        console.log('succesffuly added check');
+        notification.success({ message: 'Чек успешно загружен' });
+        onSubmition();
+      } else {
+        console.log('nope./');
+        notification.error({ message: 'Не удалось загрузить чек' });
       }
-    );
-
-    if (res) {
-      console.log('succesffuly added check')
-      onSubmition();
-    } else {
-      console.log('nope./')
+    } catch (error) {
+      notification.error({ message: 'Ошибка при отправке чека' });
     }
-
-  }
+  };
 
   const handleChange = async (e) => {
     const { id, value } = e.target;
@@ -74,16 +78,16 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
     e.preventDefault();
 
     const editedData = {
-      first_name: formData.full_name?.split(" ")[1],
-      middle_name: formData.full_name?.split(" ")[2],
-      last_name: formData.full_name?.split(" ")[0],
+      first_name: formData.full_name?.split(' ')[1],
+      middle_name: formData.full_name?.split(' ')[2],
+      last_name: formData.full_name?.split(' ')[0],
       date_of_birth: formData.date_of_birth,
       email: formData.email,
-      gender: formData.gender === "М" ? "male" : "female",
+      gender: formData.gender === 'М' ? 'male' : 'female',
       parents: [
         {
-          first_name:	"Micheal",
-        }
+          first_name: 'Micheal',
+        },
       ],
       phone_number: formData.contact,
       parent_contact: formData.parent_contact,
@@ -96,32 +100,28 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
   };
 
   const handleEditUser = async (editedData) => {
-    const res = await axios.patch(
-      API_URL + "me",
-      editedData,
-      {
-        headers: {
-          Authorization: `Token ${getToken()}`,
-        },
-      }
-    );
+    const res = await axios.patch(API_URL + 'me', editedData, {
+      headers: {
+        Authorization: `Token ${getToken()}`,
+      },
+    });
 
     if (res) {
-      console.log("Успешно");
+      console.log('Успешно');
       onSubmition();
     } else {
-      console.log("Не успешно");
+      console.log('Не успешно');
     }
   };
 
   return (
     <>
       <form>
-        {view === "trainer" ? (
+        {view === 'trainer' ? (
           <>
-            <div className={styles["user-info__container"]}>
-              <div className={styles["user-info-row__container"]}>
-                <div className={styles["user-info-row__input"]}>
+            <div className={styles['user-info__container']}>
+              <div className={styles['user-info-row__container']}>
+                <div className={styles['user-info-row__input']}>
                   <label htmlFor="full_name">ФИО</label>
                   <Input
                     id="full_name"
@@ -131,114 +131,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                   />
                 </div>
 
-                <div className={styles["user-info-row__input"]}>
-                  <label htmlFor="email">Эл. почта</label>
-                  <Input 
-                    id="email" 
-                    placeholder={data.email} 
-                    size="large" 
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className={styles["decorative-line"]}></div>
-
-              <div className={styles["user-info-row__container"]}>
-                <div className={styles["user-info-row__input"]}>
-                  <label htmlFor="date_of_birth">Дата рождения</label>
-                  <Input
-                    id="date_of_birth"
-                    placeholder={data.date_of_birth || "гггг-мм-дд"}
-                    size="large"
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className={styles["user-info-row__input"]}>
-                  <label htmlFor="gender">Пол</label>
-                  <Input 
-                    id="gender" 
-                    placeholder={data.gender} 
-                    size="large" 
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className={styles["decorative-line"]}></div>
-
-              <div className={styles["user-info-row__container"]}>
-                <div className={styles["user-info-row__input"]}>
-                  <label htmlFor="contact">Номер телефона</label>
-                  <Input 
-                    id="contact" 
-                    placeholder={data.contact || "Нет данных"}  
-                    size="large" 
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className={styles["decorative-line"]}></div>
-
-            <div className={styles["avatar-upload__container"]}>
-              <Upload
-                name="photo"
-                listType="picture-card"
-                style={{ display: "block" }}
-                action={API_URL + 'me'}
-                headers={{Authorization: `Token ${getToken()}`}}
-                method="PATCH"
-              >
-                Загрузить аватар
-              </Upload>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className={styles["add-check__input"]}>
-              <label htmlFor="amount">
-                Задолженность: {data.debt} руб.
-              </label>
-              <Input
-                id="amount"
-                placeholder="Введите сумму"
-                size="large"
-                onChange={handleChange}
-              />
-              <div className={styles["check-upload__container"]}>
-              <Upload
-                name="photo"
-                listType="picture-card"
-                style={{ display: "block" }}
-                // action={API_URL + 'me'}
-                // headers={{Authorization: `Token ${getToken()}`}}
-                // method="PATCH"
-                beforeUpload={(file) => {setFormData({...formData, newfile: file}); return false; }}
-              >
-                Загрузить чек
-              </Upload>
-              </div>
-              <Button type="primary" size="large" block onClick={handleUpload}>
-                Отправить чек об оплате
-              </Button>
-            </div>
-
-            <div className={styles["user-info__container"]}>
-              <div className={styles["user-info-row__container"]}>
-                <div className={styles["user-info-row__input"]}>
-                  <label htmlFor="full_name">ФИО</label>
-                  <Input
-                    id="full_name"
-                    placeholder={data.fullname}
-                    size="large"
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className={styles["user-info-row__input"]}>
+                <div className={styles['user-info-row__input']}>
                   <label htmlFor="email">Эл. почта</label>
                   <Input
                     id="email"
@@ -249,10 +142,118 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                 </div>
               </div>
 
-              <div className={styles["decorative-line"]}></div>
+              <div className={styles['decorative-line']}></div>
 
-              <div className={styles["user-info-row__container"]}>
-                <div className={styles["user-info-row__input"]}>
+              <div className={styles['user-info-row__container']}>
+                <div className={styles['user-info-row__input']}>
+                  <label htmlFor="date_of_birth">Дата рождения</label>
+                  <Input
+                    id="date_of_birth"
+                    placeholder={data.date_of_birth || 'гггг-мм-дд'}
+                    size="large"
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className={styles['user-info-row__input']}>
+                  <label htmlFor="gender">Пол</label>
+                  <Input
+                    id="gender"
+                    placeholder={data.gender}
+                    size="large"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className={styles['decorative-line']}></div>
+
+              <div className={styles['user-info-row__container']}>
+                <div className={styles['user-info-row__input']}>
+                  <label htmlFor="contact">Номер телефона</label>
+                  <Input
+                    id="contact"
+                    placeholder={data.contact || 'Нет данных'}
+                    size="large"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className={styles['decorative-line']}></div>
+
+            <div className={styles['avatar-upload__container']}>
+              <Upload
+                name="photo"
+                listType="picture-card"
+                style={{ display: 'block' }}
+                action={API_URL + 'me'}
+                headers={{ Authorization: `Token ${getToken()}` }}
+                method="PATCH"
+              >
+                Загрузить аватар
+              </Upload>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={styles['add-check__input']}>
+              <label htmlFor="amount">Задолженность: {data.debt} руб.</label>
+              <Input
+                id="amount"
+                placeholder="Введите сумму"
+                size="large"
+                onChange={handleChange}
+              />
+              <div className={styles['check-upload__container']}>
+                <Upload
+                  name="photo"
+                  listType="picture-card"
+                  style={{ display: 'block' }}
+                  // action={API_URL + 'me'}
+                  // headers={{Authorization: `Token ${getToken()}`}}
+                  // method="PATCH"
+                  beforeUpload={(file) => {
+                    setFormData({ ...formData, newfile: file });
+                    return false;
+                  }}
+                >
+                  Загрузить чек
+                </Upload>
+              </div>
+              <Button type="primary" size="large" block onClick={handleUpload}>
+                Отправить чек об оплате
+              </Button>
+            </div>
+
+            <div className={styles['user-info__container']}>
+              <div className={styles['user-info-row__container']}>
+                <div className={styles['user-info-row__input']}>
+                  <label htmlFor="full_name">ФИО</label>
+                  <Input
+                    id="full_name"
+                    placeholder={data.fullname}
+                    size="large"
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className={styles['user-info-row__input']}>
+                  <label htmlFor="email">Эл. почта</label>
+                  <Input
+                    id="email"
+                    placeholder={data.email}
+                    size="large"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className={styles['decorative-line']}></div>
+
+              <div className={styles['user-info-row__container']}>
+                <div className={styles['user-info-row__input']}>
                   <label htmlFor="date_of_birth">Дата рождения</label>
                   <Input
                     id="date_of_birth"
@@ -262,7 +263,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                   />
                 </div>
 
-                <div className={styles["user-info-row__input"]}>
+                <div className={styles['user-info-row__input']}>
                   <label htmlFor="gender">Пол</label>
                   <Input
                     id="gender"
@@ -274,11 +275,11 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
               </div>
             </div>
 
-            <div className={styles["decorative-line"]}></div>
+            <div className={styles['decorative-line']}></div>
 
-            <div className={styles["user-parent-info__container"]}>
-              <div className={styles["user-info-row__container"]}>
-                <div className={styles["user-info-row__input"]}>
+            <div className={styles['user-parent-info__container']}>
+              <div className={styles['user-info-row__container']}>
+                <div className={styles['user-info-row__input']}>
                   <label htmlFor="parent_full_name">ФИО родителя</label>
                   <Input
                     id="parent_full_name"
@@ -288,7 +289,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                   />
                 </div>
 
-                <div className={styles["user-info-row__input"]}>
+                <div className={styles['user-info-row__input']}>
                   <label htmlFor="parent_contact">
                     Номер телефона родителя
                   </label>
@@ -301,16 +302,16 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                 </div>
               </div>
 
-              <div className={styles["decorative-line"]}></div>
+              <div className={styles['decorative-line']}></div>
             </div>
 
-            <div className={styles["avatar-upload__container"]}>
+            <div className={styles['avatar-upload__container']}>
               <Upload
                 name="photo"
                 listType="picture-card"
-                style={{ display: "block" }}
+                style={{ display: 'block' }}
                 action={API_URL + 'me'}
-                headers={{Authorization: `Token ${getToken()}`}}
+                headers={{ Authorization: `Token ${getToken()}` }}
                 method="PATCH"
               >
                 Загрузить аватар
@@ -319,7 +320,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
           </>
         )}
 
-        <div className={styles["form-buttons__container"]}>
+        <div className={styles['form-buttons__container']}>
           <Button size="large">Отмена</Button>
           <Button type="primary" size="large" onClick={handleSubmit}>
             Сохранить изменения

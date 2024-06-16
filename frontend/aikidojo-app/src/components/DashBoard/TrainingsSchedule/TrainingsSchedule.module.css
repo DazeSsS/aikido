@@ -13,10 +13,6 @@
     gap: 16px; /* Расстояние между элементами */
 }
 
-.schedule-items__container-grid {
-
-}
-
 .schedule-item {
     background-color: #F5F8FA;
     padding: 16px;

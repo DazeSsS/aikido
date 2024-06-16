@@ -3,16 +3,16 @@ aikido crm system for trainers and students
 final and important additions to be done:
 - [ ]  add info modal (popup) about pricing
 - [ ]  consider server requests refactoring (for consistency)
-- [ ]  redo the schedule display (all day cards of the week)
+- [x]  redo the schedule display (all day cards of the week)
 - [ ]  add return to current week button (needs button design)
 - [ ]  add validation to forms
 - [ ]  change authorization mechanism
 - [ ]  probably remake app routing (?)
-- [ ]  switch student's attendance from color to icons
+- [x]  switch student's attendance from color to icons
 - [ ]  add user's balance in profile (balance if balance > 0 else debt)
 - [ ]  add labels in control panel
 - [ ]  add search bar to all students table
-- [ ]  add toasts to improve ux
+- [x]  add toasts to improve ux
 - [ ]  add adaptive for mobile
 - [ ]  rewrite readme
 - [ ]  refactor code

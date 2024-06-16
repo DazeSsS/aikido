@@ -102,14 +102,7 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick, vie
               practices &&
               Object.entries(practices).map(([date, dayPractices]) => (
                 <li key={date} className={styles["schedule-item-li"]}>
-                  <div 
-                    className={currentScheduleView === "student-attendance" ? 
-                      classNames(styles["schedule-item"], {
-                        [styles['attended']]: dayPractices.every(practice => practice.attended.includes(Number(getUserId()))), 
-                        [styles['missed']]: !dayPractices.every(practice => practice.attended.includes(Number(getUserId())))
-                      }) 
-                      : styles["schedule-item"]}
-                  >
+                  <div className={styles["schedule-item"]}>
                     <h1>{dayjs(date).format("dddd, DD.MM")}</h1>
                     {dayPractices.length === 0 ? (
                       <p>Нет тренировок</p>
@@ -118,8 +111,14 @@ const TrainingsSchedule = ({ onBack, onCreateTrainingClick, onPracticeClick, vie
                         <div key={practice.id} onClick={() => onPracticeClick(practice.id, dayjs(date).format("DD.MM.YYYY"), practice.group.id)} className={styles["schedule-item-practice__container"]}>
                           <div className={styles["practice-title"]}>
                             <h3>{practice.group.title}</h3>
-                            <span>Общая тренировка</span>
                           </div>
+                          {scheduleView === 'student-attendance' && (
+                            <img 
+                              className={styles['attendance-status-icon']}
+                              src={practice.attended.includes(Number(getUserId())) ? "/tick.svg" : "/cross.svg"} 
+                              alt="" 
+                            />
+                          )}
                           <div className={styles["decorative-line"]}></div>
                           <div className={styles["practice-info"]}>
                             <div className={styles["practice-info-item"]}>

@@ -1,23 +1,13 @@
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { Button, Input, Dropdown, Space } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Button, Input, Dropdown, Space, notification } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import ControlsPanel from '../ControlsPanel/ControlsPanel';
-import {
-  PROTOCOL,
-  HOST,
-  MEDIA,
-  MEDIA_PATH,
-  API_URL,
-} from '../../../constants/api';
+import { API_URL } from '../../../constants/api';
 import { getToken } from '../../../utils/authToken';
 
 import styles from './CreateGroupForm.module.css';
-
-const onMenuClick = (e) => {
-  console.log('click', e);
-};
 
 const formatPlacesData = (fetchedPlacesData) => {
   return fetchedPlacesData.map((place) => ({
@@ -47,6 +37,7 @@ const CreateGroupForm = ({ onBack }) => {
         }
       } catch (error) {
         console.error('Failed to fetch places', error);
+        notification.error({ message: 'Ошибка при загрузке мест' });
       }
     };
 
@@ -54,8 +45,6 @@ const CreateGroupForm = ({ onBack }) => {
   }, []);
 
   const handleDropdownChange = (e) => {
-    console.log(addressItems[+e.key - 1]);
-
     setFormData({
       ...formData,
       place: +e.key,
@@ -64,9 +53,6 @@ const CreateGroupForm = ({ onBack }) => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-
-    console.log(id, value);
-
     setFormData({
       ...formData,
       [id]: value,
@@ -74,8 +60,6 @@ const CreateGroupForm = ({ onBack }) => {
   };
 
   const handleCreateGroup = async () => {
-    console.log(formData);
-
     try {
       const res = await axios.post(API_URL + `trainer/groups`, formData, {
         headers: {
@@ -84,13 +68,14 @@ const CreateGroupForm = ({ onBack }) => {
       });
 
       if (res) {
-        console.log('Группа успешно создана');
+        notification.success({ message: 'Группа успешно создана' });
         onBack();
       } else {
-        console.log('Группу создать не получилось');
+        notification.error({ message: 'Не удалось создать группу' });
       }
     } catch (error) {
       console.error('Failed to create group', error);
+      notification.error({ message: 'Ошибка при создании группы' });
     }
   };
 

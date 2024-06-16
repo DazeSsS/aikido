@@ -1,16 +1,11 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import SideBar from '../../components/DashBoard/SideBar/SideBar';
-
 import GroupsContent from '../../components/DashBoard/GroupsContent/GroupsContent';
 import ScheduleContent from '../../components/DashBoard/ScheduleContent/ScheduleContent';
 import StudentsContent from '../../components/DashBoard/StudentsContent/StudentsContent';
 import PaymentsContent from '../../components/DashBoard/PaymentsContent/PaymentsContent';
-import AttendanceContent from '../../components/DashBoard/AttendanceContent/AttendanceContent';
-
 import styles from './DashBoard.module.css';
-import { Button } from 'antd';
-
-import { useState } from 'react';
 
 
 const DashBoard = ({ onLogoutCallback, view }) => {

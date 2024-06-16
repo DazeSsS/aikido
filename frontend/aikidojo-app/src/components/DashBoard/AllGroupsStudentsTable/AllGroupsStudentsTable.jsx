@@ -1,14 +1,14 @@
-import PropTypes from "prop-types";
-import axios from "axios";
-import { Button, Spin } from "antd";
-import InfoTable from "../InfoTable/InfoTable";
-import ControlsPanel from "../ControlsPanel/ControlsPanel";
-import { useState, useEffect } from "react";
-import { getApiResource } from "../../../utils/network";
-import { getToken } from "../../../utils/authToken";
-import { mockGroupMembersData } from "../../../mock/mockData";
-import { PROTOCOL, HOST, MEDIA, API_URL } from "../../../constants/api";
-import styles from "./AllGroupsStudentsTable.module.css";
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import { Button, Spin } from 'antd';
+import InfoTable from '../InfoTable/InfoTable';
+import ControlsPanel from '../ControlsPanel/ControlsPanel';
+import { useState, useEffect } from 'react';
+import { getApiResource } from '../../../utils/network';
+import { getToken } from '../../../utils/authToken';
+import { mockGroupMembersData } from '../../../mock/mockData';
+import { PROTOCOL, HOST, MEDIA, API_URL } from '../../../constants/api';
+import styles from './AllGroupsStudentsTable.module.css';
 
 const AllGroupsStudentsTable = ({ onBack, id }) => {
   const [students, setStudents] = useState(null);
@@ -27,17 +27,20 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
         id: student.id,
         debt: student.account.debt,
         student: {
-          full_name: student.first_name + ' ' +
-                student.middle_name + ' ' +
-                student.last_name,
-          photo: PROTOCOL + HOST + MEDIA + student.photo
+          full_name:
+            student.first_name +
+            ' ' +
+            student.middle_name +
+            ' ' +
+            student.last_name,
+          photo: PROTOCOL + HOST + MEDIA + student.photo,
         },
         parentContact: {
           name:
             student.parents[0]?.first_name +
-            " " +
+            ' ' +
             student.parents[0]?.middle_name +
-            " " +
+            ' ' +
             student.parents[0]?.last_name,
           contact: student.parents[0]?.contact,
         },
@@ -57,14 +60,16 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
     }, []);
   };
 
-
   useEffect(() => {
-    const fetchCurrentStudents = async () => { 
-      const res = await getApiResource(API_URL + `trainer/groups/${id}/students`, {
-        headers: {
-          Authorization: `Token ${getToken()}`,
+    const fetchCurrentStudents = async () => {
+      const res = await getApiResource(
+        API_URL + `trainer/groups/${id}/students`,
+        {
+          headers: {
+            Authorization: `Token ${getToken()}`,
+          },
         }
-      });
+      );
 
       if (res) {
         setCurrentGroupStudents(formatCurrentStudents(res));
@@ -74,13 +79,15 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
     };
 
     fetchCurrentStudents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (currentGroupStudents !== null) {
       const fetchStudents = async () => {
-        const res = await getApiResource( 
-        API_URL + `trainer/students`,
+        const res = await getApiResource(
+          // eslint-disable-next-line quotes
+          API_URL + `trainer/students`,
           {
             headers: {
               Authorization: `Token ${getToken()}`,
@@ -90,12 +97,14 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
 
         if (res) {
           const formattedStudents = formatStudentsData(res);
-          const filteredStudents = formattedStudents.filter(student => !currentGroupStudents.includes(student.id));
+          const filteredStudents = formattedStudents.filter(
+            (student) => !currentGroupStudents.includes(student.id)
+          );
           setStudents(filteredStudents);
           setIsLoading(false);
-          console.log("Успешно");
+          console.log('Успешно');
         } else {
-          console.log("ERROR");
+          console.log('ERROR');
         }
       };
 
@@ -103,54 +112,54 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
     }
   }, [currentGroupStudents]);
 
-  
   const handleRowSelectionChange = (ids) => {
-    console.log(ids)
+    console.log(ids);
     setSelectedRows(ids);
   };
 
   const handlePatchGroupClick = () => {
-    const addNewMembersToGroup = async () => { 
-      const res = await axios.patch(API_URL + `trainer/groups/${id}`, 
+    const addNewMembersToGroup = async () => {
+      const res = await axios.patch(
+        API_URL + `trainer/groups/${id}`,
         {
-          students: [...currentGroupStudents, ...selectedRows]
-        }, 
+          students: [...currentGroupStudents, ...selectedRows],
+        },
         {
           headers: {
-            Authorization: `Token ${getToken()}`
+            Authorization: `Token ${getToken()}`,
           },
         }
       );
 
       if (res) {
-        console.log('new members successfully added')
+        console.log('new members successfully added');
         onBack();
       } else {
-        console.log('error')
+        console.log('error');
       }
     };
 
     addNewMembersToGroup();
-  }
+  };
 
   return (
     <>
       <ControlsPanel
-        title={"Поиск участника для добавления в группу"}
-        actionTitle={"Добавить выбранных участников"}
+        title={'Поиск участника для добавления в группу'}
+        actionTitle={'Добавить выбранных участников'}
         onBack={onBack}
         onAction={handlePatchGroupClick}
         labelData={null}
       />
 
-      <div className={styles["table__container"]}>
+      <div className={styles['table__container']}>
         {isLoading ? (
-          <div className={styles["spin__container"]}>
+          <div className={styles['spin__container']}>
             <Spin size="large" />
           </div>
         ) : (
           <InfoTable
-            layout={"groupMembers"}
+            layout={'groupMembers'}
             data={students}
             enableRowClick={false}
             onRowClick={null}

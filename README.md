@@ -1,6 +1,7 @@
 aikido crm system for trainers and students
 
 final and important additions to be done:
+- [ ]  add info modal (popup) about pricing
 - [ ]  consider server requests refactoring (for consistency)
 - [ ]  redo the schedule display (all day cards of the week)
 - [ ]  add return to current week button (needs button design)

@@ -1,16 +1,22 @@
-import PropTypes from "prop-types";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { Button, Input, Dropdown, Space } from "antd";
-import { DownOutlined } from "@ant-design/icons";
-import ControlsPanel from "../ControlsPanel/ControlsPanel";
-import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
-import { getToken } from "../../../utils/authToken";
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { Button, Input, Dropdown, Space } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import ControlsPanel from '../ControlsPanel/ControlsPanel';
+import {
+  PROTOCOL,
+  HOST,
+  MEDIA,
+  MEDIA_PATH,
+  API_URL,
+} from '../../../constants/api';
+import { getToken } from '../../../utils/authToken';
 
-import styles from "./CreateGroupForm.module.css";
+import styles from './CreateGroupForm.module.css';
 
 const onMenuClick = (e) => {
-  console.log("click", e);
+  console.log('click', e);
 };
 
 const formatPlacesData = (fetchedPlacesData) => {
@@ -37,10 +43,10 @@ const CreateGroupForm = ({ onBack }) => {
           const formattedPlaces = formatPlacesData(res.data);
           setAddressItems(formattedPlaces);
         } else {
-          console.log("ERROR FETCHING PLACES");
+          console.log('ERROR FETCHING PLACES');
         }
       } catch (error) {
-        console.error("Failed to fetch places", error);
+        console.error('Failed to fetch places', error);
       }
     };
 
@@ -78,13 +84,13 @@ const CreateGroupForm = ({ onBack }) => {
       });
 
       if (res) {
-        console.log("Группа успешно создана");
+        console.log('Группа успешно создана');
         onBack();
       } else {
-        console.log("Группу создать не получилось");
+        console.log('Группу создать не получилось');
       }
     } catch (error) {
-      console.error("Failed to create group", error);
+      console.error('Failed to create group', error);
     }
   };
 
@@ -97,18 +103,18 @@ const CreateGroupForm = ({ onBack }) => {
   return (
     <>
       <ControlsPanel
-        title={"Создание группы"}
+        title={'Создание группы'}
         actionTitle={null}
         onBack={onBack}
         onAction={null}
         labelData={null}
       />
 
-      <div className={styles["create-group-form__container"]}>
+      <div className={styles['create-group-form__container']}>
         <form>
-          <div className={styles["create-group-form__container__inner"]}>
-            <div className={styles["form-input__row"]}>
-              <div className={styles["form-input"]}>
+          <div className={styles['create-group-form__container__inner']}>
+            <div className={styles['form-input__row']}>
+              <div className={styles['form-input']}>
                 <label htmlFor="title">Название*</label>
                 <Input
                   id="title"
@@ -118,7 +124,7 @@ const CreateGroupForm = ({ onBack }) => {
                 />
               </div>
 
-              <div className={styles["form-input"]}>
+              <div className={styles['form-input']}>
                 <label htmlFor="address">Место проведения*</label>
                 <br />
                 <Dropdown id="address" menu={menuProps}>
@@ -133,8 +139,8 @@ const CreateGroupForm = ({ onBack }) => {
             </div>
           </div>
 
-          <div className={styles["form-buttons__container"]}>
-            <div className={styles["form-buttons__container__inner"]}>
+          <div className={styles['form-buttons__container']}>
+            <div className={styles['form-buttons__container__inner']}>
               <Button size="large" onClick={onBack}>
                 Отменить
               </Button>

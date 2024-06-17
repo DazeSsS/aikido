@@ -1,7 +1,6 @@
 // import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
 import { NavLink, resolvePath } from 'react-router-dom';
-import userStore from '../../store/userStore';
+// import userStore from '../../store/userStore';
 
 import styles from './Header.module.css';
 

@@ -1,16 +1,15 @@
-import { makeAutoObservable } from 'mobx';
 
-class UserStore {
-    role = '';
+// class UserStore {
+//     role = '';
 
-    constructor() {
-        makeAutoObservable(this);
-    }
+//     constructor() {
+//         makeAutoObservable(this);
+//     }
 
-    setRole(role) {
-        this.role = role;
-    }
-}
+//     setRole(role) {
+//         this.role = role;
+//     }
+// }
 
-const userStore = new UserStore();
-export default userStore;
+// const userStore = new UserStore();
+// export default userStore;

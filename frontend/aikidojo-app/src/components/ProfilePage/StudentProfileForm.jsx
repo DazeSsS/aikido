@@ -199,7 +199,7 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
         ) : (
           <>
             <div className={styles['add-check__input']}>
-              <label htmlFor="amount">Задолженность: {data.debt} руб.</label>
+              <label htmlFor="amount">{data.debt > 0 ? (`Задолженность: ${data.debt} руб.`) : (`Баланс: ${data.balance} руб.`)}</label>
               <Input
                 id="amount"
                 placeholder="Введите сумму"

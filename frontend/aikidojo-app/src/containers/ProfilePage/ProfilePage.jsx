@@ -25,6 +25,7 @@ const ProfilePage = ({ view }) => {
       role: fetchedProfileData.role,
       rang: fetchedProfileData.rang,
       debt: fetchedProfileData.account?.debt,
+      balance: fetchedProfileData.account?.balance,
       photo: fetchedProfileData.photo,
       date_of_birth: fetchedProfileData.date_of_birth,
       gender: fetchedProfileData.gender === "male" ? "М" : "Ж",

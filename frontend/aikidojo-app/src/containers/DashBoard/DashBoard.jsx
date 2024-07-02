@@ -35,17 +35,6 @@ const DashBoard = ({ onLogoutCallback, view }) => {
         }
     }
 
-    // для таблицы групп
-    // const [isGroupSelected, setIsGroupSelected] = useState(false);
-
-    // const handleGroupClick = () => {
-    //     setIsGroupSelected(true);
-    // };
-
-    // const handleBackToTable = () => {
-    //     setIsGroupSelected(false);
-    // }
-
     return (
         <>
             <div className={styles['dashboard__container']}>

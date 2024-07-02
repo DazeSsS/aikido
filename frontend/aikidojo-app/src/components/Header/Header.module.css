@@ -1,11 +1,9 @@
 .header__container {
-    /* margin: 0 auto; */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 24px 80px;
     gap: 40px;
-    /* max-width: 1440px; */
     border-bottom: 1px solid #F2F4F7;
     margin-bottom: 8px;
     position: fixed;
@@ -15,25 +13,7 @@
     background-color: white;
 }
 
-.header__list {
-    /* width: 1280px; */
-    display: flex;
-    list-style-type: none;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    padding: 0;
-    margin: 0;
-}
-
-/* вынести в index */
-.header__list li {
-    padding: 0;
-    margin: 0;
-}
-
 .logo__container {
-    /* margin-right: 40px; */
     display: flex;
     align-items: center;
     gap: 10px;
@@ -46,26 +26,124 @@
     display: block;
 }
 
-/* вынести в переменную */
 .logo-text {
     font-size: 24px;
     font-weight: 700;
-
 }
 
+.header__list {
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 0;
+    margin: 0;
+}
 
-/* стоит вынести логику в index */
+.header__list li {
+    padding: 0;
+    margin: 0;
+}
+
 .header__list a {
     text-decoration: none;
-    color: #475467; /* нужно будет заменить на переменную */
-    font-weight: 600; /* нужно будет заменить на переменную */
+    color: #475467; /* Замените на использование переменной */
+    font-weight: 600; /* Замените на использование переменной */
+    transition: color 0.3s ease;
 }
 
 .header__list a:hover {
-    color: #572cb2;  /* вариант цвета */
+    color: #572cb2; /* Вариант цвета при наведении */
 }
 
-a.active { 
-    color: var(--color-primary);
-    color: #572cb2;  /* вариант цвета */
+a.active {
+    color: var(--color-primary); /* Пример использования переменной */
+}
+
+.header-btn {
+    display: none;
+}
+
+.header__list_dropdown {
+    position: absolute;
+    top: 77px;
+    left: 0;
+    background-color: white;
+    z-index: 1000;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.6s ease; /* Анимация высоты */
+    padding: 0;
+    margin: 0;
+    display: none;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08);
+}
+
+
+
+.header__list_dropdown li {
+    padding: 16px;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.header__list_dropdown li a {
+    text-decoration: none;
+    color: #475467; /* Замените на использование переменной */
+    font-weight: 600; /* Замените на использование переменной */
+    display: none;
+}
+
+.header__list_dropdown li:hover {
+    background-color: #f4f3f3;
+}
+
+.header__list_dropdown.open li {
+    padding: 12px 20px;
+}
+
+@media (max-width: 450px) {
+    .header__container {
+        padding: 20px 16px;
+        justify-content: space-between;
+        gap: 0;
+    }
+
+    .header__list {
+        display: none;
+    }
+
+    .header-btn {
+        display: block;
+        cursor: pointer;
+    }
+
+    .header__list_dropdown.open {
+        height: 200px; /* Увеличение высоты при открытии */
+        padding: 0;
+        margin: 0;
+    }
+
+    .header__list_dropdown.open li {
+        display: block;
+        opacity: 1;
+    }
+
+    .header__list_dropdown.open a {
+        font-weight: 600; /* Замените на использование переменной */
+        display: block;
+    }
+
+    .header__list_dropdown.open a.active {
+        color: var(--color-primary);
+    }
+
+    .header__list_dropdown li:hover {
+        background-color: #f4f3f3;
+    }
 }

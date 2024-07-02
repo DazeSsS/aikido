@@ -63,3 +63,10 @@
     margin-left: 312px;
     position: relative;
 }
+
+@media (max-width: 450px) {
+    .dashboard-component__container {
+        margin-left: 0px;
+        position: relative;
+    }
+}

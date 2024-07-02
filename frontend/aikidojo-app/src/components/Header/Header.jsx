@@ -1,14 +1,19 @@
 // import PropTypes from 'prop-types';
 import { NavLink, resolvePath } from 'react-router-dom';
+import cn from 'classnames';
 // import userStore from '../../store/userStore';
 
 import styles from './Header.module.css';
+import { useState } from 'react';
 
 
-const Header = ({view}) => {
-    // const role = userStore.role;
-    
+const Header = ({view}) => {    
     console.log(view);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpen(state => !state);
+    };
 
     return (
         <>
@@ -17,35 +22,45 @@ const Header = ({view}) => {
                     <img className={styles['logo-img']} src="/logo.svg" alt="" />
                     <h1 className={styles['logo-text']}>AikiDojo</h1>
                 </div>
-                <ul className={styles.header__list}>
+                <img src="/header-open.png" className={styles['header-btn']} onClick={toggleDropdown}></img>
+                <ul className={styles.header__list}
+                >
                     {
                         view === 'trainer' ? (
-                            <>
+                            <> 
                                 <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/profile">Профиль</NavLink></li>
                                 <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard">Дэшборд</NavLink></li>
-                                {/* <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/pricing">Стоимость тренировок</NavLink></li> */}
                             </>
                         ) : (
                             <>
                                 <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/profile">Профиль</NavLink></li>
                                 <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/dashboard">Расписание</NavLink></li>
-                                {/* <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/pricing">Стоимость тренировок</NavLink></li> */}
                             </>
                         )
                     }
-{/* 
-                    <li><NavLink to="/main">Главная</NavLink></li>
-                    <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/profile">Профиль</NavLink></li>
-                    <li><NavLink to="/schedule">Расписание</NavLink></li>
-                    <li><NavLink to="/pricing">Стоимость тренировок</NavLink></li> */}
                 </ul>
             </div>
+
+            <ul className={cn(styles.header__list_dropdown, {
+                [styles['open']]: isOpen
+            })
+            }>
+                    {
+                        view === 'trainer' ? (
+                            <> 
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/profile">Профиль</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard">Дэшборд</NavLink></li>
+                            </>
+                        ) : (
+                            <>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/profile">Профиль</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/dashboard">Расписание</NavLink></li>
+                            </>
+                        )
+                    }
+            </ul>
         </>
     )
 }
-
-// Header.propTypes = {
-//     testProp: PropTypes.string
-// }
 
 export default Header;

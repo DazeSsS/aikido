@@ -1,0 +1,13 @@
+.dashboard__container {
+    margin-top: 80px;
+}
+
+.content {
+    margin-left: 312px;
+}
+
+@media (max-width: 450px) {
+    .content {
+        margin-left: 0px;
+    }
+}

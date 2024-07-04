@@ -1,11 +1,18 @@
 import PropTypes from 'prop-types';
 
 import { Button, Input } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import LoginForm from '../../components/LoginPage/LoginForm/LoginForm';
 import styles from './LoginPage.module.css';
 
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = () => {
+    const navigate = useNavigate();
+
+    const onLogin = () => {
+        navigate('/trainer/dashboard/groups');
+    }
+
     return (
         <>
             <div className={styles['center-wrapper']}>

@@ -29,12 +29,12 @@ const Header = ({view}) => {
                         view === 'trainer' ? (
                             <> 
                                 <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/profile">Профиль</NavLink></li>
-                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard">Дэшборд</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard/groups">Дэшборд</NavLink></li>
                             </>
                         ) : (
                             <>
                                 <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/profile">Профиль</NavLink></li>
-                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/dashboard">Расписание</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/dashboard/schedule-future">Расписание</NavLink></li>
                             </>
                         )
                     }
@@ -49,7 +49,10 @@ const Header = ({view}) => {
                         view === 'trainer' ? (
                             <> 
                                 <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/profile">Профиль</NavLink></li>
-                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard">Дэшборд</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard/groups">Группы</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard/schedule">Расписание тренировок</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard/students">Список учеников</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/trainer/dashboard/checks">Чеки об оплате</NavLink></li>
                             </>
                         ) : (
                             <>

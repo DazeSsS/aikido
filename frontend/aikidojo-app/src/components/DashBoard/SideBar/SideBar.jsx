@@ -6,21 +6,28 @@ import { deleteToken } from "../../../utils/authToken";
 
 import { useNavigate } from "react-router-dom";
 
+import { NavLink } from "react-router-dom";
+
+import { deleteUserId } from "../../../utils/authToken";
+
 import styles from "./SideBar.module.css";
 
 const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
   const [selectedTab, setSelectedTab] = useState(view === "trainer" ? "groups" : "schedule");
   const navigate = useNavigate();
 
+  const nullifyUserRole = () => { // temporal solution
+    deleteUserId();
+  };
+
   const handleTabClick = (tab) => {
     console.log(selectedTab);
     setSelectedTab(tab);
-    onTabClick(tab);
   };
 
   const handleLogout = () => {
     deleteToken();
-    onLogoutCallback();
+    nullifyUserRole();
     navigate("/login");
   };
 
@@ -35,7 +42,8 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
           <ul>
             {view === "trainer" ? (
               <>
-                <li
+              <NavLink to="/trainer/dashboard/groups">
+              <li
                   className={
                     selectedTab === "groups"
                       ? styles["navigation-item-active"]
@@ -50,6 +58,9 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   />
                   <span>Группы</span>
                 </li>
+              </NavLink>
+                
+                <NavLink to="/trainer/dashboard/schedule">
                 <li
                   className={
                     selectedTab === "schedule"
@@ -65,6 +76,9 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   />
                   <span>Расписание тренировок</span>
                 </li>
+                </NavLink>
+                
+                <NavLink to="/trainer/dashboard/students">
                 <li
                   className={
                     selectedTab === "students"
@@ -80,6 +94,9 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   />
                   <span>Список учеников</span>
                 </li>
+                </NavLink>
+                
+                <NavLink to="/trainer/dashboard/checks">
                 <li
                   className={
                     selectedTab === "payments"
@@ -95,10 +112,13 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   />
                   <span>Чеки об оплате</span>
                 </li>
+                </NavLink>
+                
               </>
             ) : (
               <>
-                <li
+              <NavLink to="/student/dashboard/schedule-future">
+              <li
                   className={
                     selectedTab === "schedule"
                       ? styles["navigation-item-active"]
@@ -113,6 +133,9 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   />
                   <span>Текущее расписание</span>
                 </li>
+              </NavLink>
+                
+                <NavLink to="/student/dashboard/schedule-past">
                 <li
                   className={
                     selectedTab === "attendance"
@@ -128,6 +151,8 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   />
                   <span>Моя посещаемость</span>
                 </li>
+                </NavLink>
+                
               </>
             )}
           </ul>

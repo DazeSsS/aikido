@@ -124,7 +124,7 @@ a.active {
     }
 
     .header__list_dropdown.open {
-        height: 200px; /* Увеличение высоты при открытии */
+        height: 250px; /* Увеличение высоты при открытии */
         padding: 0;
         margin: 0;
     }

@@ -20,6 +20,8 @@ import styles from './App.module.css'
 
 import { deleteUserId, getToken, getUserId, setUserId } from '../../utils/authToken';
 
+import { Outlet } from 'react-router-dom';
+
 const App = () => {
 
   const appTheme = {
@@ -79,6 +81,7 @@ const App = () => {
         // setUserId(user.id);
         // console.log(getUserId())
         // console.log('63', user.role);
+        // navigate('/trainer')
       } else {
         console.log("No user data");
       }
@@ -87,7 +90,9 @@ const App = () => {
     if (getToken()) {
       // request role
       fetchUserRole();
+      
     } else {
+      console.log(95);
       navigate('/login')
     }
   }, [userRole]);
@@ -98,14 +103,15 @@ const App = () => {
 
     console.log(userRole)
 
-    if (userRole) {
-      if (userRole === 'trainer') {
-        navigate('/trainer/');
-      } else if (userRole === 'student') {
-        navigate('/student/');
-      } 
-    } else {
+    if (!userRole) {
       navigate('/login');
+      
+    } else {
+      if (userRole === 'trainer') {
+        navigate('/trainer');
+      } else if (userRole === 'student') {
+        navigate('/student');
+      } 
     }
 
   }, [userRole]);
@@ -114,44 +120,55 @@ const App = () => {
   
   return (
       <ConfigProvider theme={appTheme} wave={waveDisabled}>
-        <Routes>
-          {!getToken() && <Route path="/" element={<Navigate to="/login" /> } />}
+        {/* <Routes> */}
+          
 
-          <Route path="/login" element={<LoginPage onLogin={updateUserRole}/>} />
+          {/* <Route path="/login" element={<LoginPage onLogin={updateUserRole}/>} />
           <Route path="/register" element={<RegistrationPage />} />
 
           <Route path="/trainer/*" element={<TrainerApp onLogoutCallback={nullifyUserRole}/>} />
-          <Route path="/student/*" element={<StudentApp onLogoutCallback={nullifyUserRole}/>} />
-        </Routes>
+          <Route path="/student/*" element={<StudentApp onLogoutCallback={nullifyUserRole}/>} /> */}
+        {/* </Routes> */}
+        {/* <Routes>
+        {!getToken() && <Route path="/" element={<Navigate to="/login" /> } />}
+          <Route path="/" element={<TrainerApp onLogoutCallback={nullifyUserRole} />}/>
+          {/* <Route path="trainer" element={<TrainerApp onLogoutCallback={nullifyUserRole}/>} />
+          <Route path="student" element={<StudentApp onLogoutCallback={nullifyUserRole}/>} />  */}
+        {/* </Routes>  */}
+        <Outlet />
       </ConfigProvider>
   );
 }
 
 
-const StudentApp = ({ onLogoutCallback }) => {
+export const StudentApp = ({ onLogoutCallback }) => {
 
   return (  
     <>
-      <Header />
+      {/* <Header />
       <Routes>
         <Route path="/" element={<Navigate to="/student/profile" />} />
         <Route path="/profile" element={<ProfilePage view={'student'}/>} />
         <Route path="/dashboard" element={<DashBoard onLogoutCallback={onLogoutCallback} view={'student'}/>} />
-      </Routes>
+      </Routes> */}
     </>
   );
 };  
 
-const TrainerApp = ({ onLogoutCallback }) => {
+export const TrainerApp = ({ onLogoutCallback }) => {
 
   return (  
     <>
-      <Header view={'trainer'}/> 
-        <Routes>
+      
+
+      <Outlet />
+
+        {/* <Routes>
+          <Route path="/" element={<Navigate to="/trainer/dashboard" />} /> 
         <Route path="/" element={<Navigate to="/trainer/dashboard" />} />
         <Route path="/profile" element={<ProfilePage view={'trainer'} />} />
         <Route path="/dashboard" element={<DashBoard onLogoutCallback={onLogoutCallback} view={'trainer'}/>} />
-        </Routes>  
+        </Routes>   */}
     </>
   );
 };

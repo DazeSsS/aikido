@@ -5,9 +5,12 @@ import axios from 'axios';
 import { Input, Button } from 'antd';
 import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { setToken, getToken, setUserId } from '../../../utils/authToken';
+import { setToken, getToken, setUserId, setUserRole } from '../../../utils/authToken';
 import { getApiResource, postApiResource } from '../../../utils/network';
 import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL, AUTH_URL } from "../../../constants/api";
+
+import { getUserRole } from '../../../utils/authToken';
+
 import styles from './LoginForm.module.css';
 
 const LoginForm = ({ onLogin }) => {
@@ -81,7 +84,11 @@ const LoginForm = ({ onLogin }) => {
               if (res) {
                 const user = res;
                 console.log(user.role);
+                
+                setUserRole(user.role);
+                setUserId(user.id);
                 onLogin(user.role);
+                console.log(getUserRole());
                 // console.log(userRole)
               } else {
                 console.log('No user data');

@@ -22,6 +22,8 @@ import { deleteUserId, getToken, getUserId, setUserId } from '../../utils/authTo
 
 import { Outlet } from 'react-router-dom';
 
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+
 const App = () => {
 
   const appTheme = {
@@ -63,60 +65,60 @@ const App = () => {
   //   setUserId(id);
   // }
   
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      const res = await getApiResource(API_URL + "me", {
-        headers: {
-          Authorization: `Token ${getToken()}`,
-        },
-      });
+  // useEffect(() => {
+  //   const fetchUserRole = async () => {
+  //     const res = await getApiResource(API_URL + "me", {
+  //       headers: {
+  //         Authorization: `Token ${getToken()}`,
+  //       },
+  //     });
 
-      if (res) {
-        const user = res;
-        console.log(user);
-        updateUserRole(user.role);
-        setUserId(user.id);
-        console.log(user.id)
-        console.log(getUserId())
-        // setUserId(user.id);
-        // console.log(getUserId())
-        // console.log('63', user.role);
-        // navigate('/trainer')
-      } else {
-        console.log("No user data");
-      }
-    };
+  //     if (res) {
+  //       const user = res;
+  //       console.log(user);
+  //       updateUserRole(user.role);
+  //       setUserId(user.id);
+  //       console.log(user.id)
+  //       console.log(getUserId())
+  //       // setUserId(user.id);
+  //       // console.log(getUserId())
+  //       // console.log('63', user.role);
+  //       // navigate('/trainer')
+  //     } else {
+  //       console.log("No user data");
+  //     }
+  //   };
 
-    if (getToken()) {
-      // request role
-      fetchUserRole();
+  //   if (getToken()) {
+  //     // request role
+  //     fetchUserRole();
       
-    } else {
-      console.log(95);
-      navigate('/login')
-    }
-  }, [userRole]);
+  //   } else {
+  //     console.log(95);
+  //     navigate('/login')
+  //   }
+  // }, [userRole]);
 
 
-  useEffect(() => {
-    console.log('navigation effect')
+  // useEffect(() => {
+  //   console.log('navigation effect')
 
-    console.log(userRole)
+  //   console.log(userRole)
 
-    if (!userRole) {
-      navigate('/login');
+  //   if (!userRole) {
+  //     navigate('/login');
       
-    } else {
-      if (userRole === 'trainer') {
-        navigate('/trainer');
-      } else if (userRole === 'student') {
-        navigate('/student');
-      } 
-    }
+  //   } else {
+  //     if (userRole === 'trainer') {
+  //       navigate('/trainer');
+  //     } else if (userRole === 'student') {
+  //       navigate('/student');
+  //     } 
+  //   }
 
-  }, [userRole]);
+  // }, [userRole]);
 
-
+  useLocalStorage();
   
   return (
       <ConfigProvider theme={appTheme} wave={waveDisabled}>

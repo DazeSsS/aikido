@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { NavLink } from "react-router-dom";
 
-import { deleteUserId } from "../../../utils/authToken";
+import { deleteUserId, deleteUserRole } from "../../../utils/authToken";
 
 import styles from "./SideBar.module.css";
 
@@ -18,6 +18,8 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
 
   const nullifyUserRole = () => { // temporal solution
     deleteUserId();
+    deleteUserRole();
+    deleteToken();
   };
 
   const handleTabClick = (tab) => {
@@ -26,7 +28,6 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
   };
 
   const handleLogout = () => {
-    deleteToken();
     nullifyUserRole();
     navigate("/login");
   };

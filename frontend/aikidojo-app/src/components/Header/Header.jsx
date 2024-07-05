@@ -57,7 +57,8 @@ const Header = ({view}) => {
                         ) : (
                             <>
                                 <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/profile">Профиль</NavLink></li>
-                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/dashboard">Расписание</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/dashboard/schedule-future">Текущее расписание</NavLink></li>
+                                <li><NavLink className={({ isActive }) => isActive ? styles.active : ''} to="/student/dashboard/schedule-past">Посещаемость</NavLink></li>
                             </>
                         )
                     }

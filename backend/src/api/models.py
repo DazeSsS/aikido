@@ -5,3 +5,5 @@ from api.internal.models.check import Check
 from api.internal.models.place import Place
 from api.internal.models.practice_group import PracticeGroup
 from api.internal.models.practice import Practice
+from api.internal.models.googleToken import GoogleToken
+from api.internal.models.calendarEvent import CalendarEvent

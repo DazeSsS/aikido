@@ -1,6 +1,7 @@
 from calendar import monthrange
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from google.auth.exceptions import RefreshError
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -277,7 +278,12 @@ class CreatePracticeView(CreateAPIView):
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+
+        try:
+            self.perform_create(serializer)
+        except RefreshError:
+            return Response({'message': 'token error'}, status=status.HTTP_201_CREATED)
+
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 

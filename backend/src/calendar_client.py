@@ -1,5 +1,6 @@
 import google.oauth2.credentials
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 from api.models import GoogleToken
 
@@ -34,11 +35,17 @@ class GoogleCalendar:
             'attendees': [{'email': email} for email in event_details['attendees']],
         }
 
-        event = self.service.events().insert(calendarId='primary', body=event, sendUpdates='externalOnly').execute()
-        return event
+        try:
+            event = self.service.events().insert(calendarId='primary', body=event, sendUpdates='externalOnly').execute()
+            return event
+        except HttpError:
+            return None
 
     def delete_event(self, event_id):
-        self.service.events().delete(calendarId='primary', eventId=event_id).execute()
+        try:
+            self.service.events().delete(calendarId='primary', eventId=event_id).execute()
+        except HttpError:
+            pass
 
     def add_event_attendees(self, event_id, new_attendees):
         event = self.service.events().get(calendarId='primary', eventId=event_id).execute()
@@ -49,11 +56,17 @@ class GoogleCalendar:
         else:
             event['attendees'] = email_list
 
-        return self.service.events().update(calendarId='primary', eventId=event_id, body=event, sendUpdates='externalOnly').execute()
+        try:
+            self.service.events().update(calendarId='primary', eventId=event_id, body=event, sendUpdates='externalOnly').execute()
+        except HttpError:
+            pass
 
     def remove_event_attendees(self, event_id, attendees_to_remove):
         event = self.service.events().get(calendarId='primary', eventId=event_id).execute()
 
         event['attendees'] = [attendee for attendee in event['attendees'] if attendee['email'] not in attendees_to_remove]
 
-        return self.service.events().update(calendarId='primary', eventId=event_id, body=event).execute()
+        try:
+            self.service.events().update(calendarId='primary', eventId=event_id, body=event).execute()
+        except HttpError:
+            pass

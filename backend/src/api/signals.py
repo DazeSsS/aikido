@@ -4,12 +4,16 @@ from django.dispatch import receiver
 from django.db.models.signals import m2m_changed, post_save, pre_delete
 from calendar_client import GoogleCalendar
 
-from api.models import User, Practice, PracticeGroup, CalendarEvent
+from api.models import User, Practice, PracticeGroup, CalendarEvent, GoogleToken
 
 
 @receiver(post_save, sender=Practice)
 def sync_practice_with_calendar(sender, instance, created, **kwargs):
-    cal = GoogleCalendar(instance.group.trainer)
+    trainer = instance.group.trainer
+    if GoogleToken.objects.filter(user=trainer).first() is None:
+        return
+
+    cal = GoogleCalendar(trainer)
 
     group = instance.group
     gmails = list(group.students.filter(email__contains='@gmail.com').values_list('email', flat=True))
@@ -24,7 +28,8 @@ def sync_practice_with_calendar(sender, instance, created, **kwargs):
     }
 
     event = cal.create_event(event_details=event_details)
-    CalendarEvent.objects.create(id=event.get('id'), practice=instance, link=event.get('htmlLink'))
+    if event is not None:
+        CalendarEvent.objects.create(id=event.get('id'), practice=instance, link=event.get('htmlLink'))
 
 
 @receiver(m2m_changed, sender=PracticeGroup.students.through)
@@ -58,8 +63,14 @@ def sync_students_with_calendar(sender, instance, action, pk_set, **kwargs):
 
 @receiver(pre_delete, sender=Practice)
 def delete_event(sender, instance, **kwargs):
-    cal = GoogleCalendar(instance.group.trainer)
-    cal.delete_event(instance.event.id)
+    trainer = instance.group.trainer
+    if GoogleToken.objects.filter(user=trainer).first() is None:
+        return
+
+    cal = GoogleCalendar(trainer)
+
+    if hasattr(instance, 'event'):
+        cal.delete_event(instance.event.id)
 
 
 @receiver(m2m_changed, sender=Practice.attended.through)

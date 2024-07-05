@@ -1,21 +1,23 @@
 import requests
+from django.conf import settings
+from django.http import HttpResponse
+from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from django.conf import settings
-from django.contrib.auth import get_user_model
 
+from api.permissions import IsTrainer
 from api.models import GoogleToken
 
 User = get_user_model()
 
 class GoogleCallbackView(APIView):
-    permission_classes = []
 
     def get(self, request, *args, **kwargs):
         code = request.GET.get('code')
         if not code:
-            return Response({'error': 'Code not provided'}, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse('Code not provided')
 
         data = {
             'code': code,
@@ -28,7 +30,7 @@ class GoogleCallbackView(APIView):
         token_data = response.json()
 
         if 'error' in token_data:
-            return Response({'error': token_data['error_description']}, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse(token_data['error_description'])
 
         user_data = requests.get(
             'https://www.googleapis.com/oauth2/v1/userinfo',
@@ -58,4 +60,16 @@ class GoogleCallbackView(APIView):
             }
         )
 
-        return Response({'detail': 'Tokens saved successfully'}, status=status.HTTP_200_OK)
+        return HttpResponse('Success')
+
+class CheckTokenView(APIView):
+    permission_classes = [IsAuthenticated & IsTrainer]
+
+    def get(self, request):
+        user = request.user
+        token = GoogleToken.objects.filter(user=user).first()
+
+        if token is not None:
+            return Response(True)
+        else:
+            return Response(False)

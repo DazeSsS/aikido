@@ -9,6 +9,10 @@
   /* justify-content: center; */
 }
 
+.table__container {
+  position: relative;
+}
+
 .section-button__container__inner {
   display: flex;
   justify-content: space-between;
@@ -36,6 +40,6 @@
 .spin__container {
   position: absolute;
   left: 50%;
-  top: 200%;
+  top: 150px;
   transform: translate(-50%, -50%);
 }

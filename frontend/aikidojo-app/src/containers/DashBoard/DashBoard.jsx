@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import SideBar from '../../components/DashBoard/SideBar/SideBar';
 import GroupsContent from '../../components/DashBoard/GroupsContent/GroupsContent';
@@ -52,10 +51,6 @@ const DashBoard = ({ onLogoutCallback, view }) => {
       </div>
     </>
   );
-};
-
-DashBoard.propTypes = {
-  testProp: PropTypes.string,
 };
 
 export default DashBoard;

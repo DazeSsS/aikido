@@ -30,36 +30,42 @@ const ControlsPanel = ({
             </div>
           ) : (
             <>
-              <div className={styles['title__container']}>
-                <h3>{title}</h3>
-                {withArrows && (
-                  <div className={styles['arrows_container']}>
-                    <div
-                      className={
-                        leftArrowState !== null
-                          ? classNames(styles['arrow'], {
-                              [styles['blocked']]: leftArrowState == 0,
-                            })
-                          : classNames(styles['arrow'])
-                      }
-                      onClick={onLeftArrowClick}
-                    >
-                      {console.log()}
-                      <LeftOutlined />
+              <div className={styles['label__container']}>
+                <div className={styles['title__container']}>
+                  <h3>{title}</h3>
+                  {withArrows && (
+                    <div className={styles['arrows_container']}>
+                      <div
+                        className={
+                          leftArrowState !== null
+                            ? classNames(styles['arrow'], {
+                                [styles['blocked']]: leftArrowState == 0,
+                              })
+                            : classNames(styles['arrow'])
+                        }
+                        onClick={onLeftArrowClick}
+                      >
+                        {console.log()}
+                        <LeftOutlined />
+                      </div>
+                      <div
+                        className={
+                          rightArrowState !== null
+                            ? classNames(styles['arrow'], {
+                                [styles['blocked']]: rightArrowState == 0,
+                              })
+                            : classNames(styles['arrow'])
+                        }
+                        onClick={onRightArrowClick}
+                      >
+                        <RightOutlined />
+                      </div>
                     </div>
-                    <div
-                      className={
-                        rightArrowState !== null
-                          ? classNames(styles['arrow'], {
-                              [styles['blocked']]: rightArrowState == 0,
-                            })
-                          : classNames(styles['arrow'])
-                      }
-                      onClick={onRightArrowClick}
-                    >
-                      <RightOutlined />
-                    </div>
-                  </div>
+                  )}
+                </div>
+
+                {labelData && (
+                  <div className={styles['label']}>{labelData}</div>
                 )}
               </div>
             </>

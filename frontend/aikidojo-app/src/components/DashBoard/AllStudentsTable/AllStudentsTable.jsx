@@ -12,6 +12,7 @@ import { getToken } from '../../../utils/authToken';
 const AllStudentsTable = ({ onCreateStudentClick }) => {
   const [students, setStudents] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [labelData, setLabelData] = useState('считаем участников...');
 
   const formatStudentsData = (fetchedStudentsData) => {
     const formattedStudentsData = [];
@@ -65,8 +66,14 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
 
       if (res) {
         console.log(res);
-        setStudents(formatStudentsData(res));
-        setTimeout(() => setIsLoading(false), 150);
+        const formattedData = formatStudentsData(res);
+        setStudents(formattedData);
+        setTimeout(() => {
+          setIsLoading(false);
+          setLabelData(`${formattedData.length} участников`);
+        }, 150);
+
+        console.log(formattedData.length);
         console.log('Успешно');
       } else {
         console.log('ERRROR');
@@ -98,7 +105,7 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
         actionTitle={'Создать нового ученика'}
         onBack={null}
         onAction={onCreateStudentClick}
-        labelData={null}
+        labelData={labelData}
       />
       <div className={styles['table__container']}>
         {isLoading ? (

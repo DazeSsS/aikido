@@ -1,6 +1,7 @@
 .schedule__container__inner {
   padding: 16px;
   border-top: 1px solid #eeeeee;
+  position: relative;
 }
 
 .schedule-items__container {
@@ -150,6 +151,6 @@
 .empty-alert {
   position: absolute;
   left: 50%;
-  top: 200%;
+  top: 150px;
   transform: translate(-50%, -50%);
 }

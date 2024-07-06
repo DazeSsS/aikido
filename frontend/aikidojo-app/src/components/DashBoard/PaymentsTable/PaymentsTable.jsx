@@ -12,6 +12,7 @@ const PaymentsTable = () => {
   const [payments, setPayments] = useState(null);
   const [selectedRows, setSelectedRows] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [labelData, setLabelData] = useState('считаем количество чеков...');
 
   const formatPaymentsData = (fetchedPaymentsData) => {
     const formattedPaymentsData = [];
@@ -54,9 +55,13 @@ const PaymentsTable = () => {
       });
 
       if (res) {
+        const formattedData = formatPaymentsData(res);
         console.log(res);
-        setPayments(formatPaymentsData(res));
-        setTimeout(() => setIsLoading(false), 150);
+        setPayments(formattedData);
+        setTimeout(() => {
+          setLabelData(`${formattedData.length} чеков`);
+          setIsLoading(false);
+        }, 150);
       } else {
         console.log('check not found!!!');
       }
@@ -105,7 +110,7 @@ const PaymentsTable = () => {
         actionTitle={'Подтвердить'}
         onBack={null}
         onAction={handleConfirmChecksClick}
-        labelData={null}
+        labelData={labelData}
       />
       <div className={styles['table__container']}>
         {isLoading ? (

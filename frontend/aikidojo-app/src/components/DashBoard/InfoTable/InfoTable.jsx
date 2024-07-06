@@ -201,6 +201,7 @@ const InfoTable = ({
         {...tableProps}
         scroll={{
           x: 900,
+          y: 700,
         }}
       />
     </>

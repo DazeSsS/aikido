@@ -1,15 +1,11 @@
 import MiniProfile from '../MiniProfile/MiniProfile';
-import { useState } from 'react';
 import { deleteToken } from '../../../utils/authToken';
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { deleteUserId, deleteUserRole } from '../../../utils/authToken';
 import styles from './SideBar.module.css';
 
-const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
-  const [selectedTab, setSelectedTab] = useState(
-    view === 'trainer' ? 'groups' : 'schedule'
-  );
+const SideBar = ({ view }) => {
   const navigate = useNavigate();
 
   const nullifyUserRole = () => {
@@ -17,11 +13,6 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
     deleteUserId();
     deleteUserRole();
     deleteToken();
-  };
-
-  const handleTabClick = (tab) => {
-    console.log(selectedTab);
-    setSelectedTab(tab);
   };
 
   const handleLogout = () => {
@@ -40,15 +31,13 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
           <ul>
             {view === 'trainer' ? (
               <>
-                <NavLink to="/trainer/dashboard/groups">
-                  <li
-                    className={
-                      selectedTab === 'groups'
-                        ? styles['navigation-item-active']
-                        : styles['navigation-item']
-                    }
-                    onClick={() => handleTabClick('groups')}
-                  >
+                <NavLink
+                  to="/trainer/dashboard/groups"
+                  className={({ isActive }) =>
+                    isActive ? styles['navigation-link-active'] : undefined
+                  }
+                >
+                  <li className={styles['navigation-item']}>
                     <img
                       className={styles['navigation-item-img']}
                       src="/groups-icon.svg"
@@ -58,15 +47,13 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   </li>
                 </NavLink>
 
-                <NavLink to="/trainer/dashboard/schedule">
-                  <li
-                    className={
-                      selectedTab === 'schedule'
-                        ? styles['navigation-item-active']
-                        : styles['navigation-item']
-                    }
-                    onClick={() => handleTabClick('schedule')}
-                  >
+                <NavLink
+                  to="/trainer/dashboard/schedule"
+                  className={({ isActive }) =>
+                    isActive ? styles['navigation-link-active'] : undefined
+                  }
+                >
+                  <li className={styles['navigation-item']}>
                     <img
                       className={styles['navigation-item-img']}
                       src="/schedule-icon.svg"
@@ -76,15 +63,13 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   </li>
                 </NavLink>
 
-                <NavLink to="/trainer/dashboard/students">
-                  <li
-                    className={
-                      selectedTab === 'students'
-                        ? styles['navigation-item-active']
-                        : styles['navigation-item']
-                    }
-                    onClick={() => handleTabClick('students')}
-                  >
+                <NavLink
+                  to="/trainer/dashboard/students"
+                  className={({ isActive }) =>
+                    isActive ? styles['navigation-link-active'] : undefined
+                  }
+                >
+                  <li className={styles['navigation-item']}>
                     <img
                       className={styles['navigation-item-img']}
                       src="/list-icon.svg"
@@ -94,15 +79,13 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   </li>
                 </NavLink>
 
-                <NavLink to="/trainer/dashboard/checks">
-                  <li
-                    className={
-                      selectedTab === 'payments'
-                        ? styles['navigation-item-active']
-                        : styles['navigation-item']
-                    }
-                    onClick={() => handleTabClick('payments')}
-                  >
+                <NavLink
+                  to="/trainer/dashboard/checks"
+                  className={({ isActive }) =>
+                    isActive ? styles['navigation-link-active'] : undefined
+                  }
+                >
+                  <li className={styles['navigation-item']}>
                     <img
                       className={styles['navigation-item-img']}
                       src="/payments-icon.svg"
@@ -114,15 +97,13 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
               </>
             ) : (
               <>
-                <NavLink to="/student/dashboard/schedule-future">
-                  <li
-                    className={
-                      selectedTab === 'schedule'
-                        ? styles['navigation-item-active']
-                        : styles['navigation-item']
-                    }
-                    onClick={() => handleTabClick('schedule')}
-                  >
+                <NavLink
+                  to="/student/dashboard/schedule-future"
+                  className={({ isActive }) =>
+                    isActive ? styles['navigation-link-active'] : undefined
+                  }
+                >
+                  <li className={styles['navigation-item']}>
                     <img
                       className={styles['navigation-item-img']}
                       src="/schedule-icon.svg"
@@ -132,15 +113,13 @@ const SideBar = ({ onTabClick, onLogoutCallback, view }) => {
                   </li>
                 </NavLink>
 
-                <NavLink to="/student/dashboard/schedule-past">
-                  <li
-                    className={
-                      selectedTab === 'attendance'
-                        ? styles['navigation-item-active']
-                        : styles['navigation-item']
-                    }
-                    onClick={() => handleTabClick('attendance')}
-                  >
+                <NavLink
+                  to="/student/dashboard/schedule-past"
+                  className={({ isActive }) =>
+                    isActive ? styles['navigation-link-active'] : undefined
+                  }
+                >
+                  <li className={styles['navigation-item']}>
                     <img
                       className={styles['navigation-item-img']}
                       src="/list-icon.svg"

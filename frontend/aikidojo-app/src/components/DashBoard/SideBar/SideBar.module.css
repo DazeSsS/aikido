@@ -48,12 +48,10 @@
   object-fit: cover;
 }
 
-.navigation-item-active {
+.navigation-link-active {
   background-color: #f9f0ff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: block;
+  border-radius: 4px;
 }
 
 .sidebar-title__container {

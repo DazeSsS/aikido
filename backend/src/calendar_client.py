@@ -1,4 +1,5 @@
-import google.oauth2.credentials
+from google.oauth2 import credentials
+from google.auth.exceptions import RefreshError
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
@@ -9,7 +10,7 @@ class GoogleCalendar:
     def __init__(self, user):
         self.user = user
         self.token_data = GoogleToken.objects.get(user=user)
-        self.credentials = google.oauth2.credentials.Credentials(
+        self.credentials = credentials.Credentials(
             token=self.token_data.access_token,
             refresh_token=self.token_data.refresh_token,
             token_uri=self.token_data.token_uri,
@@ -18,6 +19,13 @@ class GoogleCalendar:
             scopes=self.token_data.scopes.split()
         )
         self.service = build('calendar', 'v3', credentials=self.credentials)
+
+    def check_access(self):
+        try:
+            cal = self.service.calendars().get(calendarId='primary').execute()
+            return True
+        except RefreshError:
+            return False
 
     def create_event(self, event_details):
         event = {

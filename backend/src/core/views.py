@@ -1,4 +1,6 @@
 import requests
+from google.oauth2 import credentials
+from googleapiclient.discovery import build
 from django.conf import settings
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
@@ -7,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
+from calendar_client import GoogleCalendar
 from api.permissions import IsTrainer
 from api.models import GoogleToken
 
@@ -16,6 +19,8 @@ class GoogleCallbackView(APIView):
 
     def get(self, request, *args, **kwargs):
         code = request.GET.get('code')
+        user_id = request.GET.get('state')
+
         if not code:
             return HttpResponse('Code not provided')
 
@@ -32,12 +37,16 @@ class GoogleCallbackView(APIView):
         if 'error' in token_data:
             return HttpResponse(token_data['error_description'])
 
-        user_data = requests.get(
-            'https://www.googleapis.com/oauth2/v1/userinfo',
-            params={'access_token': token_data['access_token']}
-        ).json()
-
-        current_user = User.objects.get(email=user_data['email'])
+        if user_id:
+            current_user = User.objects.get(pk=int(user_id))
+            if current_user.role != User.TRAINER:
+                return HttpResponse('Access denied')
+        else:
+            user_data = requests.get(
+                'https://www.googleapis.com/oauth2/v1/userinfo',
+                params={'access_token': token_data['access_token']}
+            ).json()
+            current_user = User.objects.get(email=user_data['email'])
 
         calendar_info = requests.get(
             'https://www.googleapis.com/calendar/v3/calendars/primary',
@@ -70,6 +79,7 @@ class CheckTokenView(APIView):
         token = GoogleToken.objects.filter(user=user).first()
 
         if token is not None:
-            return Response(True)
+            cal = GoogleCalendar(user)
+            return Response(cal.check_access())
         else:
             return Response(False)

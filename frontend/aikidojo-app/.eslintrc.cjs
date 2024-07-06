@@ -18,8 +18,7 @@ module.exports = {
       { allowConstantExport: true },
     ],
     semi: ['error', 'always', { omitLastInOneLineBlock: false }],
-    'comma-dangle': ['error', 'never'],
     quotes: ['error', 'single'],
-    'react/prop-types': [0]
+    'react/prop-types': [0],
   },
-}
+};

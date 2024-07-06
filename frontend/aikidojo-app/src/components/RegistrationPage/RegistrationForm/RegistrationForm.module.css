@@ -1,40 +1,40 @@
 .inputs_container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .form_input label {
-    margin-bottom: 8px;
-    margin-left: 16px;
-    display: inline-block;
-    color: var(--font-color-small);
-    font-family: var(--font-family-secondary);
-    font-size: var(--font-size-small);
+  margin-bottom: 8px;
+  margin-left: 16px;
+  display: inline-block;
+  color: var(--font-color-small);
+  font-family: var(--font-family-secondary);
+  font-size: var(--font-size-small);
 }
 
 .decorative-line {
-    margin: 32px 0 32px 0;
-    height: 0.5px;
-    background-color: #E5E5E5;
+  margin: 32px 0 32px 0;
+  height: 0.5px;
+  background-color: #e5e5e5;
 }
 
 .login-link {
-    text-align: center;
-    font-size: var(--font-size-small);
-    font-family: var(--font-family-secondary);
+  text-align: center;
+  font-size: var(--font-size-small);
+  font-family: var(--font-family-secondary);
 }
 
 .login-link a {
-    text-decoration: none;
-    color: var(--color-primary);
+  text-decoration: none;
+  color: var(--color-primary);
 }
 
 .login-link span {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 
 .error-message {
-    color: #ff4d4f;
+  color: #ff4d4f;
 }

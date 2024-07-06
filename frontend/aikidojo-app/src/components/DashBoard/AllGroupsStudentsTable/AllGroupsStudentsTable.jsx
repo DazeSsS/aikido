@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Button, Spin } from 'antd';
+import { Spin } from 'antd';
 import InfoTable from '../InfoTable/InfoTable';
 import ControlsPanel from '../ControlsPanel/ControlsPanel';
 import { useState, useEffect } from 'react';
 import { getApiResource } from '../../../utils/network';
 import { getToken } from '../../../utils/authToken';
-import { mockGroupMembersData } from '../../../mock/mockData';
 import { PROTOCOL, HOST, MEDIA, API_URL } from '../../../constants/api';
 import styles from './AllGroupsStudentsTable.module.css';
 

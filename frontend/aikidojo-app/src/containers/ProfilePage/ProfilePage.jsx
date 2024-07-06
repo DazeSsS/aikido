@@ -1,11 +1,10 @@
-// import PropTypes from 'prop-types';
-import { useState, useEffect } from "react";
-import StudentProfileForm from "../../components/ProfilePage/StudentProfileForm";
-import { Spin } from "antd";
-import { getApiResource } from "../../utils/network";
-import { getToken } from "../../utils/authToken";
-import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL, AUTH_URL } from "../../constants/api";
-import styles from "./ProfilePage.module.css";
+import { useState, useEffect } from 'react';
+import { Spin } from 'antd';
+import StudentProfileForm from '../../components/ProfilePage/StudentProfileForm';
+import { getApiResource } from '../../utils/network';
+import { getToken } from '../../utils/authToken';
+import { MEDIA_PATH, API_URL } from '../../constants/api';
+import styles from './ProfilePage.module.css';
 
 const ProfilePage = ({ view }) => {
   const [profileData, setProfileData] = useState(null);
@@ -16,29 +15,34 @@ const ProfilePage = ({ view }) => {
     const formattedProfileData = {
       fullname:
         fetchedProfileData.last_name +
-        " " +
+        ' ' +
         fetchedProfileData.first_name +
-        " " +
+        ' ' +
         fetchedProfileData.middle_name,
       email: fetchedProfileData.email,
-      contact: fetchedProfileData?.phone_number || "Нет данных",
+      contact: fetchedProfileData?.phone_number || 'Нет данных',
       role: fetchedProfileData.role,
       rang: fetchedProfileData.rang,
       debt: fetchedProfileData.account?.debt,
       balance: fetchedProfileData.account?.balance,
       photo: fetchedProfileData.photo,
       date_of_birth: fetchedProfileData.date_of_birth,
-      gender: fetchedProfileData.gender === "male" ? "М" : "Ж",
+      gender: fetchedProfileData.gender === 'male' ? 'М' : 'Ж',
       parent_name:
-      view === 'student' && fetchedProfileData.parents?.length !== 0 ? fetchedProfileData?.parents[0]?.last_name +
-        " " +
-        fetchedProfileData?.parents[0]?.first_name +
-        " " +
-        fetchedProfileData?.parents[0]?.middle_name : 'Нет данных',
-      parent_contact: view === 'student' &&  fetchedProfileData.parents?.length !== 0 ? fetchedProfileData.parents[0].contact : 'Нет данных',
+        view === 'student' && fetchedProfileData.parents?.length !== 0
+          ? fetchedProfileData?.parents[0]?.last_name +
+            ' ' +
+            fetchedProfileData?.parents[0]?.first_name +
+            ' ' +
+            fetchedProfileData?.parents[0]?.middle_name
+          : 'Нет данных',
+      parent_contact:
+        view === 'student' && fetchedProfileData.parents?.length !== 0
+          ? fetchedProfileData.parents[0].contact
+          : 'Нет данных',
     };
 
-    console.log(formattedProfileData)
+    console.log(formattedProfileData);
 
     return formattedProfileData;
   };
@@ -47,7 +51,7 @@ const ProfilePage = ({ view }) => {
     setIsLoading(true);
 
     const fetchProfileData = async () => {
-      const res = await getApiResource(API_URL + "me", {
+      const res = await getApiResource(API_URL + 'me', {
         headers: {
           Authorization: `Token ${getToken()}`,
         },
@@ -60,7 +64,7 @@ const ProfilePage = ({ view }) => {
           setIsLoading(false);
         }, 150);
       } else {
-        console.log("No data vailable for /me endpoint");
+        console.log('No data vailable for /me endpoint');
       }
     };
 
@@ -73,23 +77,23 @@ const ProfilePage = ({ view }) => {
   };
 
   return (
-    <div className={styles["profile-page__container"]}>
+    <div className={styles['profile-page__container']}>
       {isLoading ? (
-        <div className={styles["spin__container"]}>
+        <div className={styles['spin__container']}>
           <Spin size="large" />
         </div>
       ) : (
         <>
-          <div className={styles["profile__container"]}>
-            <div className={styles["profile__main-info__container"]}>
+          <div className={styles['profile__container']}>
+            <div className={styles['profile__main-info__container']}>
               <img
-                className={styles["profile__main-info__img"]}
+                className={styles['profile__main-info__img']}
                 src={MEDIA_PATH + profileData.photo}
                 alt=""
               />
-              <div className={styles["profile__main-info-text__container"]}>
-                <h1>{profileData ? profileData.fullname : "Loading..."}</h1>
-                {view == "trainer" ? (
+              <div className={styles['profile__main-info-text__container']}>
+                <h1>{profileData ? profileData.fullname : 'Loading...'}</h1>
+                {view == 'trainer' ? (
                   <span>Сэнсэй</span>
                 ) : (
                   <span>Ученик, {profileData.rang || 1} кю</span>
@@ -98,7 +102,7 @@ const ProfilePage = ({ view }) => {
             </div>
           </div>
 
-          <div className={styles["student-profile__form__container"]}>
+          <div className={styles['student-profile__form__container']}>
             <StudentProfileForm
               view={view}
               data={profileData}

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Input, Dropdown, Space, notification } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import ControlsPanel from '../ControlsPanel/ControlsPanel';
@@ -23,7 +23,7 @@ const CreateGroupForm = ({ onBack }) => {
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const res = await axios.get(API_URL + `trainer/places`, {
+        const res = await axios.get(API_URL + 'trainer/places', {
           headers: {
             Authorization: `Token ${getToken()}`,
           },
@@ -61,7 +61,7 @@ const CreateGroupForm = ({ onBack }) => {
 
   const handleCreateGroup = async () => {
     try {
-      const res = await axios.post(API_URL + `trainer/groups`, formData, {
+      const res = await axios.post(API_URL + 'trainer/groups', formData, {
         headers: {
           Authorization: `Token ${getToken()}`,
         },

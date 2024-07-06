@@ -1,44 +1,44 @@
 .section-button__container {
-    /* margin-left: 312px; */
-    /* height: 80px; */
+  /* margin-left: 312px; */
+  /* height: 80px; */
 
-    padding: 20px 16px;
-    
-    /* display: flex;
+  padding: 20px 16px;
+
+  /* display: flex;
     align-items: center; */
-    /* justify-content: center; */
+  /* justify-content: center; */
 }
 
 .section-button__container__inner {
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    /* margin-right: 24px; */
-    margin-left: auto; 
-    margin-top: auto;
-    margin-bottom: auto;
-    height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-right: 24px; */
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 50px;
 }
 
 .section-button__container__inner h3 {
-    margin: 0;
-    padding: 0;
-    font-size: 18px;
-    font-weight: 500;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .member-name__container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .member-name__container img {
-    margin-right: 12px;
+  margin-right: 12px;
 }
 
 .spin__container {
-    position: absolute;
-    left: 50%;
-    top: 200%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 200%;
+  transform: translate(-50%, -50%);
 }

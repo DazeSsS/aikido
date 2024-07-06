@@ -1,63 +1,62 @@
 .section-button__container {
-    /* margin-left: 312px; */
-    /* height: 80px; */
+  /* margin-left: 312px; */
+  /* height: 80px; */
 
-    padding: 20px 16px;
-    
-    /* display: flex;
+  padding: 20px 16px;
+
+  /* display: flex;
     align-items: center; */
-    /* justify-content: center; */
+  /* justify-content: center; */
 }
 
 .section-button__container__inner {
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    /* margin-right: 24px; */
-    margin-left: auto; 
-    margin-top: auto;
-    margin-bottom: auto;
-    height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-right: 24px; */
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 50px;
 }
 
 .section-button__container__inner h3 {
-    margin: 0;
-    padding: 0;
-    font-size: 18px;
-    font-weight: 500;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .title-with-button__container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-
 .arrows_container {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
 }
 
 .arrow {
-    height: 32px;
-    width: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.08);
-    border-radius: 6px;
-    cursor: pointer;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 .arrow:hover {
-    background-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(0, 0, 0, 0.12);
 }
 
 .arrow.blocked {
-    background-color: rgba(0, 0, 0, 0.02);
-    pointer-events: none;
-    cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.02);
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 /* .blocked {
@@ -67,9 +66,9 @@
 } */
 
 .title__container {
-    display: flex;
-    gap: 20px;
-    /* width: 430px;    */
+  display: flex;
+  gap: 20px;
+  /* width: 430px;    */
 }
 
 /* потом уберу */
@@ -77,8 +76,5 @@
     width: 430px; 
 } */
 
-
-
 @media (max-width: 700px) {
-
 }

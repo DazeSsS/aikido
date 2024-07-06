@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
@@ -80,10 +79,6 @@ const ControlsPanel = ({
       </div>
     </>
   );
-};
-
-ControlsPanel.propTypes = {
-  testProp: PropTypes.string,
 };
 
 export default ControlsPanel;

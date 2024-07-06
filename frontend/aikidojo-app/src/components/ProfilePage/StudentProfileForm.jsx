@@ -3,14 +3,7 @@ import axios from 'axios';
 import { Input, Button, Upload, notification } from 'antd';
 import { useState } from 'react';
 import styles from './StudentProfileForm.module.css';
-import {
-  PROTOCOL,
-  HOST,
-  MEDIA,
-  MEDIA_PATH,
-  API_URL,
-  AUTH_URL,
-} from '../../constants/api';
+import { API_URL } from '../../constants/api';
 import { getToken } from '../../utils/authToken';
 
 const StudentProfileForm = ({ view, data, onSubmition }) => {
@@ -23,22 +16,8 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
     photo: data?.photo,
   });
 
-  /// временное
-  const [additionalFormData, setAdditionalFormData] = useState({
-    parent_name: data.parent_name,
-    parent_contact: data.parent_contact,
-  });
-  /// временное
-
-  const [fileList, setFileList] = useState([]);
-
   const handleUpload = async () => {
     try {
-      const checkData = {
-        file: formData.newfile,
-        amount: formData.amount,
-      };
-
       const formData2 = new FormData();
       formData2.append('file', formData.newfile);
       formData2.append('amount', formData.amount);
@@ -199,7 +178,11 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
         ) : (
           <>
             <div className={styles['add-check__input']}>
-              <label htmlFor="amount">{data.debt > 0 ? (`Задолженность: ${data.debt} руб.`) : (`Баланс: ${data.balance} руб.`)}</label>
+              <label htmlFor="amount">
+                {data.debt > 0
+                  ? `Задолженность: ${data.debt} руб.`
+                  : `Баланс: ${data.balance} руб.`}
+              </label>
               <Input
                 id="amount"
                 placeholder="Введите сумму"
@@ -211,9 +194,6 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                   name="photo"
                   listType="picture-card"
                   style={{ display: 'block' }}
-                  // action={API_URL + 'me'}
-                  // headers={{Authorization: `Token ${getToken()}`}}
-                  // method="PATCH"
                   beforeUpload={(file) => {
                     setFormData({ ...formData, newfile: file });
                     return false;

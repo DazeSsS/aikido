@@ -1,37 +1,40 @@
 .schedule__container__inner {
-    padding: 16px;
-    border-top: 1px solid #EEEEEE;
+  padding: 16px;
+  border-top: 1px solid #eeeeee;
 }
 
 .schedule-items__container {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(7, 200px); /* Определение количества колонок и их размеров */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px; /* Расстояние между элементами */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(
+    7,
+    200px
+  ); /* Определение количества колонок и их размеров */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px; /* Расстояние между элементами */
 }
 
 .schedule-item {
-    background-color: #F5F8FA;
-    padding: 16px;
-    max-width: 258px;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    color: rgba(69, 82, 102, 1);
-    min-height: 197px;
+  background-color: #f5f8fa;
+  padding: 16px;
+  max-width: 258px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: rgba(69, 82, 102, 1);
+  min-height: 197px;
 }
 
 .schedule-item.attended {
-    background-color: #D9F7BE;
+  background-color: #d9f7be;
 }
 
 .schedule-item.missed {
-    background-color: rgba(255, 163, 158, 1);
+  background-color: rgba(255, 163, 158, 1);
 }
 
 /* .schedule-item:hover {
@@ -39,116 +42,114 @@
 } */
 
 .schedule-item h1 {
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
-    text-transform: uppercase;
-    color: rgba(69, 82, 102, 1);
-    font-family: var(--font-family-secondary);
-    font-weight: 700;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: rgba(69, 82, 102, 1);
+  font-family: var(--font-family-secondary);
+  font-weight: 700;
 }
 
 .schedule-item-li {
-    max-width: 258px;
+  max-width: 258px;
 }
 
 .schedule-item-practice__container {
-    padding: 16px;
-    border: 1px solid #EEEEEE;
-    border-radius: 10px;
-    background-color: #FFFFFF;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;  
-    position: relative;
+  padding: 16px;
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
 }
 
 .schedule-item-practice__container:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .schedule-item-practice__container h3 {
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
 }
 
 .decorative-line {
-    height: 1px;
-    background-color: #EEEEEE;
+  height: 1px;
+  background-color: #eeeeee;
 }
 
 .attendance-status-icon {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 16px;
-    right: 16px;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 
 .practice-info {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .practice-info-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .practice-info-item h4:first-child {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .practice-info-item-value {
-    font-size: 12px;
-    font-weight: 400;
-    font-family: var(--font-family-secondary);
+  font-size: 12px;
+  font-weight: 400;
+  font-family: var(--font-family-secondary);
 }
 
-
 .section-button__container {
-    /* margin-left: 312px; */
-    /* height: 80px; */
+  /* margin-left: 312px; */
+  /* height: 80px; */
 
-    padding: 20px 16px;
-    
-    
-    /* display: flex;
+  padding: 20px 16px;
+
+  /* display: flex;
     align-items: center; */
-    /* justify-content: center; */
+  /* justify-content: center; */
 }
 
 .section-button__container__inner {
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    /* margin-right: 24px; */
-    margin-left: auto; 
-    margin-top: auto;
-    margin-bottom: auto;
-    height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-right: 24px; */
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 50px;
 }
 
 .section-button__container__inner h3 {
-    margin: 0;
-    padding: 0;
-    font-size: 18px;
-    font-weight: 500;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .title-with-button__container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-
-.spin__container, .empty-alert {
-    position: absolute;
-    left: 50%;
-    top: 200%;
-    transform: translate(-50%, -50%);
+.spin__container,
+.empty-alert {
+  position: absolute;
+  left: 50%;
+  top: 200%;
+  transform: translate(-50%, -50%);
 }

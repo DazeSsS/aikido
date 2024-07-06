@@ -5,18 +5,8 @@ import { Button, Input, Dropdown, Space, notification } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { getToken } from '../../../utils/authToken';
 import ControlsPanel from '../ControlsPanel/ControlsPanel';
-import {
-  PROTOCOL,
-  HOST,
-  MEDIA,
-  MEDIA_PATH,
-  API_URL,
-} from '../../../constants/api';
+import { API_URL } from '../../../constants/api';
 import styles from './CreateStudentForm.module.css';
-
-const onMenuClick = (e) => {
-  console.log('click', e);
-};
 
 const items = [
   {

@@ -1,24 +1,24 @@
 .user-photo__container {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .member-name__container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .member-name__container img {
-    margin-right: 12px;
+  margin-right: 12px;
 }
 
 .delete-button {
-    cursor: pointer;
-    color: #475467;
+  cursor: pointer;
+  color: #475467;
 }
 
 .delete-button:hover {
-    color: #722ED1;
+  color: #722ed1;
 }

@@ -1,45 +1,45 @@
 .user-profile-avatar {
-    display: block;
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .profile-name__container {
-    margin-left: 10px;
-    margin-right: 46px;
-    
-    width: 160px;
+  margin-left: 10px;
+  margin-right: 46px;
+
+  width: 160px;
 }
 
 .profile-name__container h2 {
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-name__container span {
-    font-weight: 400;
-    font-size: 14px;
-    white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-display: block;
+  font-weight: 400;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 
 .logout-button {
-    cursor: pointer;
-    color: #667085;
+  cursor: pointer;
+  color: #667085;
 }
 
 .logout-button:hover {
-    /* not implemented  */
-    color: #722ED1;
+  /* not implemented  */
+  color: #722ed1;
 }
 
 .spin__container {
-    margin: 0 auto;
+  margin: 0 auto;
 }

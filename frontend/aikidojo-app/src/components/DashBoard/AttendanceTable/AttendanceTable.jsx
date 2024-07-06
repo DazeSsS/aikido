@@ -1,13 +1,12 @@
-import PropTypes from "prop-types";
-import axios from "axios";
-import { Button, Spin } from "antd";
-import InfoTable from "../InfoTable/InfoTable";
-import ControlsPanel from "../ControlsPanel/ControlsPanel";
-import { useState, useEffect } from "react";
-import styles from "./AttendanceTable.module.css";
-import { getApiResource } from "../../../utils/network";
-import { PROTOCOL, HOST, MEDIA, MEDIA_PATH, API_URL } from "../../../constants/api";
-import { getToken } from "../../../utils/authToken";
+import axios from 'axios';
+import { Spin } from 'antd';
+import InfoTable from '../InfoTable/InfoTable';
+import ControlsPanel from '../ControlsPanel/ControlsPanel';
+import { useState, useEffect } from 'react';
+import styles from './AttendanceTable.module.css';
+import { getApiResource } from '../../../utils/network';
+import { MEDIA_PATH, API_URL } from '../../../constants/api';
+import { getToken } from '../../../utils/authToken';
 
 const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
   const [students, setStudents] = useState(null);
@@ -19,24 +18,25 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
     const formattedStudentsData = [];
 
     for (const student of fetchedStudentsData) {
-      
-
       const studentData = {
         key: student.id,
         id: student.id,
         debt: student.account.debt,
         student: {
-          full_name: student.first_name + ' ' +
-                student.middle_name + ' ' +
-                student.last_name,
-          photo: MEDIA_PATH + student.photo
+          full_name:
+            student.first_name +
+            ' ' +
+            student.middle_name +
+            ' ' +
+            student.last_name,
+          photo: MEDIA_PATH + student.photo,
         },
         parentContact: {
           name:
             student.parents[0]?.first_name +
-            " " +
+            ' ' +
             student.parents[0]?.middle_name +
-            " " +
+            ' ' +
             student.parents[0]?.last_name,
           contact: student.parents[0]?.contact,
         },
@@ -44,7 +44,7 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
 
       formattedStudentsData.push(studentData);
     }
-    
+
     return formattedStudentsData;
   };
 
@@ -57,100 +57,104 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
 
   const [test, setTest] = useState(null);
 
-    useEffect(() => {
-        const fetchPracticeInfo = async () => { // API_URL + `trainer/practices/${practiceId}`
-            const res = await getApiResource(API_URL + `trainer/practices/${practiceId}`, {
-                headers: {
-                    Authorization: `Token ${getToken()}`,
-                }
-            });
-    
-            if (res) {
-                console.log(res)
-                setAttendedStudents(formatAttendedStudents(res.attended));
-                setTest(formatAttendedStudents(res.attended))
-                console.log(formatAttendedStudents(res.attended))
-            } else {
-                console.log('что то не так')
-            }
-        };
-
-        
-        fetchPracticeInfo();
-    }, []);
-
-    
-    useEffect(() => {
-        if (attendedStudents !== null) {
-            const fetchGroupMembers = async () => { // API_URL + `trainer/groups/${groupId}/students`
-                const res = await getApiResource(API_URL + `trainer/groups/${groupId}/students`, {
-                    headers: {
-                        Authorization: `Token ${getToken()}`,
-                    }
-                });
-    
-                if (res) {
-                    const groupMembers = formatStudentsData(res);
-                    setStudents(groupMembers)
-                    setTimeout(() => setIsLoading(false), 150)
-                } else {
-                    console.log('что то не так')
-                }
-            };
-            
-            fetchGroupMembers();
+  useEffect(() => {
+    const fetchPracticeInfo = async () => {
+      // API_URL + `trainer/practices/${practiceId}`
+      const res = await getApiResource(
+        API_URL + `trainer/practices/${practiceId}`,
+        {
+          headers: {
+            Authorization: `Token ${getToken()}`,
+          },
         }
-    }, [attendedStudents]);
+      );
+
+      if (res) {
+        console.log(res);
+        setAttendedStudents(formatAttendedStudents(res.attended));
+        setTest(formatAttendedStudents(res.attended));
+        console.log(formatAttendedStudents(res.attended));
+      } else {
+        console.log('что то не так');
+      }
+    };
+
+    fetchPracticeInfo();
+  }, []);
+
+  useEffect(() => {
+    if (attendedStudents !== null) {
+      const fetchGroupMembers = async () => {
+        // API_URL + `trainer/groups/${groupId}/students`
+        const res = await getApiResource(
+          API_URL + `trainer/groups/${groupId}/students`,
+          {
+            headers: {
+              Authorization: `Token ${getToken()}`,
+            },
+          }
+        );
+
+        if (res) {
+          const groupMembers = formatStudentsData(res);
+          setStudents(groupMembers);
+          setTimeout(() => setIsLoading(false), 150);
+        } else {
+          console.log('что то не так');
+        }
+      };
+
+      fetchGroupMembers();
+    }
+  }, [attendedStudents]);
 
   const handleRowSelectionChange = (ids) => {
     setSelectedRows([...ids, ...attendedStudents]);
-    setTest(ids)
-  }
+    setTest(ids);
+  };
 
   const handlePatchAttended = async () => {
-    
     const attendedResult = [...test];
 
-    const res = await axios.patch( // API_URL + `trainer/practices/${practiceId}`
+    const res = await axios.patch(
+      // API_URL + `trainer/practices/${practiceId}`
       API_URL + `trainer/practices/${practiceId}`,
-        {
-            attended: attendedResult
-        }, 
-        {
-            headers: {
-                Authorization: `Token ${getToken()}`
-            }
-        }
-    )
+      {
+        attended: attendedResult,
+      },
+      {
+        headers: {
+          Authorization: `Token ${getToken()}`,
+        },
+      }
+    );
 
     if (res) {
-        console.log(res)
-        console.log('success');
-        onBack();
+      console.log(res);
+      console.log('success');
+      onBack();
     } else {
-        console.log('error')
+      console.log('error');
     }
-  }
-
-  
+  };
 
   return (
     <>
       <ControlsPanel
-        title={"Посещаемость тренировки " + practiceDate}
-        actionTitle={"Отметить выбранных участников"}
+        title={'Посещаемость тренировки ' + practiceDate}
+        actionTitle={'Отметить выбранных участников'}
         onBack={onBack}
         onAction={handlePatchAttended}
         labelData={null}
       />
-      <div className={styles["table__container"]}>
+      <div className={styles['table__container']}>
         {isLoading ? (
-          <div className={styles["spin__container"]}>
+          <div className={styles['spin__container']}>
             <Spin size="large" />
           </div>
         ) : (
           <InfoTable
-            layout={"groupMembers"}
+            layout={'groupMembers'}
             data={students}
             enableRowClick={false}
             onRowClick={null}
@@ -164,10 +168,6 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
       </div>
     </>
   );
-};
-
-AttendanceTable.propTypes = {
-  testProp: PropTypes.string,
 };
 
 export default AttendanceTable;

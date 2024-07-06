@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
@@ -6,13 +5,7 @@ import { Button, Input, Dropdown, Space, notification } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import ControlsPanel from '../ControlsPanel/ControlsPanel';
 import { getToken } from '../../../utils/authToken';
-import {
-  PROTOCOL,
-  HOST,
-  MEDIA,
-  MEDIA_PATH,
-  API_URL,
-} from '../../../constants/api';
+import { API_URL } from '../../../constants/api';
 import { getApiResource } from '../../../utils/network';
 import styles from './CreateTrainingForm.module.css';
 
@@ -203,10 +196,6 @@ const CreateTrainingForm = ({ onBack }) => {
       </div>
     </>
   );
-};
-
-CreateTrainingForm.propTypes = {
-  testProp: PropTypes.string,
 };
 
 export default CreateTrainingForm;

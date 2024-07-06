@@ -12,6 +12,6 @@ export const deleteUserId = () => localStorage.removeItem('id');
 
 export const setUserRole = (role) => localStorage.setItem('userrole', role);
 
-export const getUserRole = () => localStorage.getItem('userrole')
+export const getUserRole = () => localStorage.getItem('userrole');
 
 export const deleteUserRole = () => localStorage.removeItem('userrole');

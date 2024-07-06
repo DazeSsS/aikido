@@ -1,16 +1,15 @@
 .member-name__container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .member-name__container img {
-    margin-right: 12px;
+  margin-right: 12px;
 }
 
 .spin__container {
-    position: absolute;
-    left: 50%;
-    top: 200%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 200%;
+  transform: translate(-50%, -50%);
 }
-

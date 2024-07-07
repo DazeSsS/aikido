@@ -31,7 +31,13 @@ const ControlsPanel = ({
             </div>
           ) : (
             <>
-              <div className={labelData && styles['label__container']}>
+              <div
+                className={
+                  labelData
+                    ? styles['label__container']
+                    : styles['title__container__wrapper']
+                }
+              >
                 <div className={styles['title__container']}>
                   <h3>{title}</h3>
                   {withArrows && (

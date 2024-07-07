@@ -76,7 +76,7 @@ const GroupsTable = ({ onGroupClick, onCreateGroupClick }) => {
     <>
       <ControlsPanel
         title={'Группы'}
-        actionTitle={'Создать группу'}
+        actionTitle={'Создать новую группу'}
         onBack={null}
         onAction={onCreateGroupClick}
         labelData={null}

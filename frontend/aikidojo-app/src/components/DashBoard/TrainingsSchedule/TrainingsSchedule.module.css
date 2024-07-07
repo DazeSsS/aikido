@@ -154,3 +154,12 @@
   top: 150px;
   transform: translate(-50%, -50%);
 }
+
+@media (max-width: 450px) {
+  .schedule-item {
+    max-width: none;
+  }
+  .schedule-item-li {
+    max-width: none;
+  }
+}

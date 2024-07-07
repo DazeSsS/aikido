@@ -51,6 +51,7 @@
 .form-input__row {
   display: flex;
   gap: 24px;
+  flex-wrap: wrap;
 }
 
 .form-input__row label {
@@ -76,4 +77,20 @@
 .form-buttons__container__inner {
   display: flex;
   gap: 12px;
+}
+
+@media (max-width: 450px) {
+  .form-input {
+    width: 100%;
+  }
+
+  .create-group-form__container__inner {
+    border: none;
+    border-top: 1px solid #f2f4f7;
+    border-radius: 0;
+  }
+
+  .form-buttons__container {
+    border: none;
+  }
 }

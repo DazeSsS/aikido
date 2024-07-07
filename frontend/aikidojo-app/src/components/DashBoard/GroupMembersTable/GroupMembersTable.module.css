@@ -7,9 +7,13 @@
   margin-right: 12px;
 }
 
+.table__container {
+  position: relative;
+}
+
 .spin__container {
   position: absolute;
   left: 50%;
-  top: 200%;
+  top: 150px;
   transform: translate(-50%, -50%);
 }

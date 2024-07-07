@@ -102,7 +102,7 @@ const AllStudentsTable = ({ onCreateStudentClick }) => {
     <>
       <ControlsPanel
         title={'Список учеников из всех групп'}
-        actionTitle={'Создать нового ученика'}
+        actionTitle={'Добавить нового ученика'}
         onBack={null}
         onAction={onCreateStudentClick}
         labelData={labelData}

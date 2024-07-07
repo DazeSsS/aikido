@@ -18,6 +18,7 @@
   margin-top: auto;
   margin-bottom: auto;
   height: 50px;
+  flex-wrap: wrap;
 }
 
 .section-button__container__inner h3 {
@@ -107,4 +108,34 @@
 }
 
 @media (max-width: 700px) {
+}
+
+@media (max-width: 450px) {
+  .title__container h3 {
+    width: auto;
+    white-space: break-spaces;
+    text-align: center;
+  }
+
+  .title__container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .section-button__container__inner {
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+  }
+
+  .label__container {
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
 }

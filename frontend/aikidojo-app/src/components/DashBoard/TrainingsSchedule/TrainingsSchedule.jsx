@@ -96,13 +96,18 @@ const TrainingsSchedule = ({
     setCurrentOffset((prevOffset) => prevOffset + 1);
   };
 
+  const handleGetCurrentWeek = () => {
+    setCurrentOffset(0);
+  };
+
   return (
     <>
       <ControlsPanel
-        title={`Текущее расписание (${startOfWeek} - ${endOfWeek})`}
+        title={`Расписание (${startOfWeek} - ${endOfWeek})`}
         actionTitle={view === 'trainer' ? 'Запланировать тренировку' : null}
         onAction={onCreateTrainingClick}
         withArrows={true}
+        onGetCurrentWeekClick={handleGetCurrentWeek}
         onLeftArrowClick={handleGetPreviousWeek}
         onRightArrowClick={handleGetNextWeek}
         leftArrowState={

@@ -9,6 +9,7 @@ const ControlsPanel = ({
   onBack,
   onAction,
   labelData,
+  onGetCurrentWeekClick,
   withArrows,
   onLeftArrowClick,
   onRightArrowClick,
@@ -30,7 +31,7 @@ const ControlsPanel = ({
             </div>
           ) : (
             <>
-              <div className={styles['label__container']}>
+              <div className={labelData && styles['label__container']}>
                 <div className={styles['title__container']}>
                   <h3>{title}</h3>
                   {withArrows && (
@@ -60,6 +61,14 @@ const ControlsPanel = ({
                       >
                         <RightOutlined />
                       </div>
+                      {onGetCurrentWeekClick && (
+                        <div
+                          className={styles['get-curr-week-btn']}
+                          onClick={onGetCurrentWeekClick}
+                        >
+                          Текущая неделя
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

@@ -34,6 +34,10 @@
   width: 300px;
 }
 
+.user-info-row__input span {
+  display: block;
+}
+
 .check-upload__container {
   display: flex;
   justify-content: center;

@@ -3,12 +3,13 @@ import { Spin } from 'antd';
 import StudentProfileForm from '../../components/ProfilePage/StudentProfileForm';
 import { getApiResource } from '../../utils/network';
 import { getToken } from '../../utils/authToken';
-import { MEDIA_PATH, API_URL } from '../../constants/api';
+import { MEDIA_PATH, API_URL, BASE_URL } from '../../constants/api';
 import styles from './ProfilePage.module.css';
 
 const ProfilePage = ({ view }) => {
   const [profileData, setProfileData] = useState(null);
   const [profileDataChanged, setProfileDataChanged] = useState(false);
+  const [tokenGoogleData, setTokenGoogleData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   const formatProfileData = (fetchedProfileData) => {
@@ -60,6 +61,26 @@ const ProfilePage = ({ view }) => {
       if (res) {
         console.log(res);
         setProfileData(formatProfileData(res));
+        //
+      } else {
+        console.log('No data vailable for /me endpoint');
+      }
+    };
+
+    const checkGoogleToken = async () => {
+      const res = await getApiResource(
+        BASE_URL + 'accounts/google/checkToken',
+        {
+          headers: {
+            Authorization: `Token ${getToken()}`,
+          },
+        }
+      );
+
+      if (res == 'false' || res === false || res) {
+        console.log(res);
+        // Обновляем profileData с данными о токене Google
+        setTokenGoogleData(res);
         setTimeout(() => {
           setIsLoading(false);
         }, 150);
@@ -69,6 +90,7 @@ const ProfilePage = ({ view }) => {
     };
 
     fetchProfileData();
+    checkGoogleToken();
   }, [profileDataChanged]);
 
   const handleProfileDataEdit = () => {
@@ -106,6 +128,7 @@ const ProfilePage = ({ view }) => {
             <StudentProfileForm
               view={view}
               data={profileData}
+              hasToken={tokenGoogleData}
               onSubmition={handleProfileDataEdit}
             />
           </div>

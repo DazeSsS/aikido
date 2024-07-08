@@ -3,10 +3,10 @@ import axios from 'axios';
 import { Input, Button, Upload, notification } from 'antd';
 import { useState } from 'react';
 import styles from './StudentProfileForm.module.css';
-import { API_URL } from '../../constants/api';
-import { getToken } from '../../utils/authToken';
+import { API_URL, GOOGLE } from '../../constants/api';
+import { getToken, getUserId } from '../../utils/authToken';
 
-const StudentProfileForm = ({ view, data, onSubmition }) => {
+const StudentProfileForm = ({ view, data, hasToken, onSubmition }) => {
   const [formData, setFormData] = useState({
     full_name: data.full_name,
     email: data.email,
@@ -156,6 +156,15 @@ const StudentProfileForm = ({ view, data, onSubmition }) => {
                     size="large"
                     onChange={handleChange}
                   />
+                </div>
+                <div className={styles['user-info-row__input']}>
+                  <span htmlFor="contact">Привязка Google Calendar</span>
+                  <a href={`${GOOGLE}${getUserId()}`}>
+                    <Button type="primary" disabled={hasToken} size="large">
+                      {console.log(hasToken)}
+                      {hasToken ? 'Привязан' : 'Привязать'}
+                    </Button>
+                  </a>
                 </div>
               </div>
             </div>

@@ -207,7 +207,7 @@ class MyPracticesView(ListAPIView):
         elif past and offset >= 0:
             scope_end = datetime.now()
 
-        group = user.get_my_group()
+        group = user.get_group()
         if group is None:
             return Practice.objects.none()
             
@@ -351,13 +351,8 @@ class CheckListView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        groups = user.practice_groups.all().prefetch_related("students")
-        checks = Check.objects.none()
-        for group in groups:
-            group_checks = group.get_payment_checks()
-            checks = checks.union(group_checks)
-
-        return checks.order_by('-date')
+        checks = user.get_incoming_checks()
+        return checks
 
 
 class CheckView(APIView):

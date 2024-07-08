@@ -30,6 +30,16 @@ services:
       - media:/app/src/media
     depends_on:
       - db
+  bot:
+    container_name: bot
+    image: aikido-api:0.1
+    build: ./backend
+    command: python src/manage.py run_bot
+    restart: always
+    env_file:
+      - ./.env
+    depends_on:
+      - api
   web:
     container_name: web
     image: aikido-web:0.1

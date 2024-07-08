@@ -16,4 +16,4 @@ class PracticeGroup(models.Model):
         checks = Check.objects.none()
         for student in students:
             checks = checks.union(student.account.checks.filter(confirmed=False))
-        return checks
+        return checks.order_by('-date')

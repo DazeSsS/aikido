@@ -23,3 +23,6 @@ class Check(models.Model):
         else:
             string = f'{self.date}'
         return string
+
+    def get_attached_trainer(self):
+        return self.account.user.get_group().trainer

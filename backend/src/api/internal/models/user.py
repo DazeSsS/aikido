@@ -2,6 +2,8 @@ from datetime import date
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
+from .check import Check
+
 
 def photo_upload_path(instance, filename):
     return 'users/{0}/{1}'.format(instance.email, filename)
@@ -68,10 +70,22 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    def get_my_group(self):
+    def get_group(self):
         return self.my_groups.first()
 
     def get_age(self):
         today = date.today()
         birth = self.date_of_birth
         return today.year - birth.year - ((today.month, today.day) < (birth.month, birth.day))
+
+    def get_incoming_checks(self, limit=None):
+        if self.role == User.STUDENT:
+            return None
+
+        groups = self.practice_groups.all().prefetch_related("students")
+        checks = Check.objects.none()
+        for group in groups:
+            group_checks = group.get_payment_checks()
+            checks = checks.union(group_checks)
+
+        return checks.order_by('-date')[:limit]

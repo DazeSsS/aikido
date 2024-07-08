@@ -3,6 +3,7 @@ from google.oauth2 import credentials
 from googleapiclient.discovery import build
 from django.conf import settings
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -69,7 +70,7 @@ class GoogleCallbackView(APIView):
             }
         )
 
-        return HttpResponse('Success')
+        return redirect(settings.AUTH_REDIRECT)
 
 class CheckTokenView(APIView):
     permission_classes = [IsAuthenticated & IsTrainer]

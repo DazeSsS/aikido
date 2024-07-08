@@ -1,10 +1,13 @@
+import requests
 from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import m2m_changed, post_save, pre_delete
 from calendar_client import GoogleCalendar
 
-from api.models import User, Practice, PracticeGroup, CalendarEvent, GoogleToken
+from api.models import User, Check, Practice, PracticeGroup, CalendarEvent, GoogleToken
+from bot.models import TelegramUser
 
 
 @receiver(post_save, sender=Practice)
@@ -37,6 +40,10 @@ def sync_students_with_calendar(sender, instance, action, pk_set, **kwargs):
     if action not in ['post_add', 'post_remove']:
         return
 
+    trainer = instance.trainer
+    if GoogleToken.objects.filter(user=trainer).first() is None:
+        return
+
     gmails = []
     for student_id in pk_set:
         student = User.objects.get(pk=student_id)
@@ -46,7 +53,7 @@ def sync_students_with_calendar(sender, instance, action, pk_set, **kwargs):
     if len(gmails) == 0:
         return
 
-    cal = GoogleCalendar(instance.trainer)
+    cal = GoogleCalendar(trainer)
 
     if action == 'post_add':
         future_practices = Practice.objects.filter(date__gte=datetime.now())
@@ -84,3 +91,31 @@ def calculate_students_balance(sender, instance, action, pk_set, **kwargs):
         for student_id in pk_set:
             student = User.objects.get(pk=student_id)
             student.account.reduce_debt(instance.price)
+
+
+@receiver(post_save, sender=Check)
+def send_notification(sender, instance, created, **kwargs):
+    if not created:
+        return
+
+    trainer = instance.get_attached_trainer()
+    trainer_tg = TelegramUser.objects.filter(account=trainer).first()
+    if trainer_tg is None:
+        return
+
+    bot_token = settings.TELEGRAM_TOKEN
+    chat_id = trainer_tg.chat_id
+    student = instance.account.user
+    message = (
+        f'<b>Вам пришел новый чек</b>\n'
+        f'<i>Имя:</i> {student.first_name}\n'
+        f'<i>Фамилия:</i> {student.last_name}'
+    )
+
+    url = f'https://api.telegram.org/bot{bot_token}/sendMessage?parse_mode=HTML'
+    data = {
+        'chat_id': chat_id,
+        'text': message
+    }
+
+    requests.post(url, data)

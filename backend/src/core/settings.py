@@ -29,9 +29,11 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
+SITE_URL = os.getenv('SITE_URL')
+
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ["https://aikido-jo.ru"]
+CSRF_TRUSTED_ORIGINS = [f'https://{os.getenv("DOMAIN")}']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'api',
+    'bot',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +67,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
 
 ROOT_URLCONF = 'core.urls'
 
@@ -121,16 +130,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'api.User'
 
+
+# Google API
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 REDIRECT_URI = os.getenv('REDIRECT_URI')
+AUTH_REDIRECT = os.getenv('AUTH_REDIRECT')
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-}
+
+# SMTP
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
@@ -138,6 +148,9 @@ EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
+
+# Telegram Bot
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

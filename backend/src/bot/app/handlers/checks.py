@@ -25,21 +25,19 @@ def get_new_checks(chat_id):
 
 @checks_router.callback_query(F.data == 'checks')
 async def checks(callback: CallbackQuery, state: FSMContext):
-    await callback.answer('')
-
     new_checks = await sync_to_async(get_new_checks)(callback.message.chat.id)
 
     if len(new_checks) == 0:
-        await callback.message.answer('Новых чеков нет')
-        await callback.message.answer('Что вы хотите сделать?', reply_markup=kb.main)
+        await callback.answer('Новых чеков нет')
         return
     
+    await callback.answer('')
     await state.set_state(Checks.choice)
     await callback.message.edit_text('Выберите чек для проверки', reply_markup=await kb.inline_checks(new_checks))
 
 
 @checks_router.message(Checks.choice)
-@checks_router.callback_query(F.data[:6] == 'check_')
+@checks_router.callback_query(F.data.startswith('check_'))
 async def checks(callback: CallbackQuery, state: FSMContext):
     await callback.answer('')
 
@@ -60,17 +58,20 @@ async def checks(callback: CallbackQuery, state: FSMContext):
 
 
 @checks_router.message(Checks.validation)
-@checks_router.callback_query(F.data == 'accept')
+@checks_router.callback_query(F.data.in_({'accept', 'decline'}))
 async def validate(callback: CallbackQuery, state: FSMContext):
-    await callback.answer('')
-
     check = (await state.get_data()).get('check')
-    await sync_to_async(check.set_confirmed)()
+
+    if callback.data == 'accept':
+        await sync_to_async(check.set_confirmed)()
+        await callback.answer('Чек подтвержден')
+    elif callback.data == 'decline':
+        await sync_to_async(check.set_declined)()
+        await callback.answer('Чек отклонен')
 
     new_checks = await sync_to_async(get_new_checks)(callback.message.chat.id)
 
     if len(new_checks) == 0:
-        await callback.message.answer('Новых чеков нет')
         await callback.message.answer('Что вы хотите сделать?', reply_markup=kb.main)
         return
     

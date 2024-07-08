@@ -6,8 +6,14 @@ from django.dispatch import receiver
 from django.db.models.signals import m2m_changed, post_save, pre_delete
 from calendar_client import GoogleCalendar
 
-from api.models import User, Check, Practice, PracticeGroup, CalendarEvent, GoogleToken
+from api.models import User, Check, Practice, PracticeGroup, CalendarEvent, GoogleToken, PaymentAccount
 from bot.models import TelegramUser
+
+
+@receiver(post_save, sender=User)
+def create_account(sender, instance, created, **kwargs):
+    if created:
+        PaymentAccount.objects.create(user=instance)
 
 
 @receiver(post_save, sender=Practice)

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django import forms
 from api.models import User
 
@@ -39,13 +40,12 @@ class UserCreationForm(forms.ModelForm):
 
 
 @admin.register(User)
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(BaseUserAdmin):
     add_form = UserCreationForm
-    form = UserCreationForm
     readonly_fields = ('id',)
 
     list_display = ('email', 'first_name', 'last_name', 'is_staff')
-    search_fields = ('email', 'first_name', 'last_name')
+    search_fields = ('email', 'first_name', 'last_name')    
     ordering = ('email',)
 
     fieldsets = (
@@ -65,7 +65,6 @@ class UserAdmin(admin.ModelAdmin):
                     'middle_name',
                     'date_of_birth',
                     'photo',
-                    'password',
                 )
             }
         ),

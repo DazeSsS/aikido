@@ -94,8 +94,6 @@ class CreateStudentView(ListCreateAPIView):
         student = self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        account = PaymentAccount.objects.create(user=student)
-
         user_email = serializer.data['email']
         send_mail(
             subject="Регистрация на AikiDojo",
@@ -384,9 +382,21 @@ class CheckSetConfirmedView(APIView):
     def post(self, request):
         confirmed_checks = request.data.get('confirmed')
         for check_id in confirmed_checks:
-            check = Check.objects.filter(pk=check_id, confirmed=False).select_related('account').first()
+            check = Check.objects.filter(pk=check_id, checked=False).select_related('account').first()
             if check is not None:
                 check.set_confirmed()
+        return Response({'message': 'success'}, status=status.HTTP_200_OK)
+
+
+class CheckSetDeclinedView(APIView):
+    permission_classes = [IsAuthenticated & IsTrainer]
+
+    def post(self, request):
+        confirmed_checks = request.data.get('declined')
+        for check_id in confirmed_checks:
+            check = Check.objects.filter(pk=check_id, checked=False).select_related('account').first()
+            if check is not None:
+                check.set_declined()
         return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
 

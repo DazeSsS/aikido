@@ -15,5 +15,5 @@ class PracticeGroup(models.Model):
         students = self.students.all().prefetch_related("account__checks")
         checks = Check.objects.none()
         for student in students:
-            checks = checks.union(student.account.checks.filter(confirmed=False))
+            checks = checks.union(student.account.checks.filter(checked=False))
         return checks.order_by('-date')

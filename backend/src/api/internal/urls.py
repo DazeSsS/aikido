@@ -4,6 +4,7 @@ from api.internal.transport.handlers import (
     CheckListView,
     CheckView,
     CheckSetConfirmedView,
+    CheckSetDeclinedView,
     CreateCheckView,
     CreateGroupView,
     CreateParentView,
@@ -42,5 +43,6 @@ urlpatterns = [
     path('trainer/checks', CheckListView.as_view()),
     path('trainer/checks/<int:pk>', CheckView.as_view()),
     path('trainer/checks/setConfirmed', CheckSetConfirmedView.as_view()),
+    path('trainer/checks/setDeclined', CheckSetDeclinedView.as_view()),
     path('trainer/places', PlaceListView.as_view()),
 ]

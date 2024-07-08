@@ -14,6 +14,7 @@ main = InlineKeyboardMarkup(
 validate = InlineKeyboardMarkup(
     inline_keyboard=[
         [InlineKeyboardButton(text='Принять ✅', callback_data='accept')],
+        [InlineKeyboardButton(text='Отклонить ❌', callback_data='decline')],
     ]
 )
 
@@ -23,4 +24,4 @@ async def inline_checks(new_checks: List[Dict]):
         keyboard.add(
             InlineKeyboardButton(text=check.date.strftime('%Y.%m.%d'), callback_data=f'check_{check.id}')
         )
-    return keyboard.as_markup()
+    return keyboard.adjust(1).as_markup()

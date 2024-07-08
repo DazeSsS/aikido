@@ -15,6 +15,7 @@ class Check(models.Model):
     amount = models.DecimalField(max_digits=7, decimal_places=2)
     file = models.FileField(upload_to=check_upload_path)
     date = models.DateField(auto_now_add=True)
+    checked = models.BooleanField(default=False)
     confirmed = models.BooleanField(default=False)
 
     def __str__(self):
@@ -25,8 +26,17 @@ class Check(models.Model):
         return string
 
     def set_confirmed(self):
+        if not self.checked:
+            self.account.reduce_debt(self.amount)
+        self.checked = True
         self.confirmed = True
-        self.account.reduce_debt(self.amount)
+        self.save()
+
+    def set_declined(self):
+        if self.checked and self.confirmed:
+            self.account.increase_debt(self.amount)
+        self.checked = True
+        self.confirmed = False
         self.save()
 
     def get_attached_trainer(self):

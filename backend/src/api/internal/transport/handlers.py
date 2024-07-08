@@ -328,6 +328,12 @@ class PracticeView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors)
 
+    def delete(self, request, pk):
+        practice = get_object_or_404(Practice, pk=pk)
+        practice.delete()
+        return Response({'message': 'success'}, status=status.HTTP_200_OK)
+
+
 
 class CreateCheckView(CreateAPIView):
     serializer_class = CheckSerializer
@@ -380,9 +386,7 @@ class CheckSetConfirmedView(APIView):
         for check_id in confirmed_checks:
             check = Check.objects.filter(pk=check_id, confirmed=False).select_related('account').first()
             if check is not None:
-                check.confirmed = True
-                check.account.reduce_debt(check.amount)
-                check.save()
+                check.set_confirmed()
         return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
 

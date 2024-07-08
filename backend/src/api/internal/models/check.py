@@ -24,5 +24,10 @@ class Check(models.Model):
             string = f'{self.date}'
         return string
 
+    def set_confirmed(self):
+        self.confirmed = True
+        self.account.reduce_debt(self.amount)
+        self.save()
+
     def get_attached_trainer(self):
         return self.account.user.get_group().trainer

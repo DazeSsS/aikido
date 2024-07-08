@@ -12,6 +12,9 @@ from bot.models import TelegramUser
 
 @receiver(post_save, sender=Practice)
 def sync_practice_with_calendar(sender, instance, created, **kwargs):
+    if not created:
+        return
+
     trainer = instance.group.trainer
     if GoogleToken.objects.filter(user=trainer).first() is None:
         return

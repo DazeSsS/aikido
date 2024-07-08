@@ -65,8 +65,7 @@ async def validate(callback: CallbackQuery, state: FSMContext):
     await callback.answer('')
 
     check = (await state.get_data()).get('check')
-    check.confirmed = True
-    await sync_to_async(check.save)()
+    await sync_to_async(check.set_confirmed)()
 
     new_checks = await sync_to_async(get_new_checks)(callback.message.chat.id)
 

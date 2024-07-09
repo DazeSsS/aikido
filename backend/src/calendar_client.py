@@ -56,25 +56,25 @@ class GoogleCalendar:
             pass
 
     def add_event_attendees(self, event_id, new_attendees):
-        event = self.service.events().get(calendarId='primary', eventId=event_id).execute()
-        
-        email_list = [{'email': email} for email in new_attendees]
-        if 'attendees' in event:
-            event['attendees'].extend(email_list)
-        else:
-            event['attendees'] = email_list
-
         try:
+            event = self.service.events().get(calendarId='primary', eventId=event_id).execute()
+            
+            email_list = [{'email': email} for email in new_attendees]
+            if 'attendees' in event:
+                event['attendees'].extend(email_list)
+            else:
+                event['attendees'] = email_list
+
             self.service.events().update(calendarId='primary', eventId=event_id, body=event, sendUpdates='externalOnly').execute()
         except HttpError:
             pass
 
     def remove_event_attendees(self, event_id, attendees_to_remove):
-        event = self.service.events().get(calendarId='primary', eventId=event_id).execute()
-
-        event['attendees'] = [attendee for attendee in event['attendees'] if attendee['email'] not in attendees_to_remove]
-
         try:
+            event = self.service.events().get(calendarId='primary', eventId=event_id).execute()
+
+            event['attendees'] = [attendee for attendee in event['attendees'] if attendee['email'] not in attendees_to_remove]
+
             self.service.events().update(calendarId='primary', eventId=event_id, body=event).execute()
         except HttpError:
             pass

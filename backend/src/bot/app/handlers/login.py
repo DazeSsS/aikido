@@ -36,7 +36,7 @@ async def email(message: Message, state: FSMContext):
 
     if user is None:
         await message.answer(
-            'Такого пользователя не существует.\n'
+            '<b>Такого пользователя не существует.</b>\n'
             'Попробуйте еще раз:'
         )
     else:
@@ -53,7 +53,7 @@ async def password(message: Message, state: FSMContext):
 
     if user is None:
         await message.answer(
-            'Неправильный пароль.\n'
+            '<b>Неправильный пароль.</b>\n'
             'Попробуйте еще раз:'
         )
     else:

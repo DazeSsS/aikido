@@ -11,3 +11,4 @@ class CalendarEventAdmin(admin.ModelAdmin):
         'practice',
         'link',
     )
+    ordering = ['-practice']

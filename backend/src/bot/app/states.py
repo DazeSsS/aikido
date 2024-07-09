@@ -9,3 +9,9 @@ class Login(StatesGroup):
 class Checks(StatesGroup):
     choice = State()
     validation = State()
+
+class NewPractice(StatesGroup):
+    group = State()
+    date = State()
+    time = State()
+    duration = State()

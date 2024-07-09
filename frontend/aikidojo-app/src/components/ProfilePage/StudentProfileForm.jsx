@@ -65,11 +65,13 @@ const StudentProfileForm = ({ view, data, hasToken, onSubmition }) => {
       gender: formData.gender === 'М' ? 'male' : 'female',
       parents: [
         {
-          first_name: 'Micheal',
+          id: '3',
+          first_name: 'Danzel',
+          contact: formData.contact,
         },
       ],
       phone_number: formData.contact,
-      parent_contact: formData.parent_contact,
+      contact: formData.contact,
     };
 
     console.log(formData);
@@ -283,7 +285,7 @@ const StudentProfileForm = ({ view, data, hasToken, onSubmition }) => {
                     Номер телефона родителя
                   </label>
                   <Input
-                    id="parent_contact"
+                    id="contact"
                     placeholder={data.parent_contact}
                     size="large"
                     onChange={handleChange}

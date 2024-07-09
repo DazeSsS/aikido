@@ -107,6 +107,17 @@
   padding: 4px 8px;
 }
 
+.searchbar {
+  width: 250px;
+}
+
+.searchbar-and-button__container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
 @media (max-width: 700px) {
 }
 
@@ -137,5 +148,10 @@
     flex-direction: column;
     justify-content: center;
     gap: 16px;
+  }
+
+  .title-with-button__container {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }

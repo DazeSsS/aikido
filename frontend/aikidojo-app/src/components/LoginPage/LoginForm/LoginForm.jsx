@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Input, Button } from 'antd';
+import { Input, Button, notification } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import {
@@ -37,7 +37,7 @@ const LoginForm = ({ onLogin }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { username, password } = formData;
@@ -51,9 +51,55 @@ const LoginForm = ({ onLogin }) => {
     }
 
     const userData = { email: username, password };
-    handleLogin(userData);
 
-    console.log(formData);
+    try {
+      const res = await axios.post(AUTH_URL + 'token/login', userData);
+
+      if (res.status === 200) {
+        const data = res.data;
+        const token = data['auth_token'];
+        setToken(token);
+
+        const fetchUserRole = async () => {
+          try {
+            const userRes = await getApiResource(API_URL + 'me', {
+              headers: {
+                Authorization: `Token ${getToken()}`,
+              },
+            });
+
+            if (userRes) {
+              const user = userRes;
+              setUserRole(user.role);
+              setUserId(user.id);
+              onLogin(user.role);
+            } else {
+              notification.error({
+                message: 'Ошибка при получении данных пользователя',
+              });
+            }
+          } catch (error) {
+            notification.error({
+              message: 'Ошибка при получении данных пользователя',
+            });
+          }
+        };
+
+        fetchUserRole();
+      } else {
+        notification.error({ message: 'Ошибка аутентификации' });
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Невозможно войти с предоставленными учетными данными.',
+      });
+    }
+  };
+
+  const navigate = useNavigate();
+
+  const handleRegisterClick = () => {
+    navigate('/register');
   };
 
   const renderError = (id) => {
@@ -64,51 +110,6 @@ const LoginForm = ({ onLogin }) => {
         </span>
       )
     );
-  };
-
-  const handleLogin = async (userData) => {
-    const res = await axios.post(AUTH_URL + 'token/login', userData);
-
-    if (res) {
-      const data = res.data;
-      const token = data['auth_token'];
-      console.log(token);
-      setToken(token);
-    }
-
-    const fetchUserRole = async () => {
-      try {
-        const res = await getApiResource(API_URL + 'me', {
-          headers: {
-            Authorization: `Token ${getToken()}`,
-          },
-        });
-        if (res) {
-          const user = res;
-          console.log(user.role);
-
-          setUserRole(user.role);
-          setUserId(user.id);
-          onLogin(user.role);
-          console.log(getUserRole());
-          // console.log(userRole)
-        } else {
-          console.log('No user data');
-        }
-      } catch (error) {
-        console.log('Error fetching user data:', error);
-      }
-    };
-
-    if (getToken()) {
-      fetchUserRole();
-    }
-  };
-
-  const navigate = useNavigate();
-
-  const handleRegisterClick = () => {
-    navigate('/register');
   };
 
   return (

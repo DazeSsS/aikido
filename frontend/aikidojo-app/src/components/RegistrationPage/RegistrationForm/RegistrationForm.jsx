@@ -1,4 +1,4 @@
-import { Button, Input } from 'antd';
+import { Button, Input, notification } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './RegistrationForm.module.css';
@@ -30,14 +30,11 @@ const RegistrationForm = () => {
       ...errors,
       [id]: !value,
     });
-
-    console.log(formData);
-    console.log(errors);
   };
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { fullName, userName, password } = formData;
@@ -60,9 +57,21 @@ const RegistrationForm = () => {
       last_name: fullName.split(' ')[1],
     };
 
-    handleRegister(userData);
+    try {
+      const res = await postApiResource(API_URL + 'trainers', {
+        body: userData,
+      });
 
-    // console.log(formData);
+      if (res) {
+        navigate('/login');
+      } else {
+        notification.error({
+          message: 'Пользователь с таким email уже существует',
+        });
+      }
+    } catch (error) {
+      notification.error({ message: 'Ошибка сети' });
+    }
   };
 
   const renderError = (id) => {
@@ -73,18 +82,6 @@ const RegistrationForm = () => {
         </span>
       )
     );
-  };
-
-  const handleRegister = async (userData) => {
-    const res = await postApiResource(API_URL + 'trainers', { body: userData });
-
-    console.log(res);
-
-    if (res) {
-      console.log(res);
-
-      navigate('/login');
-    }
   };
 
   return (

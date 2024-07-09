@@ -11,6 +11,7 @@ import styles from './AllGroupsStudentsTable.module.css';
 
 const AllGroupsStudentsTable = ({ onBack, id }) => {
   const [students, setStudents] = useState(null);
+  const [originalStudents, setOriginalStudents] = useState(null);
   const [currentGroupStudents, setCurrentGroupStudents] = useState(null);
   const [selectedRows, setSelectedRows] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -100,6 +101,7 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
             (student) => !currentGroupStudents.includes(student.id)
           );
           setStudents(filteredStudents);
+          setOriginalStudents(filteredStudents);
           setIsLoading(false);
           console.log('Успешно');
         } else {
@@ -141,6 +143,19 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
     addNewMembersToGroup();
   };
 
+  const handleSearchBarChange = (e) => {
+    const { value } = e.target;
+
+    if (value) {
+      const filteredStudents = originalStudents.filter((student) =>
+        student.student.full_name.toLowerCase().startsWith(value.toLowerCase())
+      );
+      setStudents(filteredStudents);
+    } else {
+      setStudents(originalStudents);
+    }
+  };
+
   return (
     <>
       <ControlsPanel
@@ -149,6 +164,7 @@ const AllGroupsStudentsTable = ({ onBack, id }) => {
         onBack={onBack}
         onAction={handlePatchGroupClick}
         labelData={null}
+        onSearchBarAction={handleSearchBarChange}
       />
 
       <div className={styles['table__container']}>

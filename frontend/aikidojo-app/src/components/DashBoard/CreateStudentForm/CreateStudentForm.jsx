@@ -38,12 +38,13 @@ const CreateStudentForm = ({ onBack }) => {
 
     if (id === 'name') {
       console.log('changin name');
-      const [last_name, first_name] = value.split(' ');
+      const [last_name, first_name, middle_name] = value.split(' ');
 
       setFormData({
         ...formData,
         first_name: first_name,
         last_name: last_name,
+        middle_name: middle_name,
       });
     } else if (id === 'date_of_birth') {
       const [day, month, year] = value.split('.');
@@ -54,7 +55,7 @@ const CreateStudentForm = ({ onBack }) => {
         date_of_birth: formattedDateOfBirth,
       });
     } else if (id === 'parent-name') {
-      const [last_name, first_name] = value.split(' ');
+      const [last_name, first_name, middle_name] = value.split(' ');
 
       setFormData({
         ...formData,
@@ -63,6 +64,7 @@ const CreateStudentForm = ({ onBack }) => {
           ...formData.parent,
           first_name: first_name,
           last_name: last_name,
+          middle_name: middle_name,
         },
       });
       console.log(formData.parent);

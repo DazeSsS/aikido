@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import styles from './ControlsPanel.module.css';
 
@@ -15,6 +15,7 @@ const ControlsPanel = ({
   onRightArrowClick,
   leftArrowState,
   rightArrowState,
+  onSearchBarAction,
 }) => {
   return (
     <>
@@ -86,16 +87,27 @@ const ControlsPanel = ({
             </>
           )}
 
-          {actionTitle && (
-            <Button
-              className={styles['section-button']}
-              type="primary"
-              size="large"
-              onClick={() => onAction()}
-            >
-              {actionTitle}
-            </Button>
-          )}
+          <div className={styles['searchbar-and-button__container']}>
+            {onSearchBarAction && (
+              <Input
+                className={styles['searchbar']}
+                id="name"
+                size="large"
+                placeholder="ФИО"
+                onChange={onSearchBarAction}
+              />
+            )}
+            {actionTitle && (
+              <Button
+                className={styles['section-button']}
+                type="primary"
+                size="large"
+                onClick={() => onAction()}
+              >
+                {actionTitle}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </>

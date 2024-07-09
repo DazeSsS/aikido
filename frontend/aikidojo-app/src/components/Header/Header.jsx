@@ -1,5 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
+import {
+  deleteUserId,
+  deleteUserRole,
+  deleteToken,
+} from '../../utils/authToken';
 import cn from 'classnames';
 import styles from './Header.module.css';
 
@@ -9,6 +14,18 @@ const Header = ({ view }) => {
 
   const toggleDropdown = () => {
     setIsOpen((state) => !state);
+  };
+
+  const nullifyUserRole = () => {
+    // temporal solution
+    deleteUserId();
+    deleteUserRole();
+    deleteToken();
+  };
+
+  const handleLogout = () => {
+    nullifyUserRole();
+    navigate('/login');
   };
 
   return (
@@ -113,6 +130,15 @@ const Header = ({ view }) => {
                 Чеки об оплате
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                className={({ isActive }) => (isActive ? styles.active : '')}
+                to="/login"
+                onClick={handleLogout}
+              >
+                Выйти из аккаунта
+              </NavLink>
+            </li>
           </>
         ) : (
           <>
@@ -138,6 +164,15 @@ const Header = ({ view }) => {
                 to="/student/dashboard/schedule-past"
               >
                 Посещаемость
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) => (isActive ? styles.active : '')}
+                to="/login"
+                onClick={handleLogout}
+              >
+                Выйти из аккаунта
               </NavLink>
             </li>
           </>

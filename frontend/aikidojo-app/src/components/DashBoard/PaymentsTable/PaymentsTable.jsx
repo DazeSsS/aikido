@@ -91,9 +91,11 @@ const PaymentsTable = () => {
 
       if (res) {
         console.log('check was confirmed');
-
         setPayments(
           payments.filter((payment) => !selectedRows.includes(payment.id))
+        );
+        setLabelData(
+          (prevLabel) => `${payments.length - selectedRows.length} чеков`
         );
       } else {
         console.log('check wasnt confrimed');
@@ -122,6 +124,9 @@ const PaymentsTable = () => {
 
         setPayments(
           payments.filter((payment) => !selectedRows.includes(payment.id))
+        );
+        setLabelData(
+          (prevLabel) => `${payments.length - selectedRows.length} чеков`
         );
       } else {
         console.log('check wasnt declined');

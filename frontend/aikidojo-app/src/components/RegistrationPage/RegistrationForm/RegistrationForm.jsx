@@ -53,8 +53,9 @@ const RegistrationForm = () => {
       email: userName,
       password: password,
       role: 'trainer',
-      first_name: fullName.split(' ')[0],
-      last_name: fullName.split(' ')[1],
+      last_name: fullName.split(' ')[0],
+      first_name: fullName.split(' ')[1],
+      middle_name: fullName.split(' ')[2],
     };
 
     try {

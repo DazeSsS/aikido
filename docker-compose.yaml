@@ -28,7 +28,6 @@ services:
       - ./.env
     volumes:
       - ${MEDIA_PATH}:/app/src/media
-      - media:/app/src/media
     depends_on:
       - db
   bot:

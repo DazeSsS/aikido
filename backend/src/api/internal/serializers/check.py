@@ -18,6 +18,7 @@ class CheckSerializer(ModelSerializer):
             'file',
             'date',
             'amount',
+            'checked',
             'confirmed'
         ]
 

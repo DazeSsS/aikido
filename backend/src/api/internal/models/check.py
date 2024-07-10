@@ -40,4 +40,7 @@ class Check(models.Model):
         self.save()
 
     def get_attached_trainer(self):
-        return self.account.user.get_group().trainer
+        group = self.account.user.get_group()
+        if group is not None:
+            return group.trainer
+        return None

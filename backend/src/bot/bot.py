@@ -7,6 +7,9 @@ from aiogram.client.default import DefaultBotProperties
 from bot.app.handlers.main import main_router
 from bot.app.handlers.login import login_router
 from bot.app.handlers.checks import checks_router
+from bot.app.handlers.practices import practices_router
+from bot.app.handlers.students import students_router
+from bot.app.handlers.groups import groups_router
 
 
 bot = Bot(
@@ -20,4 +23,7 @@ async def main():
     dp.include_router(main_router)
     dp.include_router(login_router)
     dp.include_router(checks_router)
+    dp.include_router(practices_router)
+    dp.include_router(students_router)
+    dp.include_router(groups_router)
     await dp.start_polling(bot)

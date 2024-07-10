@@ -1,4 +1,5 @@
 import requests
+import json
 from datetime import datetime, timedelta
 
 from django.conf import settings
@@ -67,14 +68,16 @@ def sync_students_with_calendar(sender, instance, action, pk_set, **kwargs):
     if action == 'post_add':
         future_practices = Practice.objects.filter(date__gte=datetime.now())
         for practice in future_practices:
-            event_id = practice.event.id
-            cal.add_event_attendees(event_id=event_id, new_attendees=gmails)
+            if hasattr(practice, 'event'):
+                event_id = practice.event.id
+                cal.add_event_attendees(event_id=event_id, new_attendees=gmails)
     
     if action == 'post_remove':
         future_practices = Practice.objects.filter(date__gte=datetime.now())
         for practice in future_practices:
-            event_id = practice.event.id
-            cal.remove_event_attendees(event_id=event_id, attendees_to_remove=gmails)
+            if hasattr(practice, 'event'):
+                event_id = practice.event.id
+                cal.remove_event_attendees(event_id=event_id, attendees_to_remove=gmails)
 
 
 @receiver(pre_delete, sender=Practice)
@@ -108,6 +111,9 @@ def send_notification(sender, instance, created, **kwargs):
         return
 
     trainer = instance.get_attached_trainer()
+    if trainer is None:
+        return
+
     trainer_tg = TelegramUser.objects.filter(account=trainer).first()
     if trainer_tg is None:
         return
@@ -117,14 +123,20 @@ def send_notification(sender, instance, created, **kwargs):
     student = instance.account.user
     message = (
         f'<b>Вам пришел новый чек</b>\n'
-        f'<i>Имя:</i> {student.first_name}\n'
-        f'<i>Фамилия:</i> {student.last_name}'
+        f'<i>от:</i> {student.first_name} {student.last_name}\n'
     )
+    reply_markup = json.dumps({
+        'inline_keyboard': [
+            [{'text': 'Проверить', 'callback_data': f'check_{instance.id}'}]
+        ]
+    })
 
-    url = f'https://api.telegram.org/bot{bot_token}/sendMessage?parse_mode=HTML'
+    url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
     data = {
         'chat_id': chat_id,
-        'text': message
+        'text': message,
+        'parse_mode': 'HTML',
+        'reply_markup': reply_markup
     }
 
     requests.post(url, data)

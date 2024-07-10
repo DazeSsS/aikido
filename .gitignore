@@ -28,3 +28,7 @@ dist-ssr
 venv
 *.sqlite3
 __pycache__
+
+# Django
+media
+!media/default

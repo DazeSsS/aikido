@@ -2,7 +2,6 @@ from asgiref.sync import sync_to_async
 from django.conf import settings
 
 from aiogram import F, Router
-from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
@@ -13,12 +12,13 @@ import bot.app.keyboards as kb
 from api.models import Check
 from bot.models import TelegramUser
 
+
 checks_router = Router()
 
 
 def get_new_checks(chat_id):
-    user = TelegramUser.objects.select_related('account').get(chat_id=chat_id)
-    new_checks = user.account.get_incoming_checks(limit=5)
+    user = TelegramUser.objects.select_related('account').get(chat_id=chat_id).account
+    new_checks = user.get_incoming_checks(limit=5)
     new_checks = list(new_checks)
     return new_checks
 

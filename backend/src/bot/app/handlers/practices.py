@@ -31,7 +31,7 @@ def get_groups(chat_id):
     return groups
 
 
-@practices_router.callback_query(F.data == 'practices')
+@practices_router.callback_query(F.data == 'new_practice')
 async def practices(callback: CallbackQuery, state: FSMContext):
     await callback.answer('')
 
@@ -39,7 +39,9 @@ async def practices(callback: CallbackQuery, state: FSMContext):
     await state.update_data(groups=groups)
 
     if groups is None:
+        await state.clear()
         await callback.message.answer('У вас нет ни одной группы')
+        await message.answer('Что вы хотите сделать?', reply_markup=kb.main)
         return
 
     await state.set_state(NewPractice.group)
@@ -49,8 +51,7 @@ async def practices(callback: CallbackQuery, state: FSMContext):
 @practices_router.message(NewPractice.group)
 async def save_group(message: Message, state: FSMContext):
     groups = (await state.get_data()).get('groups')
-    group_name = message.text
-    group_id = groups.get(group_name)
+    group_id = groups.get(message.text)
 
     if group_id is None:
         await message.answer(

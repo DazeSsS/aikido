@@ -6,7 +6,6 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
 from aiogram import F, Router
-from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 
@@ -20,7 +19,7 @@ from api.models import User, Parent
 students_router = Router()
 
 
-@students_router.callback_query(F.data == 'students')
+@students_router.callback_query(F.data == 'new_student')
 async def students(callback: CallbackQuery, state: FSMContext):
     await callback.answer('')
 
@@ -96,7 +95,7 @@ async def save_gender(message: Message, state: FSMContext):
 
 
 @students_router.message(NewStudent.parent_first_name)
-async def save_gender(message: Message, state: FSMContext):
+async def save_parent_first_name(message: Message, state: FSMContext):
     await state.update_data(parent_first_name=message.text)
 
     await state.set_state(NewStudent.parent_last_name)
@@ -104,7 +103,7 @@ async def save_gender(message: Message, state: FSMContext):
 
 
 @students_router.message(NewStudent.parent_last_name)
-async def save_gender(message: Message, state: FSMContext):
+async def save_parent_last_name(message: Message, state: FSMContext):
     await state.update_data(parent_last_name=message.text)
 
     await state.set_state(NewStudent.parent_middle_name)
@@ -112,7 +111,7 @@ async def save_gender(message: Message, state: FSMContext):
 
 
 @students_router.message(NewStudent.parent_middle_name)
-async def save_gender(message: Message, state: FSMContext):
+async def save_parent_middle_name(message: Message, state: FSMContext):
     await state.update_data(parent_middle_name=message.text)
 
     await state.set_state(NewStudent.parent_contact)
@@ -120,7 +119,7 @@ async def save_gender(message: Message, state: FSMContext):
 
 
 @students_router.message(NewStudent.parent_contact)
-async def save_gender(message: Message, state: FSMContext):
+async def save_parent_contact(message: Message, state: FSMContext):
     data = await state.get_data()
 
     role = User.STUDENT

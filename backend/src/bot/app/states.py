@@ -29,3 +29,13 @@ class NewStudent(StatesGroup):
     parent_last_name = State()
     parent_middle_name = State()
     parent_contact = State()
+
+
+class NewGroup(StatesGroup):
+    title = State()
+    place = State()
+
+
+class AddToGroup(StatesGroup):
+    group = State()
+    student = State()

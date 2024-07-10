@@ -12,8 +12,10 @@ from api.models import Check
 
 main = InlineKeyboardMarkup(
     inline_keyboard=[
-        [InlineKeyboardButton(text='Запланировать тренировку 💪', callback_data='practices')],
-        [InlineKeyboardButton(text='Добавить нового ученика 👤', callback_data='students')],
+        [InlineKeyboardButton(text='Запланировать тренировку 💪', callback_data='new_practice')],
+        [InlineKeyboardButton(text='Добавить нового ученика 👤', callback_data='new_student')],
+        [InlineKeyboardButton(text='Добавить ученика в группу 👋🏻', callback_data='add_to_group')],
+        [InlineKeyboardButton(text='Создать группу 👥', callback_data='new_group')],
         [InlineKeyboardButton(text='Посмотреть новые чеки 📄', callback_data='checks')],
     ]
 )

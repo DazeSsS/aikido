@@ -3,7 +3,6 @@ from asgiref.sync import sync_to_async
 from django.conf import settings
 
 from aiogram import F, Router
-from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 
@@ -33,7 +32,7 @@ def get_groups(chat_id):
 
 
 @practices_router.callback_query(F.data == 'practices')
-async def checks(callback: CallbackQuery, state: FSMContext):
+async def practices(callback: CallbackQuery, state: FSMContext):
     await callback.answer('')
 
     groups = await sync_to_async(get_groups)(callback.message.chat.id)
@@ -106,10 +105,9 @@ async def save_time(message: Message, state: FSMContext):
     await state.set_state(NewPractice.duration)
     await message.answer('<b>Введите продолжительность тренировки в минутах</b>')
 
-import logging
 
 @practices_router.message(NewPractice.duration)
-async def save_time(message: Message, state: FSMContext):
+async def create_practice(message: Message, state: FSMContext):
     is_number = message.text.isdecimal()
     if not is_number:
         await message.answer('<b>Введите продолжительность тренировки в минутах</b>')

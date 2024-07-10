@@ -13,6 +13,7 @@ from api.models import Check
 main = InlineKeyboardMarkup(
     inline_keyboard=[
         [InlineKeyboardButton(text='Запланировать тренировку 💪', callback_data='practices')],
+        [InlineKeyboardButton(text='Добавить нового ученика 👤', callback_data='students')],
         [InlineKeyboardButton(text='Посмотреть новые чеки 📄', callback_data='checks')],
     ]
 )
@@ -22,6 +23,14 @@ validate = InlineKeyboardMarkup(
         [InlineKeyboardButton(text='Принять ✅', callback_data='accept')],
         [InlineKeyboardButton(text='Отклонить ❌', callback_data='decline')],
     ]
+)
+
+gender = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text='Мужской')],
+        [KeyboardButton(text='Женский')],
+    ],
+    resize_keyboard=True
 )
 
 async def inline_checks(new_checks: List[Dict]):

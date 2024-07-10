@@ -111,6 +111,9 @@ def send_notification(sender, instance, created, **kwargs):
         return
 
     trainer = instance.get_attached_trainer()
+    if trainer is None:
+        return
+
     trainer_tg = TelegramUser.objects.filter(account=trainer).first()
     if trainer_tg is None:
         return

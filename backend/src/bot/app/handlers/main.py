@@ -10,7 +10,8 @@ main_router = Router()
 
 
 @main_router.message(Command('menu'))
-async def menu(message: Message):
+async def menu(message: Message, state: FSMContext):
+    await state.clear()
     await message.answer('Что вы хотите сделать?', reply_markup=kb.main)
 
 

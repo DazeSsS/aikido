@@ -103,6 +103,34 @@ const PaymentsTable = () => {
     confirmChecks();
   };
 
+  const handleDeclineChecksClick = () => {
+    const declineChecks = async () => {
+      const res = await axios.post(
+        API_URL + 'trainer/checks/setDeclined',
+        {
+          declined: [...selectedRows],
+        },
+        {
+          headers: {
+            Authorization: `Token ${getToken()}`,
+          },
+        }
+      );
+
+      if (res) {
+        console.log('check was declined');
+
+        setPayments(
+          payments.filter((payment) => !selectedRows.includes(payment.id))
+        );
+      } else {
+        console.log('check wasnt declined');
+      }
+    };
+
+    declineChecks();
+  };
+
   return (
     <>
       <ControlsPanel
@@ -110,6 +138,8 @@ const PaymentsTable = () => {
         actionTitle={'Подтвердить'}
         onBack={null}
         onAction={handleConfirmChecksClick}
+        deleteActionTitle={'Отклонить'}
+        onDeleteAction={handleDeclineChecksClick}
         labelData={labelData}
       />
       <div className={styles['table__container']}>

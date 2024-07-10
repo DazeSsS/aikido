@@ -138,6 +138,25 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
     }
   };
 
+  const handleDeletePractice = async () => {
+    const res = await axios.delete(
+      API_URL + `trainer/practices/${practiceId}`,
+      {
+        headers: {
+          Authorization: `Token ${getToken()}`,
+        },
+      }
+    );
+
+    if (res) {
+      console.log(res);
+      console.log('successfully deleted');
+      onBack();
+    } else {
+      console.log('error');
+    }
+  };
+
   return (
     <>
       <ControlsPanel
@@ -145,6 +164,8 @@ const AttendanceTable = ({ onBack, practiceId, practiceDate, groupId }) => {
         actionTitle={'Отметить выбранных участников'}
         onBack={onBack}
         onAction={handlePatchAttended}
+        deleteActionTitle={'Удалить тренировку'}
+        onDeleteAction={handleDeletePractice}
         labelData={null}
       />
       <div className={styles['table__container']}>

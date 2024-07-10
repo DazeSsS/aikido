@@ -6,8 +6,10 @@ import styles from './ControlsPanel.module.css';
 const ControlsPanel = ({
   title,
   actionTitle,
+  deleteActionTitle,
   onBack,
   onAction,
+  onDeleteAction,
   labelData,
   onGetCurrentWeekClick,
   withArrows,
@@ -96,6 +98,17 @@ const ControlsPanel = ({
                 placeholder="ФИО"
                 onChange={onSearchBarAction}
               />
+            )}
+            {deleteActionTitle && (
+              <Button
+                className={styles['section-button']}
+                type="primary"
+                size="large"
+                onClick={() => onDeleteAction()}
+                style={{ backgroundColor: '#F5222D' }}
+              >
+                {deleteActionTitle}
+              </Button>
             )}
             {actionTitle && (
               <Button
